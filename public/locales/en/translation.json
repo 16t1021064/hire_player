@@ -1,0 +1,48 @@
+{
+  "navbar": {
+    "menu": {
+      "about": "About"
+    },
+    "wallet": {
+      "title": "Wallet",
+      "overview": "Overview",
+      "spot_wallet": "Spot Wallet"
+    },
+    "account": {
+      "account_management": "account management",
+      "reward_center": "reward center",
+      "log_out": "log out",
+      "referral_dashboard": "referral dashboard",
+      "earnings": "earnings",
+      "history": "history"
+    },
+    "nav": {
+      "log_in": "Log In",
+      "register": "Register"
+    }
+  },
+  "footer": {
+    "nav": {
+      "about_us": "About Us",
+      "privacy_policy": "Privacy Policy",
+      "blog": "Blog",
+      "announcements": "Announcements",
+      "help_center": "Help Center",
+      "feedback": "Feedback"
+    },
+    "subscriber": {
+      "title": "Subscribe For Updates",
+      "your_email": "Your Email",
+      "subscribe": "Subscribe",
+      "tos": "I have read and agree to the <0>Terms of Service</0>",
+      "register": "Register"
+    },
+    "join_community": {
+      "title": "Join The Community"
+    },
+    "agree_term": {
+      "agree": "I have read and agree to the ",
+      "term": "Terms of Service."
+    }
+  }
+}

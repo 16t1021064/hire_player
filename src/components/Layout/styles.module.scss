@@ -1,0 +1,15 @@
+.root {
+  position: relative;
+  background: none;
+  overflow-x: hidden;
+}
+
+.wrapper {
+  min-height: 100vh;
+  padding-top: var(--nav-bar-height);
+}
+
+.page {
+  min-height: calc(100vh - var(--nav-bar-height) - var(--footer-height));
+  padding: 16px 0;
+}

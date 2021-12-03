@@ -1,0 +1,53 @@
+{
+  "navbar": {
+    "menu": {
+      "buy_crypto": "Buy Crypto",
+      "trade": "Trade",
+      "market": "Market",
+      "staking": "Staking"
+    },
+    "wallet": {
+      "title": "Wallet",
+      "overview": "Overview",
+      "spot_wallet": "Spot Wallet"
+    },
+    "account": {
+      "account_management": "account management",
+      "reward_center": "reward center",
+      "log_out": "log out"
+    },
+    "nav": {
+      "log_in": "Log In",
+      "register": "Register"
+    }
+  },
+  "footer": {
+    "nav": {
+      "about_us": "About Us",
+      "privacy_policy": "Privacy Policy",
+      "blog": "Blog",
+      "announcements": "Annoucements",
+      "help_center": "Help Center",
+      "feedback": "Feedback"
+    },
+    "subscriber": {
+      "title": "Subscribe For Updates",
+      "your_email": "Your Email",
+      "subscribe": "Subscribe",
+      "tos": "I have read and agree to the <0>Terms of Service</0>"
+    },
+    "join_community": {
+      "title": "Join The Community"
+    }
+  },
+  "form": {
+    "validate": {
+      "required": "Bu alan boş bırakılamaz"
+    }
+  },
+  "google_authenticator": {
+    "title": "2 Aşamalı Doğrulama",
+    "description": "Lütfen 2 adımlı Kimlik Doğrulama uygulamasından kodu girin",
+    "placeholder": "Lütfen Doğrulama Kodunu Girin"
+  }
+}
