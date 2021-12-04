@@ -5,6 +5,7 @@ import { Footer } from "./Footer";
 import { NavBar } from "./NavBar";
 import { ConfigProvider as AntdConfigProvider } from "antd";
 import { TFunction, useTranslation } from "react-i18next";
+import SideBar from "./SideBar";
 
 const getValidateMessages = (t: TFunction<"translation">) => ({
   required: `* \${label} ${t("form.validate.required")}`,
@@ -22,11 +23,12 @@ export const Layout: FC = ({ children }) => {
       }}
     >
       <AntdLayout className={styles.root}>
-        <NavBar />
+        <SideBar />
+        {/* <NavBar />
         <main className={styles.wrapper}>
           <div className={styles.page}>{children}</div>
         </main>
-        <Footer />
+        <Footer /> */}
       </AntdLayout>
     </AntdConfigProvider>
   );

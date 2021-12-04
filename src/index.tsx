@@ -10,7 +10,7 @@ import * as Sentry from "@sentry/react";
 import { Integrations } from "@sentry/tracing";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { BrowserRouter as Router } from "react-router-dom";
-import { ReactQueryDevtools } from "react-query/devtools";
+// import { ReactQueryDevtools } from "react-query/devtools";
 import { SENTRY_DSN } from "utils/constant";
 import LoadingFullpage from "components/LoadingFullpage";
 
@@ -37,9 +37,9 @@ ReactDOM.render(
             <Router>
               <App />
             </Router>
-            {process.env.REACT_APP_REACT_QUERY_DEVTOOLS === "true" && (
+            {/* {process.env.REACT_APP_REACT_QUERY_DEVTOOLS === "true" && (
               <ReactQueryDevtools initialIsOpen={false} />
-            )}
+            )} */}
           </QueryClientProvider>
         </Suspense>
       </StrictMode>

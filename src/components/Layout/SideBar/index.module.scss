@@ -1,0 +1,124 @@
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  flex-shrink: 0;
+  width: 256px;
+  height: 100vh;
+  padding: 96px 0 72px;
+  overflow: hidden;
+  background: #ffffff;
+  box-shadow: inset -1px 0 0 0 #e4e4e4;
+  transition: width 0.25s;
+
+  .top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 96px;
+
+    .logo {
+      margin-right: 50px;
+      font-size: 0;
+
+      img {
+        width: 130px;
+      }
+    }
+  }
+
+  .wrapper {
+    max-height: 100%;
+    padding: 0 20px 35px;
+    overflow-y: auto;
+    scrollbar-width: none;
+
+    .inner {
+      width: 216px;
+      overflow: hidden;
+      transition: all 0.25s;
+
+      .group:not(:last-child) {
+        position: relative;
+        margin-bottom: 30px;
+        padding-bottom: 25px;
+      }
+
+      .group:not(:last-child):before {
+        content: "";
+        position: absolute;
+        left: 20px;
+        right: 20px;
+        bottom: 0;
+        height: 1px;
+        background: #d8d8d8;
+      }
+
+      .caption {
+        margin-bottom: 15px;
+        padding-left: 20px;
+        white-space: nowrap;
+        color: #808191;
+        transition: padding 0.25s;
+        font-size: 12px;
+        font-weight: 500;
+        line-height: 1.33333;
+      }
+
+      .menu {
+        .item {
+          padding: 0 20px 20px 20px;
+          border-radius: 12px;
+          background: transparent;
+          white-space: nowrap;
+          font-size: 14px;
+          font-weight: 600;
+          transition: all 0.25s;
+
+          .header {
+            display: flex;
+            align-items: center;
+            font-size: 16px;
+            letter-spacing: 0.5px;
+            padding-bottom: 8px;
+            padding-top: 8px;
+            text-transform: capitalize;
+            font-weight: 600;
+
+            .icon {
+              width: 18px;
+              height: 18px;
+              margin-right: 12px;
+              color: inherit;
+            }
+          }
+
+          .header:hover {
+            color: #f14656;
+
+            .icon {
+              color: #f14656;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .bottom {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    height: 72px;
+    padding: 0 42px 0 40px;
+    box-shadow: inset 0px 1px 0px rgba(0, 0, 0, 0.05);
+    transition: padding 0.25s;
+  }
+}
