@@ -1,8 +1,8 @@
 import { FC } from "react";
-import styles from "./Footer.module.scss";
+import styles from "./index.module.scss";
 import { Layout as AntdLayout } from "antd";
 
-export const Footer: FC = () => {
+const Footer: FC = () => {
   return (
     <AntdLayout.Footer className={styles.wrapper}>
       <div className={"container"}>
@@ -13,3 +13,5 @@ export const Footer: FC = () => {
     </AntdLayout.Footer>
   );
 };
+
+export default Footer;

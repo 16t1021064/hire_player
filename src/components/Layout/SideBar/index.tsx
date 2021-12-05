@@ -6,7 +6,7 @@ import {
   ChatbubbleOutline,
   HomeOutline,
   MoonOutline,
-  PersonCircleOutline,
+  PersonAddOutline,
   PersonOutline,
   SunnyOutline,
 } from "react-ionicons";
@@ -45,7 +45,7 @@ const SideBar: FC = () => {
       },
       {
         text: "Sign-in",
-        icon: <PersonCircleOutline cssClasses={styles.icon} />,
+        icon: <PersonAddOutline cssClasses={styles.icon} />,
         link: "#!",
       },
       {

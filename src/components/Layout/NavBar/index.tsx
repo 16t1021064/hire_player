@@ -1,7 +1,7 @@
 import { FC, useMemo } from "react";
-import styles from "./NavBar.module.scss";
+import styles from "./index.module.scss";
 import { Layout, Menu } from "antd";
-import Logo from "../../assets/images/logo.png";
+import Logo from "../../../assets/images/logo.png";
 import { routesEnum } from "pages/Routes";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import { useAppSelector } from "hooks/useRedux";
@@ -11,7 +11,7 @@ interface TMenu {
   href: string;
 }
 
-export const NavBar: FC = () => {
+const NavBar: FC = () => {
   const history = useHistory();
   const location = useLocation();
   const { isLogin, userInfo } = useAppSelector((state) => state.auth);
@@ -92,3 +92,5 @@ export const NavBar: FC = () => {
     </Layout.Header>
   );
 };
+
+export default NavBar;

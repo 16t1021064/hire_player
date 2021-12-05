@@ -1,11 +1,10 @@
 import { FC, useMemo } from "react";
-import styles from "./styles.module.scss";
+import styles from "./index.module.scss";
 import { Layout as AntdLayout } from "antd";
-import { Footer } from "./Footer";
-import { NavBar } from "./NavBar";
 import { ConfigProvider as AntdConfigProvider } from "antd";
 import { TFunction, useTranslation } from "react-i18next";
 import SideBar from "./SideBar";
+import TopBar from "./TopBar";
 
 const getValidateMessages = (t: TFunction<"translation">) => ({
   required: `* \${label} ${t("form.validate.required")}`,
@@ -24,11 +23,10 @@ export const Layout: FC = ({ children }) => {
     >
       <AntdLayout className={styles.root}>
         <SideBar />
-        {/* <NavBar />
         <main className={styles.wrapper}>
+          <TopBar />
           <div className={styles.page}>{children}</div>
         </main>
-        <Footer /> */}
       </AntdLayout>
     </AntdConfigProvider>
   );

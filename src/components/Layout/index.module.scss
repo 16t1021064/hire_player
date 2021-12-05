@@ -1,0 +1,13 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.wrapper {
+  flex-grow: 1;
+  padding-left: 256px;
+  padding-top: 96px;
+  transition: all 0.25s;
+}
