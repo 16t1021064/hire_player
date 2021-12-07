@@ -1,4 +1,4 @@
-import React, { FC, useMemo, useState } from "react";
+import React, { FC, MouseEvent, useMemo, useState } from "react";
 import styles from "./index.module.scss";
 import LogoImg from "./img/logo.png";
 import {
@@ -11,6 +11,8 @@ import {
   SunnyOutline,
 } from "react-ionicons";
 import Switch from "components/Switch";
+import { useHistory } from "react-router";
+import { routesEnum } from "pages/Routes";
 
 interface TMenuItem {
   text: string;
@@ -20,13 +22,14 @@ interface TMenuItem {
 
 const SideBar: FC = () => {
   const [darkMode, setDarkMode] = useState<boolean>(false);
+  const history = useHistory();
 
   const menu: TMenuItem[] = useMemo((): TMenuItem[] => {
     return [
       {
         text: "Home",
         icon: <HomeOutline cssClasses={styles.icon} />,
-        link: "#!",
+        link: routesEnum.home,
       },
       {
         text: "Following",
@@ -36,22 +39,22 @@ const SideBar: FC = () => {
       {
         text: "Player Profile",
         icon: <PersonOutline cssClasses={styles.icon} />,
-        link: "#!",
+        link: routesEnum.dashboard,
       },
       {
         text: "Chat",
         icon: <ChatbubbleOutline cssClasses={styles.icon} />,
-        link: "#!",
+        link: routesEnum.socket,
       },
       {
         text: "Sign-in",
         icon: <PersonAddOutline cssClasses={styles.icon} />,
-        link: "#!",
+        link: routesEnum.login,
       },
       {
         text: "Sign-up",
         icon: <AccessibilityOutline cssClasses={styles.icon} />,
-        link: "#!",
+        link: routesEnum.register,
       },
     ];
   }, []);
@@ -59,6 +62,12 @@ const SideBar: FC = () => {
   const iconTheme: any = useMemo((): any => {
     return darkMode ? <MoonOutline /> : <SunnyOutline />;
   }, [darkMode]);
+
+  const onClick = (e: MouseEvent, menu: TMenuItem) => {
+    e.preventDefault();
+    e.stopPropagation();
+    history.push(menu.link);
+  };
 
   return (
     <div className={styles.sidebar}>
@@ -76,7 +85,13 @@ const SideBar: FC = () => {
             <ul className={styles.menu}>
               {menu.map((item: TMenuItem, position: number) => (
                 <li key={position} className={styles.item}>
-                  <a className={styles.header} href={item.link}>
+                  <a
+                    className={styles.header}
+                    href={""}
+                    onClick={(e) => {
+                      onClick(e, item);
+                    }}
+                  >
                     {item.icon}
                     <span>{item.text}</span>
                   </a>
