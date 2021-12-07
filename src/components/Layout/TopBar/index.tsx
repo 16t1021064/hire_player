@@ -2,8 +2,11 @@ import clsx from "clsx";
 import React, { FC, useEffect, useRef, useState } from "react";
 import {
   AddOutline,
+  LogOutOutline,
   NotificationsOutline,
+  PersonOutline,
   SearchOutline,
+  SettingsOutline,
 } from "react-ionicons";
 import styles from "./index.module.scss";
 import Avartar from "./img/avatar.jpeg";
@@ -12,10 +15,13 @@ import RechargeModal from "components/RechargeModal";
 const TopBar: FC = () => {
   const [visibleNotifications, setVisibleNotifications] =
     useState<boolean>(false);
+  const [visibleProfile, setVisibleProfile] = useState<boolean>(false);
   const [visibleRechargeModal, setVisibleRechargeModal] =
     useState<boolean>(false);
   const notificaitonsPanelRef = useRef<any>(null);
+  const profilePanelRef = useRef<any>(null);
   const notificaitonsButtonRef = useRef<any>(null);
+  const profileButtonRef = useRef<any>(null);
 
   // trigger hide notifications
   useEffect(() => {
@@ -35,10 +41,34 @@ const TopBar: FC = () => {
     };
   }, []);
 
+  // trigger hide profile
+  useEffect(() => {
+    const callback = (event: any) => {
+      if (
+        !profilePanelRef.current.contains(event.target) &&
+        !profileButtonRef.current.contains(event.target)
+      ) {
+        setVisibleProfile(false);
+      }
+    };
+
+    document.addEventListener("mousedown", callback);
+
+    return () => {
+      document.removeEventListener("mousedown", callback);
+    };
+  }, []);
+
   const onNotificationsClick = (event: any) => {
     event.preventDefault();
     event.stopPropagation();
     setVisibleNotifications(!visibleNotifications);
+  };
+
+  const onProfileClick = (event: any) => {
+    event.preventDefault();
+    event.stopPropagation();
+    setVisibleProfile(!visibleProfile);
   };
 
   const onRecharge = () => {
@@ -121,25 +151,36 @@ const TopBar: FC = () => {
         </a>
       </div>
       <div className={clsx(styles.headerItem, styles.profile)}>
-        <a className={styles.profileHead} href="#">
+        <a
+          ref={profileButtonRef}
+          className={styles.profileHead}
+          onClick={onProfileClick}
+        >
           <img className={styles.pic} src={Avartar} alt="" />
         </a>
-        <div className={clsx(styles.body, styles.profileBody)}>
+        <div
+          ref={profilePanelRef}
+          className={clsx(
+            styles.body,
+            styles.profileBody,
+            visibleProfile ? styles.visibleBody : undefined
+          )}
+        >
           <a className={styles.link} href="#">
             <div className={styles.img}>
-              <i className="icon icon-person-outline"></i>
+              <PersonOutline cssClasses={styles.icon} />
             </div>
             Profile
           </a>
           <a className={styles.link} href="setting_user.html">
             <div className={styles.img}>
-              <i className="icon icon-settings-outline"></i>
+              <SettingsOutline cssClasses={styles.icon} />
             </div>
             User Setting
           </a>
           <a className={styles.link} href="#">
             <div className={styles.img}>
-              <i className="icon icon-log-out-outline"></i>
+              <LogOutOutline cssClasses={styles.icon} />
             </div>
             Log Out
           </a>

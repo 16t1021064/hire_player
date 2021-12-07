@@ -113,6 +113,15 @@
   transition: all 0.25s;
 }
 
+.link:hover {
+  background: rgba(228, 228, 228, 0.3);
+  color: #f14656;
+
+  .icon {
+    color: #f14656;
+  }
+}
+
 .img {
   flex-shrink: 0;
   width: 60px;
@@ -242,4 +251,11 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.icon {
+  width: 18px;
+  height: 18px;
+  margin-right: 12px;
+  color: inherit;
 }
