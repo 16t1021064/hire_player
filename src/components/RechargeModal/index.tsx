@@ -1,9 +1,10 @@
 import Modal from "components/Modal";
 import React, { FC } from "react";
-import { Button, Col, Form, Row, Select } from "antd";
+import { Button, Col, Form, Row } from "antd";
 import styles from "./index.module.scss";
 import Input from "components/Input";
 import InputNumber from "components/InputNumber";
+import Select from "components/Select";
 
 interface RechargeModalProps {
   visible: boolean;
@@ -30,11 +31,12 @@ const RechargeModal: FC<RechargeModalProps> = ({ visible, onCancel }) => {
                 { required: true, message: "Please input payment medthod" },
               ]}
             >
-              <Select>
-                <Select.Option value="male">male</Select.Option>
-                <Select.Option value="female">female</Select.Option>
-                <Select.Option value="other">other</Select.Option>
-              </Select>
+              <Select
+                items={[
+                  { text: "Male", value: "male" },
+                  { text: "Female", value: "female" },
+                ]}
+              />
             </Form.Item>
           </Col>
           <Col lg={12}>
