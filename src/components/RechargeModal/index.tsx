@@ -1,10 +1,11 @@
 import Modal from "components/Modal";
 import React, { FC } from "react";
-import { Button, Col, Form, Row } from "antd";
+import { Col, Form, Row } from "antd";
 import styles from "./index.module.scss";
 import Input from "components/Input";
 import InputNumber from "components/InputNumber";
 import Select from "components/Select";
+import Button from "components/Button";
 
 interface RechargeModalProps {
   visible: boolean;
@@ -33,8 +34,8 @@ const RechargeModal: FC<RechargeModalProps> = ({ visible, onCancel }) => {
             >
               <Select
                 items={[
-                  { text: "Male", value: "male" },
-                  { text: "Female", value: "female" },
+                  { text: "PayPal", value: "paypal" },
+                  { text: "Bank", value: "bank" },
                 ]}
               />
             </Form.Item>

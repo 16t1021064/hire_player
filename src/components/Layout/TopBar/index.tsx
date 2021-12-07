@@ -13,7 +13,7 @@ const TopBar: FC = () => {
   const [visibleNotifications, setVisibleNotifications] =
     useState<boolean>(false);
   const [visibleRechargeModal, setVisibleRechargeModal] =
-    useState<boolean>(true);
+    useState<boolean>(false);
   const notificaitonsPanelRef = useRef<any>(null);
   const notificaitonsButtonRef = useRef<any>(null);
 

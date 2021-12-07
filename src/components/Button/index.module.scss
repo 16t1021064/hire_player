@@ -1,0 +1,21 @@
+.btn {
+  min-width: 166px;
+  height: 46px;
+  padding: 0 20px;
+  border-radius: 5px/5px;
+  font-family: "Exo 2", sans-serif;
+  font-size: 14px;
+  line-height: 1.42857;
+  font-weight: 700;
+  transition: all 0.25s;
+  border: none !important;
+}
+
+.primary {
+  background: #f14656 !important;
+  color: #ffffff !important;
+}
+
+.primary:hover {
+  background: #ef2e40 !important;
+}
