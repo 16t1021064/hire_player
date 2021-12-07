@@ -3,7 +3,7 @@ import { Select as AntdSelect, SelectProps as AntdSelectProps } from "antd";
 import styles from "./index.module.scss";
 import clsx from "clsx";
 
-interface Option {
+export interface Option {
   text: string;
   value: any;
 }

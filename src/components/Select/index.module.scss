@@ -3,9 +3,10 @@
   border: none !important;
   border-radius: 5px !important;
   height: 46px !important;
+  padding: 0 22px;
 }
 
 .select :global .ant-select-selection-item {
-    line-height: 46px !important;
-    font-size: 14px !important;
+  line-height: 46px !important;
+  font-size: 14px !important;
 }
