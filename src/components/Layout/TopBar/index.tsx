@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import React, { FC, useEffect, useRef, useState } from "react";
+import React, { FC, MouseEvent, useEffect, useRef, useState } from "react";
 import {
   AddOutline,
   LogOutOutline,
@@ -11,8 +11,14 @@ import {
 import styles from "./index.module.scss";
 import Avartar from "./img/avatar.jpeg";
 import RechargeModal from "components/RechargeModal";
+import useMediaQuery from "hooks/useMediaQuery";
+import { SIDEBAR_QUERY } from "utils/mediaQuery";
 
-const TopBar: FC = () => {
+interface TopBarProps {
+  onOpenSideBar?: () => void;
+}
+
+const TopBar: FC<TopBarProps> = ({ onOpenSideBar }) => {
   const [visibleNotifications, setVisibleNotifications] =
     useState<boolean>(false);
   const [visibleProfile, setVisibleProfile] = useState<boolean>(false);
@@ -22,6 +28,9 @@ const TopBar: FC = () => {
   const profilePanelRef = useRef<any>(null);
   const notificaitonsButtonRef = useRef<any>(null);
   const profileButtonRef = useRef<any>(null);
+  const drawerSideBarQuery = useMediaQuery(SIDEBAR_QUERY);
+  const [mobileHeaderVisible, setMobileHeaderVisible] =
+    useState<boolean>(false);
 
   // trigger hide notifications
   useEffect(() => {
@@ -79,111 +88,147 @@ const TopBar: FC = () => {
     setVisibleRechargeModal(false);
   };
 
+  const showSearchBar = (e: MouseEvent) => {
+    e.preventDefault();
+    setMobileHeaderVisible(!mobileHeaderVisible);
+  };
+
   return (
-    <div className={styles.header}>
-      <form className={styles.search}>
-        <input
-          className={styles.input}
-          type="text"
-          placeholder="Search nick_name,game..."
-        />
-        <button className={styles.btnSearch}>
-          <SearchOutline />
-        </button>
-      </form>
-      <div className={styles.control}>
-        <div className={clsx(styles.item, styles.controlItem)}>
-          <button
-            type={"button"}
-            className={clsx(styles.head, styles.notificationsHead)}
-            onClick={onNotificationsClick}
-            ref={notificaitonsButtonRef}
-          >
-            <span className={styles.iconWrap}>
-              <NotificationsOutline color={"inherit"} />
-            </span>
-            <div className={styles.counter}>1</div>
+    <div
+      className={clsx(
+        styles.header,
+        drawerSideBarQuery ? styles.headerFluid : undefined
+      )}
+    >
+      <div className={styles.left}>
+        <button
+          type={"button"}
+          className={clsx(
+            styles.burger,
+            drawerSideBarQuery ? styles.burgerShow : undefined
+          )}
+          onClick={() => {
+            if (onOpenSideBar) {
+              onOpenSideBar();
+            }
+          }}
+        ></button>
+        <form
+          className={clsx(
+            styles.search,
+            mobileHeaderVisible ? styles.showSearchMobile : undefined
+          )}
+        >
+          <input
+            className={styles.input}
+            type="text"
+            placeholder="Search nick_name,game..."
+          />
+          <button className={styles.btnSearch}>
+            <SearchOutline />
           </button>
-          <div
-            ref={notificaitonsPanelRef}
-            className={clsx(
-              styles.body,
-              styles.notificationsBody,
-              visibleNotifications ? styles.visibleBody : undefined
-            )}
-          >
-            <div>
-              <div className={clsx(styles.notificationInfo, "h6")}>
-                Recent Notification
-              </div>
+        </form>
+      </div>
+      <div className={styles.right}>
+        <a className={clsx(styles.toggleSearch)} onClick={showSearchBar}>
+          <SearchOutline />
+        </a>
+        <div className={styles.control}>
+          <div className={clsx(styles.item, styles.controlItem)}>
+            <button
+              type={"button"}
+              className={clsx(styles.head, styles.notificationsHead)}
+              onClick={onNotificationsClick}
+              ref={notificaitonsButtonRef}
+            >
+              <span className={styles.iconWrap}>
+                <NotificationsOutline color={"inherit"} />
+              </span>
+              <div className={styles.counter}>1</div>
+            </button>
+            <div
+              ref={notificaitonsPanelRef}
+              className={clsx(
+                styles.body,
+                styles.notificationsBody,
+                visibleNotifications ? styles.visibleBody : undefined
+              )}
+            >
               <div>
-                <a className={styles.notificationsItem} href={"#!"}>
-                  <div className={styles.notificationsAva}>
-                    <img
-                      className={styles.notificationsPic}
-                      src={Avartar}
-                      alt={""}
-                    />
-                  </div>
-                  <div className={styles.notificationsDetails}>
-                    <div className={styles.notificationsLine}>
-                      <div className={styles.notificationsUser}>
-                        Tuong Nguyen
+                <div className={clsx(styles.notificationInfo, "h6")}>
+                  Recent Notification
+                </div>
+                <div>
+                  <a className={styles.notificationsItem} href={"#!"}>
+                    <div className={styles.notificationsAva}>
+                      <img
+                        className={styles.notificationsPic}
+                        src={Avartar}
+                        alt={""}
+                      />
+                    </div>
+                    <div className={styles.notificationsDetails}>
+                      <div className={styles.notificationsLine}>
+                        <div className={styles.notificationsUser}>
+                          Tuong Nguyen
+                        </div>
+                        <div className={styles.notificationsTime}>
+                          8 days ago
+                        </div>
                       </div>
-                      <div className={styles.notificationsTime}>8 days ago</div>
+                      <div className={styles.notificationsText}>
+                        Rejected your duo request
+                      </div>
                     </div>
-                    <div className={styles.notificationsText}>
-                      Rejected your duo request
-                    </div>
-                  </div>
-                </a>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div className={styles.headerItem}>
-        <a className={styles.moneyHead} onClick={onRecharge}>
-          <span className={styles.iconWrap}>
-            <AddOutline color={"inherit"} />
-          </span>
-          $50,00
-        </a>
-      </div>
-      <div className={clsx(styles.headerItem, styles.profile)}>
-        <a
-          ref={profileButtonRef}
-          className={styles.profileHead}
-          onClick={onProfileClick}
-        >
-          <img className={styles.pic} src={Avartar} alt="" />
-        </a>
-        <div
-          ref={profilePanelRef}
-          className={clsx(
-            styles.body,
-            styles.profileBody,
-            visibleProfile ? styles.visibleBody : undefined
-          )}
-        >
-          <a className={styles.link} href="#">
-            <div className={styles.img}>
-              <PersonOutline cssClasses={styles.icon} />
-            </div>
-            Profile
+        <div className={styles.headerItem}>
+          <a className={styles.moneyHead} onClick={onRecharge}>
+            <span className={styles.iconWrap}>
+              <AddOutline color={"inherit"} />
+            </span>
+            $50,00
           </a>
-          <a className={styles.link} href="setting_user.html">
-            <div className={styles.img}>
-              <SettingsOutline cssClasses={styles.icon} />
-            </div>
-            User Setting
+        </div>
+        <div className={clsx(styles.headerItem, styles.profile)}>
+          <a
+            ref={profileButtonRef}
+            className={styles.profileHead}
+            onClick={onProfileClick}
+          >
+            <img className={styles.pic} src={Avartar} alt="" />
           </a>
-          <a className={styles.link} href="#">
-            <div className={styles.img}>
-              <LogOutOutline cssClasses={styles.icon} />
-            </div>
-            Log Out
-          </a>
+          <div
+            ref={profilePanelRef}
+            className={clsx(
+              styles.body,
+              styles.profileBody,
+              visibleProfile ? styles.visibleBody : undefined
+            )}
+          >
+            <a className={styles.link} href="#">
+              <div className={styles.img}>
+                <PersonOutline cssClasses={styles.icon} />
+              </div>
+              Profile
+            </a>
+            <a className={styles.link} href="setting_user.html">
+              <div className={styles.img}>
+                <SettingsOutline cssClasses={styles.icon} />
+              </div>
+              User Setting
+            </a>
+            <a className={styles.link} href="#">
+              <div className={styles.img}>
+                <LogOutOutline cssClasses={styles.icon} />
+              </div>
+              Log Out
+            </a>
+          </div>
         </div>
       </div>
 

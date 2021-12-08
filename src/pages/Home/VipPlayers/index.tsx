@@ -29,7 +29,7 @@ const VipPlayers: FC = () => {
       </Row>
       <Row gutter={[24, 24]}>
         {[...Array(10).keys()].map((num: number) => (
-          <Col key={num} md={6}>
+          <Col key={num} xs={12} lg={8} xxl={6}>
             <PlayerCard />
           </Col>
         ))}

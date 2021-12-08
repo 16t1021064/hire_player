@@ -5,6 +5,7 @@
   right: 0;
   z-index: 10;
   display: flex;
+  flex-direction: row;
   align-items: center;
   height: 96px;
   padding: 0 64px;
@@ -13,9 +14,35 @@
   transition: left 0.25s;
 }
 
+.headerFluid {
+  left: 0px;
+}
+
+.left {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.right {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.right > *:not(:first-child) {
+  margin-left: 10px;
+}
+
+.right > *:not(:last-child) {
+  margin-right: 10px;
+}
+
 .search {
-  display: block !important;
-  height: 24px !important;
+  display: block;
+  height: 24px;
   position: relative;
   flex-shrink: 0;
   width: 300px;
@@ -24,7 +51,6 @@
 
 .control {
   display: flex;
-  margin-right: 44px;
 }
 
 .controlItem {
@@ -47,7 +73,6 @@
   display: flex;
   align-items: center;
   height: 24px;
-  padding-right: 44px;
   font-weight: 600;
   cursor: pointer;
   color: #808191;
@@ -258,4 +283,76 @@
   height: 18px;
   margin-right: 12px;
   color: inherit;
+}
+
+.burger {
+  display: none;
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  margin-right: 32px;
+  font-size: 0;
+}
+
+.burger:before,
+.burger:after {
+  content: "";
+  display: inline-block;
+  width: 32px;
+  height: 2px;
+  margin: 3px auto;
+  border-radius: 1px;
+  background: #1b1d21;
+  transition: all 0.25s;
+}
+.burger.burgerShow {
+  display: block;
+}
+
+.toggleSearch {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .header {
+    padding: 0 24px;
+  }
+
+  .toggleSearch {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .search {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 20;
+    display: block;
+    width: 100%;
+    margin: 0;
+    transition: all 0.25s;
+    height: 0;
+    overflow-y: hidden;
+  }
+
+  .showSearchMobile {
+    height: 56px;
+  }
+
+  .input {
+    height: 56px;
+    padding: 0 24px 0 60px;
+    background: #ffffff;
+    border-bottom: 1px solid #e4e4e4;
+  }
+
+  .btnSearch {
+    left: 0;
+    bottom: auto;
+    width: 60px;
+    height: 56px;
+  }
 }
