@@ -1,4 +1,4 @@
-import React, { FC, MouseEvent, useMemo, useState } from "react";
+import React, { FC, MouseEvent, useMemo } from "react";
 import styles from "./index.module.scss";
 import LogoImg from "./img/logo.png";
 import {
@@ -13,6 +13,9 @@ import {
 import Switch from "components/Switch";
 import { useHistory } from "react-router";
 import { routesEnum } from "pages/Routes";
+import clsx from "clsx";
+import { useAppDispatch, useAppSelector } from "hooks/useRedux";
+import { setTheme } from "store/ducks/system/slice";
 
 interface TMenuItem {
   text: string;
@@ -21,8 +24,17 @@ interface TMenuItem {
 }
 
 const SideBar: FC = () => {
-  const [darkMode, setDarkMode] = useState<boolean>(false);
   const history = useHistory();
+  const { theme } = useAppSelector((state) => state.system);
+  const dispatch = useAppDispatch();
+
+  const onChangeMode = (darkMode: boolean) => {
+    if (darkMode) {
+      dispatch(setTheme("DARK"));
+    } else {
+      dispatch(setTheme("LIGHT"));
+    }
+  };
 
   const menu: TMenuItem[] = useMemo((): TMenuItem[] => {
     return [
@@ -60,8 +72,8 @@ const SideBar: FC = () => {
   }, []);
 
   const iconTheme: any = useMemo((): any => {
-    return darkMode ? <MoonOutline /> : <SunnyOutline />;
-  }, [darkMode]);
+    return theme == "DARK" ? <MoonOutline /> : <SunnyOutline />;
+  }, [theme]);
 
   const onClick = (e: MouseEvent, menu: TMenuItem) => {
     e.preventDefault();
@@ -70,7 +82,7 @@ const SideBar: FC = () => {
   };
 
   return (
-    <div className={styles.sidebar}>
+    <div className={clsx(styles.sidebar, "bg-mode")}>
       <div className={styles.top}>
         <a className={styles.logo} href="#!">
           <img src={LogoImg} alt="logo" />
@@ -104,8 +116,8 @@ const SideBar: FC = () => {
       <div className={styles.bottom}>
         <Switch
           icon={iconTheme}
-          defaultChecked={darkMode}
-          onChange={setDarkMode}
+          defaultChecked={theme === "DARK"}
+          onChange={onChangeMode}
         />
       </div>
     </div>

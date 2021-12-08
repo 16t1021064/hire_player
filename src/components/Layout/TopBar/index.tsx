@@ -97,6 +97,7 @@ const TopBar: FC<TopBarProps> = ({ onOpenSideBar }) => {
     <div
       className={clsx(
         styles.header,
+        "bg-mode",
         drawerSideBarQuery ? styles.headerFluid : undefined
       )}
     >

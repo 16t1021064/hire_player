@@ -8,6 +8,7 @@ import TopBar from "./TopBar";
 import useMediaQuery from "hooks/useMediaQuery";
 import { SIDEBAR_QUERY } from "utils/mediaQuery";
 import clsx from "clsx";
+import { useAppSelector } from "hooks/useRedux";
 
 const getValidateMessages = (t: TFunction<"translation">) => ({
   required: `* \${label} ${t("form.validate.required")}`,
@@ -20,6 +21,7 @@ export const Layout: FC = ({ children }) => {
   const drawerSideBarQuery = useMediaQuery(SIDEBAR_QUERY);
   const [drawerSideBarVisible, setDrawerSideBarVisible] =
     useState<boolean>(false);
+  const { theme } = useAppSelector((state) => state.system);
 
   const onCloseSideBar = () => {
     setDrawerSideBarVisible(false);
@@ -35,11 +37,12 @@ export const Layout: FC = ({ children }) => {
         validateMessages,
       }}
     >
-      <AntdLayout className={styles.root}>
+      <AntdLayout className={clsx(styles.root, styles[theme])}>
         {!drawerSideBarQuery && <SideBar />}
         <main
           className={clsx(
             styles.wrapper,
+            "bg-mode",
             drawerSideBarQuery ? styles.wrapperFluid : undefined
           )}
         >
