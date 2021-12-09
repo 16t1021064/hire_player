@@ -1,61 +1,13 @@
+import SimplePanel from "components/SimplePanel";
 import { FC } from "react";
+import Header from "./Header";
 import styles from "./index.module.scss";
 
 const PlayerProfile: FC = () => {
   return (
     <div className={styles.page}>
-      <div className="author author_big">
-        <div className="author__container">
-          <div className="author__details">
-            <div className="ava ava_online">
-              <img className="ava__pic" src="img/ava-tuong.jpeg" alt="" />
-            </div>
-            <div className="author__wrap">
-              <div className="author__man h2 confirm">Tuong Nguyen</div>
-              <div className="author__parameters">
-                <div className="author__parameter">
-                  {" "}
-                  <span>HAS BEEN HIRED</span>
-                  <strong>3000 hour</strong>
-                </div>
-                <div className="author__parameter">
-                  {" "}
-                  <span>COMPLETION RATE </span>
-                  <strong>93.67 %</strong>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="author__btns">
-            <a
-              className="js-popup-open author__btn btn btn__small btn_primary"
-              href="#popup-hire-player"
-              data-effect="mfp-zoom-in"
-            >
-              <span className="btn__text">Hire</span>
-            </a>
-            <a
-              className="js-popup-open author__btn btn btn__small btn_gray"
-              href="#popup-donate-player"
-              data-effect="mfp-zoom-in"
-            >
-              <span className="btn__text">Donate</span>
-            </a>
-            <a
-              className="js-popup-open author__btn btn btn_gray btn_square"
-              href="#popup-message-player"
-              data-effect="mfp-zoom-in"
-            >
-              {/* <ion-icon
-                className="icon icon-chatbubble-ellipses-outline"
-                name="chatbubble-ellipses-outline"
-              ></ion-icon> */}
-            </a>
-          </div>
-        </div>
-      </div>
-      <div className="author__info__content">
-        <div className="author__info__title h5">Information</div>
+      <Header />
+      <SimplePanel title={"Information"}>
         <p>I can play LOL, CSGO, F04, Confidentiality, Support consulting</p>
         <p>
           <strong>Use: React grid photos:</strong>
@@ -79,7 +31,8 @@ const PlayerProfile: FC = () => {
           <p>Rank-up with me</p>
           <p>Rank-up with me</p>
         </div>
-        <div className="author__info__title h5">Rating</div>
+      </SimplePanel>
+      <SimplePanel title={"Rating"}>
         <div className="ratings__row">
           <div className="ratings__container">
             <div className="ratings__list">
@@ -140,7 +93,7 @@ const PlayerProfile: FC = () => {
             </div>
           </div>
         </div>
-      </div>
+      </SimplePanel>
     </div>
   );
 };

@@ -2,4 +2,14 @@
   max-width: 1344px;
   margin: 0 auto;
   padding: 64px;
+  display: flex;
+  flex-direction: column;
+}
+
+.page > *:not(:first-child) {
+  margin-top: 35px;
+}
+
+.page > *:not(:last-child) {
+  margin-bottom: 35px;
 }

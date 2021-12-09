@@ -5,13 +5,15 @@ import styles from "./index.module.scss";
 
 interface ButtonProps extends AntdButtonProps {
   className?: string;
-  type?: "primary" | "link";
+  type?: "primary" | "link" | "ghost";
+  size?: "middle" | "small";
   stretch?: boolean;
 }
 
 const Button: FC<ButtonProps> = ({
   className,
   type = "primary",
+  size = "middle",
   stretch = false,
   children,
   ...props
@@ -21,6 +23,7 @@ const Button: FC<ButtonProps> = ({
       className={clsx(
         styles.btn,
         styles[type],
+        styles[size],
         stretch ? styles.stretch : undefined,
         className
       )}
