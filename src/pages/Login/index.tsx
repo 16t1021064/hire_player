@@ -13,12 +13,13 @@ import Input from "components/Input";
 import Button from "components/Button";
 import Label from "components/Label";
 import InputPassword from "components/InputPassword";
+import { Link } from "react-router-dom";
 
 const Login: FC = () => {
   const dispatch = useAppDispatch();
   const history = useHistory();
 
-  const { mutate: login } = useMutation(loginRequest, {
+  const { mutate: login, status: loginStatus } = useMutation(loginRequest, {
     onSuccess: (data) => {
       localStorage.setItem(LOCAL_STORAGE.accessToken, data.token);
       dispatch(setIsLogin(true));
@@ -41,15 +42,18 @@ const Login: FC = () => {
           <div className={clsx(styles.title, "h3")}>Sign in</div>
           <div className={styles.line}>
             <div className={styles.text}>New user?</div>
-            <a className={styles.link} href="#">
+            <Link className={styles.link} to={routesEnum.register}>
               Create an account
-            </a>
+            </Link>
           </div>
           <div className={styles.field}>
-            <Label>Usename or email</Label>
+            <Label>Email</Label>
             <Form.Item
               name="email"
-              rules={[{ required: true, message: "Please input your email!" }]}
+              rules={[
+                { required: true, message: "Please input your email!" },
+                { type: "email", message: "Please input valid email!" },
+              ]}
             >
               <Input />
             </Form.Item>
@@ -60,12 +64,32 @@ const Login: FC = () => {
               name="password"
               rules={[
                 { required: true, message: "Please input your password!" },
+                () => ({
+                  validator(_, value) {
+                    if (!value) {
+                      return Promise.resolve();
+                    }
+                    if (!value.match(/\d/) || !value.match(/[a-zA-Z]/)) {
+                      return Promise.reject(
+                        new Error(
+                          "Password must contain at least one letter and one number"
+                        )
+                      );
+                    }
+                    return Promise.resolve();
+                  },
+                }),
               ]}
             >
               <InputPassword />
             </Form.Item>
           </div>
-          <Button htmlType={"submit"} type={"primary"} stretch>
+          <Button
+            htmlType={"submit"}
+            type={"primary"}
+            loading={loginStatus === "loading"}
+            stretch
+          >
             Continue
           </Button>
           <div className={styles.or}>Or continue with</div>

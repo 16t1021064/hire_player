@@ -1,21 +1,22 @@
-import React, { FC, MouseEvent, useMemo } from "react";
+import React, { FC, useMemo } from "react";
 import styles from "./index.module.scss";
 import LogoImg from "./img/logo.png";
 import {
   AccessibilityOutline,
   ChatbubbleOutline,
   HomeOutline,
+  LogOutOutline,
   MoonOutline,
   PersonAddOutline,
   PersonOutline,
   SunnyOutline,
 } from "react-ionicons";
 import Switch from "components/Switch";
-import { useHistory } from "react-router";
 import { routesEnum } from "pages/Routes";
 import clsx from "clsx";
 import { useAppDispatch, useAppSelector } from "hooks/useRedux";
 import { setTheme } from "store/ducks/system/slice";
+import { Link } from "react-router-dom";
 
 interface TMenuItem {
   text: string;
@@ -24,9 +25,9 @@ interface TMenuItem {
 }
 
 const SideBar: FC = () => {
-  const history = useHistory();
-  const { theme } = useAppSelector((state) => state.system);
   const dispatch = useAppDispatch();
+  const { theme } = useAppSelector((state) => state.system);
+  const { isLogin } = useAppSelector((state) => state.auth);
 
   const onChangeMode = (darkMode: boolean) => {
     if (darkMode) {
@@ -37,7 +38,7 @@ const SideBar: FC = () => {
   };
 
   const menu: TMenuItem[] = useMemo((): TMenuItem[] => {
-    return [
+    const menus: TMenuItem[] = [
       {
         text: "Home",
         icon: <HomeOutline cssClasses={styles.icon} />,
@@ -58,28 +59,33 @@ const SideBar: FC = () => {
         icon: <ChatbubbleOutline cssClasses={styles.icon} />,
         link: routesEnum.socket,
       },
-      {
+    ];
+
+    if (isLogin) {
+      menus.push({
+        text: "Sign-out",
+        icon: <LogOutOutline cssClasses={styles.icon} />,
+        link: routesEnum.logout,
+      });
+    } else {
+      menus.push({
         text: "Sign-in",
         icon: <PersonAddOutline cssClasses={styles.icon} />,
         link: routesEnum.login,
-      },
-      {
+      });
+      menus.push({
         text: "Sign-up",
         icon: <AccessibilityOutline cssClasses={styles.icon} />,
         link: routesEnum.register,
-      },
-    ];
-  }, []);
+      });
+    }
+
+    return menus;
+  }, [isLogin]);
 
   const iconTheme: any = useMemo((): any => {
     return theme == "DARK" ? <MoonOutline /> : <SunnyOutline />;
   }, [theme]);
-
-  const onClick = (e: MouseEvent, menu: TMenuItem) => {
-    e.preventDefault();
-    e.stopPropagation();
-    history.push(menu.link);
-  };
 
   return (
     <div className={clsx(styles.sidebar, "bg-mode")}>
@@ -97,16 +103,10 @@ const SideBar: FC = () => {
             <ul className={styles.menu}>
               {menu.map((item: TMenuItem, position: number) => (
                 <li key={position} className={styles.item}>
-                  <a
-                    className={styles.header}
-                    href={""}
-                    onClick={(e) => {
-                      onClick(e, item);
-                    }}
-                  >
+                  <Link className={styles.header} to={item.link}>
                     {item.icon}
                     <span>{item.text}</span>
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
