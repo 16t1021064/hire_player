@@ -1,0 +1,17 @@
+.input {
+  height: 46px;
+  padding: 0 22px !important;
+  width: 100%;
+  border-radius: 5px !important;
+  border: none !important;
+  font-size: 14px !important;
+  color: #11142d;
+  transition: all 0.25s;
+  background: rgba(228, 228, 228, 0.3) !important;
+  background-color: rgba(228, 228, 228, 0.3) !important;
+
+  input {
+    background: transparent !important;
+    background-color: transparent !important;
+  }
+}

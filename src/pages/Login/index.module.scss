@@ -1,0 +1,72 @@
+.login {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 30px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 50% 50%;
+}
+
+.container {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 960px;
+}
+
+.form {
+  margin: auto;
+  position: relative;
+  flex-shrink: 0;
+  width: 450px;
+  padding: 48px 48px 54px;
+  border-radius: 20px;
+  background: #ffffff;
+  border: 1px solid #E4E4E4;
+}
+
+.title {
+  margin-bottom: 20px;
+}
+
+.line {
+  display: flex;
+  align-items: center;
+  margin-bottom: 42px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.text {
+  color: #808191;
+}
+
+.link {
+
+}
+
+.link {
+  margin-left: 16px;
+  color: #3F8CFF;
+  transition: color .25s;
+}
+
+.link:hover {
+  color: #0049C6;
+}
+
+.field:not(:last-child) {
+  margin-bottom: 24px;
+}
+
+.or {
+  padding: 24px 0;
+  font-size: 12px;
+  font-weight: 500;
+  color: #808191;
+}

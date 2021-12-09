@@ -6,6 +6,7 @@ import Input from "components/Input";
 import InputNumber from "components/InputNumber";
 import Select from "components/Select";
 import Button from "components/Button";
+import Label from "components/Label";
 
 interface RechargeModalProps {
   visible: boolean;
@@ -17,7 +18,12 @@ const RechargeModal: FC<RechargeModalProps> = ({ visible, onCancel }) => {
     console.log(values);
   };
   return (
-    <Modal visible={visible} title={"Recharge"} onCancel={onCancel}>
+    <Modal
+      className={styles.modal}
+      visible={visible}
+      title={"Recharge"}
+      onCancel={onCancel}
+    >
       <Form
         initialValues={{ remember: true }}
         onFinish={onFinish}
@@ -25,7 +31,7 @@ const RechargeModal: FC<RechargeModalProps> = ({ visible, onCancel }) => {
       >
         <Row gutter={[16, 16]}>
           <Col lg={24}>
-            <label className={styles.label}>Withdraw Method</label>
+            <Label>Withdraw Method</Label>
             <Form.Item
               name="method"
               rules={[
@@ -41,7 +47,7 @@ const RechargeModal: FC<RechargeModalProps> = ({ visible, onCancel }) => {
             </Form.Item>
           </Col>
           <Col lg={12}>
-            <label className={styles.label}>Amount</label>
+            <Label>Amount</Label>
             <Form.Item
               name="amount"
               rules={[{ required: true, message: "Please input amount" }]}
@@ -50,7 +56,7 @@ const RechargeModal: FC<RechargeModalProps> = ({ visible, onCancel }) => {
             </Form.Item>
           </Col>
           <Col lg={12}>
-            <label className={styles.label}>PayPal Email</label>
+            <Label>PayPal Email</Label>
             <Form.Item
               name="email"
               rules={[
