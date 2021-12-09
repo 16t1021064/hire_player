@@ -5,11 +5,13 @@ import React, { FC } from "react";
 import styles from "./index.module.scss";
 
 interface SimplePanelProps {
+  className?: string;
   title: string;
   rightContent?: React.ReactNode;
 }
 
 const SimplePanel: FC<SimplePanelProps> = ({
+  className,
   title,
   rightContent,
   children,
@@ -17,7 +19,7 @@ const SimplePanel: FC<SimplePanelProps> = ({
   const { theme } = useAppSelector((state) => state.system);
 
   return (
-    <div className={styles.wrapper}>
+    <div className={clsx(styles.wrapper, className)}>
       <div className={styles.header}>
         <Row>
           <Col flex={"auto"}>
