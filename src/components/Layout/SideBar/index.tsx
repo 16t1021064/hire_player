@@ -52,7 +52,7 @@ const SideBar: FC = () => {
       {
         text: "Player Profile",
         icon: <PersonOutline cssClasses={styles.icon} />,
-        link: routesEnum.dashboard,
+        link: routesEnum.playerProfile,
       },
       {
         text: "Chat",

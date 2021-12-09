@@ -16,6 +16,7 @@ export enum routesEnum {
   register = "/register",
   dashboard = "/dashboard",
   socket = "/socket",
+  playerProfile = "/player-profile",
 }
 
 type CustomRouteProps = RouteProps & { private?: boolean; anonymous?: boolean };
@@ -55,6 +56,12 @@ const routes: CustomRouteProps[] = [
     exact: true,
     private: true,
     component: lazy(() => import("./Socket")),
+  },
+  {
+    path: routesEnum.playerProfile,
+    exact: true,
+    private: true,
+    component: lazy(() => import("./PlayerProfile")),
   },
 ];
 
