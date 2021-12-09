@@ -55,7 +55,6 @@ export const Layout: FC = ({ children }) => {
           closable={false}
           onClose={onCloseSideBar}
           visible={drawerSideBarVisible}
-          // key={"left"}
         >
           <SideBar />
         </Drawer>

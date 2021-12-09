@@ -13,6 +13,9 @@ import Avartar from "./img/avatar.jpeg";
 import RechargeModal from "components/RechargeModal";
 import useMediaQuery from "hooks/useMediaQuery";
 import { SIDEBAR_QUERY } from "utils/mediaQuery";
+import { useAppSelector } from "hooks/useRedux";
+import { Link } from "react-router-dom";
+import { routesEnum } from "pages/Routes";
 
 interface TopBarProps {
   onOpenSideBar?: () => void;
@@ -31,11 +34,13 @@ const TopBar: FC<TopBarProps> = ({ onOpenSideBar }) => {
   const drawerSideBarQuery = useMediaQuery(SIDEBAR_QUERY);
   const [mobileHeaderVisible, setMobileHeaderVisible] =
     useState<boolean>(false);
+  const { isLogin } = useAppSelector((state) => state.auth);
 
   // trigger hide notifications
   useEffect(() => {
     const callback = (event: any) => {
       if (
+        notificaitonsPanelRef.current &&
         !notificaitonsPanelRef.current.contains(event.target) &&
         !notificaitonsButtonRef.current.contains(event.target)
       ) {
@@ -54,6 +59,7 @@ const TopBar: FC<TopBarProps> = ({ onOpenSideBar }) => {
   useEffect(() => {
     const callback = (event: any) => {
       if (
+        profilePanelRef.current &&
         !profilePanelRef.current.contains(event.target) &&
         !profileButtonRef.current.contains(event.target)
       ) {
@@ -134,103 +140,107 @@ const TopBar: FC<TopBarProps> = ({ onOpenSideBar }) => {
         <a className={clsx(styles.toggleSearch)} onClick={showSearchBar}>
           <SearchOutline />
         </a>
-        <div className={styles.control}>
-          <div className={clsx(styles.item, styles.controlItem)}>
-            <button
-              type={"button"}
-              className={clsx(styles.head, styles.notificationsHead)}
-              onClick={onNotificationsClick}
-              ref={notificaitonsButtonRef}
-            >
-              <span className={styles.iconWrap}>
-                <NotificationsOutline color={"inherit"} />
-              </span>
-              <div className={styles.counter}>1</div>
-            </button>
-            <div
-              ref={notificaitonsPanelRef}
-              className={clsx(
-                styles.body,
-                styles.notificationsBody,
-                visibleNotifications ? styles.visibleBody : undefined
-              )}
-            >
-              <div>
-                <div className={clsx(styles.notificationInfo, "h6")}>
-                  Recent Notification
-                </div>
-                <div>
-                  <a className={styles.notificationsItem} href={"#!"}>
-                    <div className={styles.notificationsAva}>
-                      <img
-                        className={styles.notificationsPic}
-                        src={Avartar}
-                        alt={""}
-                      />
+        {isLogin ? (
+          <>
+            <div className={styles.control}>
+              <div className={clsx(styles.item, styles.controlItem)}>
+                <button
+                  type={"button"}
+                  className={clsx(styles.head, styles.notificationsHead)}
+                  onClick={onNotificationsClick}
+                  ref={notificaitonsButtonRef}
+                >
+                  <span className={styles.iconWrap}>
+                    <NotificationsOutline color={"inherit"} />
+                  </span>
+                  <div className={styles.counter}>1</div>
+                </button>
+                <div
+                  ref={notificaitonsPanelRef}
+                  className={clsx(
+                    styles.body,
+                    styles.notificationsBody,
+                    visibleNotifications ? styles.visibleBody : undefined
+                  )}
+                >
+                  <div>
+                    <div className={clsx(styles.notificationInfo, "h6")}>
+                      Recent Notification
                     </div>
-                    <div className={styles.notificationsDetails}>
-                      <div className={styles.notificationsLine}>
-                        <div className={styles.notificationsUser}>
-                          Tuong Nguyen
+                    <div>
+                      <a className={styles.notificationsItem} href={"#!"}>
+                        <div className={styles.notificationsAva}>
+                          <img
+                            className={styles.notificationsPic}
+                            src={Avartar}
+                            alt={""}
+                          />
                         </div>
-                        <div className={styles.notificationsTime}>
-                          8 days ago
+                        <div className={styles.notificationsDetails}>
+                          <div className={styles.notificationsLine}>
+                            <div className={styles.notificationsUser}>
+                              Tuong Nguyen
+                            </div>
+                            <div className={styles.notificationsTime}>
+                              8 days ago
+                            </div>
+                          </div>
+                          <div className={styles.notificationsText}>
+                            Rejected your duo request
+                          </div>
                         </div>
-                      </div>
-                      <div className={styles.notificationsText}>
-                        Rejected your duo request
-                      </div>
+                      </a>
                     </div>
-                  </a>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-        <div className={styles.headerItem}>
-          <a className={styles.moneyHead} onClick={onRecharge}>
-            <span className={styles.iconWrap}>
-              <AddOutline color={"inherit"} />
-            </span>
-            $50,00
-          </a>
-        </div>
-        <div className={clsx(styles.headerItem, styles.profile)}>
-          <a
-            ref={profileButtonRef}
-            className={styles.profileHead}
-            onClick={onProfileClick}
-          >
-            <img className={styles.pic} src={Avartar} alt="" />
-          </a>
-          <div
-            ref={profilePanelRef}
-            className={clsx(
-              styles.body,
-              styles.profileBody,
-              visibleProfile ? styles.visibleBody : undefined
-            )}
-          >
-            <a className={styles.link} href="#">
-              <div className={styles.img}>
-                <PersonOutline cssClasses={styles.icon} />
+            <div className={styles.headerItem}>
+              <a className={styles.moneyHead} onClick={onRecharge}>
+                <span className={styles.iconWrap}>
+                  <AddOutline color={"inherit"} />
+                </span>
+                $50,00
+              </a>
+            </div>
+            <div className={clsx(styles.headerItem, styles.profile)}>
+              <a
+                ref={profileButtonRef}
+                className={styles.profileHead}
+                onClick={onProfileClick}
+              >
+                <img className={styles.pic} src={Avartar} alt="" />
+              </a>
+              <div
+                ref={profilePanelRef}
+                className={clsx(
+                  styles.body,
+                  styles.profileBody,
+                  visibleProfile ? styles.visibleBody : undefined
+                )}
+              >
+                <a className={styles.link} href="#">
+                  <div className={styles.img}>
+                    <PersonOutline cssClasses={styles.icon} />
+                  </div>
+                  Profile
+                </a>
+                <a className={styles.link} href="setting_user.html">
+                  <div className={styles.img}>
+                    <SettingsOutline cssClasses={styles.icon} />
+                  </div>
+                  User Setting
+                </a>
+                <Link className={styles.link} to={routesEnum.logout}>
+                  <div className={styles.img}>
+                    <LogOutOutline cssClasses={styles.icon} />
+                  </div>
+                  Log Out
+                </Link>
               </div>
-              Profile
-            </a>
-            <a className={styles.link} href="setting_user.html">
-              <div className={styles.img}>
-                <SettingsOutline cssClasses={styles.icon} />
-              </div>
-              User Setting
-            </a>
-            <a className={styles.link} href="#">
-              <div className={styles.img}>
-                <LogOutOutline cssClasses={styles.icon} />
-              </div>
-              Log Out
-            </a>
-          </div>
-        </div>
+            </div>
+          </>
+        ) : undefined}
       </div>
 
       <RechargeModal
