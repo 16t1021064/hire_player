@@ -1,0 +1,28 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.wrapper > *:not(:first-child) {
+  margin-top: 15px;
+}
+
+.wrapper > *:not(:last-child) {
+  margin-bottom: 15px;
+}
+
+.header {
+  width: 100%;
+}
+
+.content {
+  width: 100%;
+}
+
+.titleBlack {
+  color: #000;
+}
+
+.titleWhite {
+  color: #fff;
+}
