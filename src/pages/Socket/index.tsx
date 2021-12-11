@@ -1,4 +1,6 @@
-import { Form, Row, Col, Button, Input } from "antd";
+import { Row, Col, Button, Input } from "antd";
+import Form from "components/Form";
+import FormItem from "components/Form/FormItem";
 import useWebSocket from "hooks/useWebSocket";
 import React, { FC, useEffect, useState } from "react";
 
@@ -36,13 +38,13 @@ const Socket: FC = () => {
       <Form onFinish={onFinish}>
         <Row gutter={[16, 16]}>
           <Col flex={"none"}>
-            <Form.Item
+            <FormItem
               name="message"
               rules={[{ required: true }]}
               label="Message (string or json):"
             >
               <Input.TextArea cols={50} />
-            </Form.Item>
+            </FormItem>
           </Col>
           <Col flex={"none"}>
             <Button type="primary" htmlType="submit">

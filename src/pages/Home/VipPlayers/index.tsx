@@ -1,7 +1,7 @@
 import { Col, Row } from "antd";
 import { FC, useMemo } from "react";
 import styles from "./index.module.scss";
-import Select, { Option } from "components/Select";
+import Select, { Option } from "components/Form/Select";
 import PlayerCard from "components/PlayerCard";
 import SimplePanel from "components/SimplePanel";
 

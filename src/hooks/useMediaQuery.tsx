@@ -8,7 +8,7 @@ const errorMessage =
 const useMediaQuery = (mediaQuery: string) => {
   if (!isAPISupported("matchMedia")) {
     console.warn(errorMessage);
-    return null;
+    return false;
   }
 
   const [isVerified, setIsVerified] = useState(

@@ -11,7 +11,7 @@ import {
   PersonOutline,
   SunnyOutline,
 } from "react-ionicons";
-import Switch from "components/Switch";
+import Switch from "components/Form/Switch";
 import { routesEnum } from "pages/Routes";
 import clsx from "clsx";
 import { useAppDispatch, useAppSelector } from "hooks/useRedux";
@@ -47,7 +47,7 @@ const SideBar: FC = () => {
       {
         text: "Following",
         icon: <PersonOutline cssClasses={styles.icon} />,
-        link: "#!",
+        link: routesEnum.following,
       },
       {
         text: "Player Profile",
@@ -57,7 +57,7 @@ const SideBar: FC = () => {
       {
         text: "Chat",
         icon: <ChatbubbleOutline cssClasses={styles.icon} />,
-        link: routesEnum.socket,
+        link: routesEnum.chat,
       },
     ];
 
@@ -90,9 +90,9 @@ const SideBar: FC = () => {
   return (
     <div className={clsx(styles.sidebar, "bg-mode")}>
       <div className={styles.top}>
-        <a className={styles.logo} href="#!">
-          <img src={LogoImg} alt="logo" />
-        </a>
+        <Link className={styles.logo} to={routesEnum.home}>
+          <img src={LogoImg} alt={"logo"} />
+        </Link>
       </div>
       <div className={styles.wrapper}>
         <div className={styles.inner}>

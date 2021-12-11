@@ -1,12 +1,14 @@
 import Modal from "components/Modal";
 import React, { FC } from "react";
-import { Col, Form, Row } from "antd";
+import { Col, Row } from "antd";
 import styles from "./index.module.scss";
-import Input from "components/Input";
-import InputNumber from "components/InputNumber";
-import Select from "components/Select";
+import Input from "components/Form/Input";
+import InputNumber from "components/Form/InputNumber";
+import Select from "components/Form/Select";
 import Button from "components/Button";
-import Label from "components/Label";
+import Label from "components/Form/Label";
+import Form from "components/Form";
+import FormItem from "components/Form/FormItem";
 
 interface RechargeModalProps {
   visible: boolean;
@@ -32,7 +34,7 @@ const RechargeModal: FC<RechargeModalProps> = ({ visible, onCancel }) => {
         <Row gutter={[16, 16]}>
           <Col lg={24}>
             <Label>Withdraw Method</Label>
-            <Form.Item
+            <FormItem
               name="method"
               rules={[
                 { required: true, message: "Please input payment medthod" },
@@ -44,20 +46,20 @@ const RechargeModal: FC<RechargeModalProps> = ({ visible, onCancel }) => {
                   { text: "Bank", value: "bank" },
                 ]}
               />
-            </Form.Item>
+            </FormItem>
           </Col>
           <Col lg={12}>
             <Label>Amount</Label>
-            <Form.Item
+            <FormItem
               name="amount"
               rules={[{ required: true, message: "Please input amount" }]}
             >
               <InputNumber />
-            </Form.Item>
+            </FormItem>
           </Col>
           <Col lg={12}>
             <Label>PayPal Email</Label>
-            <Form.Item
+            <FormItem
               name="email"
               rules={[
                 { required: true, message: "Please input payment email" },
@@ -65,7 +67,7 @@ const RechargeModal: FC<RechargeModalProps> = ({ visible, onCancel }) => {
               ]}
             >
               <Input />
-            </Form.Item>
+            </FormItem>
           </Col>
           <Col lg={24}>
             <Button type="primary" htmlType="submit">

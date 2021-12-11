@@ -16,7 +16,7 @@ const PlayerCard: FC = () => {
         </div>
         <div className={styles.description}>
           <div className={styles.desc}>Rank up with me</div>
-          <div className={styles.game}>F04,CSGO,LOL,PUBG</div>
+          <div className={styles.game}>F04, CSGO, LOL, PUBG</div>
         </div>
       </div>
       <div className={styles.foot}>

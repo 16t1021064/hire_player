@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { message } from "antd";
 import { LOCAL_STORAGE } from "utils/constant";
 
 type TTheme = "LIGHT" | "DARK";
@@ -33,10 +34,12 @@ const systemSlice = createSlice({
       };
     },
     setTheme(state, action: PayloadAction<TTheme>) {
-      localStorage.setItem(LOCAL_STORAGE.theme, action.payload);
+      // localStorage.setItem(LOCAL_STORAGE.theme, action.payload);
+      message.warning("Dark Mode in development");
+      console.log("theme change", action.payload);
       return {
         ...state,
-        theme: action.payload,
+        // theme: action.payload,
       };
     },
   },

@@ -1,5 +1,4 @@
 import { FC } from "react";
-import { Form } from "antd";
 import { useMutation } from "react-query";
 import { registerRequest } from "api/auth/request";
 import { LOCAL_STORAGE } from "utils/constant";
@@ -10,10 +9,12 @@ import { routesEnum } from "pages/Routes";
 import styles from "./index.module.scss";
 import clsx from "clsx";
 import { Link } from "react-router-dom";
-import Label from "components/Label";
-import InputPassword from "components/InputPassword";
-import Input from "components/Input";
+import Label from "components/Form/Label";
+import InputPassword from "components/Form/InputPassword";
+import Input from "components/Form/Input";
 import Button from "components/Button";
+import Form from "components/Form";
+import FormItem from "components/Form/FormItem";
 
 const Register: FC = () => {
   const dispatch = useAppDispatch();
@@ -52,16 +53,16 @@ const Register: FC = () => {
           </div>
           <div className={styles.field}>
             <Label>First Name</Label>
-            <Form.Item
+            <FormItem
               name="name"
               rules={[{ required: true, message: "Please input your name!" }]}
             >
               <Input />
-            </Form.Item>
+            </FormItem>
           </div>
           <div className={styles.field}>
             <Label>Email</Label>
-            <Form.Item
+            <FormItem
               name="email"
               rules={[
                 { required: true, message: "Please input your email!" },
@@ -69,11 +70,11 @@ const Register: FC = () => {
               ]}
             >
               <Input />
-            </Form.Item>
+            </FormItem>
           </div>
           <div className={styles.field}>
             <Label>Password</Label>
-            <Form.Item
+            <FormItem
               name="password"
               rules={[
                 { required: true, message: "Please input your password!" },
@@ -95,11 +96,11 @@ const Register: FC = () => {
               ]}
             >
               <InputPassword />
-            </Form.Item>
+            </FormItem>
           </div>
           <div className={styles.field}>
             <Label>Confirm Password</Label>
-            <Form.Item
+            <FormItem
               name="password2"
               dependencies={["password"]}
               rules={[
@@ -119,7 +120,7 @@ const Register: FC = () => {
               ]}
             >
               <InputPassword />
-            </Form.Item>
+            </FormItem>
           </div>
           <Button
             htmlType={"submit"}

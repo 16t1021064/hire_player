@@ -84,16 +84,8 @@
 }
 
 .profileHead {
-  display: block;
-  width: 48px;
-  height: 48px;
+  display: inline-block;
   font-size: 0;
-}
-
-.pic {
-  width: 100%;
-  min-height: 100%;
-  border-radius: 50%;
 }
 
 .body {
@@ -230,15 +222,7 @@
 .notificationsAva {
   position: relative;
   flex-shrink: 0;
-  width: 48px;
-  height: 48px;
   font-size: 0;
-}
-
-.notificationsPic {
-  width: 100%;
-  min-height: 100%;
-  border-radius: 50%;
 }
 
 .notificationsDetails {

@@ -9,13 +9,13 @@ import {
   SettingsOutline,
 } from "react-ionicons";
 import styles from "./index.module.scss";
-import Avartar from "./img/avatar.jpeg";
 import RechargeModal from "components/RechargeModal";
 import useMediaQuery from "hooks/useMediaQuery";
 import { SIDEBAR_QUERY } from "utils/mediaQuery";
 import { useAppSelector } from "hooks/useRedux";
 import { Link } from "react-router-dom";
 import { routesEnum } from "pages/Routes";
+import Avatar from "components/Avatar";
 
 interface TopBarProps {
   onOpenSideBar?: () => void;
@@ -170,11 +170,7 @@ const TopBar: FC<TopBarProps> = ({ onOpenSideBar }) => {
                     <div>
                       <a className={styles.notificationsItem} href={"#!"}>
                         <div className={styles.notificationsAva}>
-                          <img
-                            className={styles.notificationsPic}
-                            src={Avartar}
-                            alt={""}
-                          />
+                          <Avatar size={"md"} hasBorder={false} />
                         </div>
                         <div className={styles.notificationsDetails}>
                           <div className={styles.notificationsLine}>
@@ -209,7 +205,7 @@ const TopBar: FC<TopBarProps> = ({ onOpenSideBar }) => {
                 className={styles.profileHead}
                 onClick={onProfileClick}
               >
-                <img className={styles.pic} src={Avartar} alt="" />
+                <Avatar size={"md"} hasBorder={false} />
               </a>
               <div
                 ref={profilePanelRef}

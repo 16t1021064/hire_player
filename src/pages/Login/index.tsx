@@ -1,5 +1,4 @@
 import { FC } from "react";
-import { Form } from "antd";
 import { useMutation } from "react-query";
 import { loginRequest } from "api/auth/request";
 import { LOCAL_STORAGE } from "utils/constant";
@@ -9,11 +8,13 @@ import { useHistory } from "react-router";
 import { routesEnum } from "pages/Routes";
 import styles from "./index.module.scss";
 import clsx from "clsx";
-import Input from "components/Input";
+import Input from "components/Form/Input";
 import Button from "components/Button";
-import Label from "components/Label";
-import InputPassword from "components/InputPassword";
+import Label from "components/Form/Label";
+import InputPassword from "components/Form/InputPassword";
 import { Link } from "react-router-dom";
+import Form from "components/Form";
+import FormItem from "components/Form/FormItem";
 
 const Login: FC = () => {
   const dispatch = useAppDispatch();
@@ -48,7 +49,7 @@ const Login: FC = () => {
           </div>
           <div className={styles.field}>
             <Label>Email</Label>
-            <Form.Item
+            <FormItem
               name="email"
               rules={[
                 { required: true, message: "Please input your email!" },
@@ -56,11 +57,11 @@ const Login: FC = () => {
               ]}
             >
               <Input />
-            </Form.Item>
+            </FormItem>
           </div>
           <div className={styles.field}>
             <Label>Password</Label>
-            <Form.Item
+            <FormItem
               name="password"
               rules={[
                 { required: true, message: "Please input your password!" },
@@ -82,7 +83,7 @@ const Login: FC = () => {
               ]}
             >
               <InputPassword />
-            </Form.Item>
+            </FormItem>
           </div>
           <Button
             htmlType={"submit"}

@@ -1,3 +1,7 @@
+.modal {
+  font-size: inherit !important;
+}
+
 .modal :global .ant-modal-content {
   border-radius: 24px;
   overflow: hidden;
@@ -14,6 +18,7 @@
   border-bottom-left-radius: 24px;
   border-bottom-right-radius: 24px;
   padding: 24px 32px 32px 32px;
+  font-size: inherit;
 }
 
 .header {

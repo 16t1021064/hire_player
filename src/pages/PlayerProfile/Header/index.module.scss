@@ -21,34 +21,9 @@
 
 .avatar {
   flex-shrink: 0;
-  width: 124px;
-  height: 124px;
   margin-right: 32px;
-  border-width: 7px;
-  box-shadow: 0 0 0 4px #0049c6;
   position: relative;
-  border-radius: 50%;
-  border: 6px solid #ffffff;
   font-size: 0;
-}
-
-.avatar:before {
-  content: "";
-  top: -6px;
-  right: -6px;
-  width: 32px;
-  height: 32px;
-  background: #7fba7a;
-  border: 2px solid #ffffff;
-  position: absolute;
-  z-index: 1;
-  border-radius: 50%;
-}
-
-.pic {
-  width: 100%;
-  min-height: 100%;
-  border-radius: 50%;
 }
 
 .wrap {
