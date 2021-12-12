@@ -4,7 +4,7 @@ import { FC, useEffect } from "react";
 import { Route, RouteProps, Switch } from "react-router-dom";
 import { useLocation } from "react-router";
 import { refreshUserRequest } from "api/auth/request";
-import { getToken } from "utils/auth";
+import { getAccessToken } from "utils/auth";
 import { setIsLogin, setUserInfo } from "store/ducks/auth/slice";
 import { useAppDispatch } from "hooks/useRedux";
 import AnonymousRoute from "auth/AnonymousRoute";
@@ -18,6 +18,8 @@ export enum routesEnum {
   chat = "/chat",
   playerProfile = "/player-profile",
   following = "/following",
+  forgotPassword = "/forgot-password",
+  resetPassword = "/password-reset",
 }
 
 type CustomRouteProps = RouteProps & { private?: boolean; anonymous?: boolean };
@@ -33,6 +35,18 @@ const routes: CustomRouteProps[] = [
     exact: true,
     anonymous: true,
     component: lazy(() => import("./Login")),
+  },
+  {
+    path: routesEnum.forgotPassword,
+    exact: true,
+    anonymous: true,
+    component: lazy(() => import("./ForgotPassword")),
+  },
+  {
+    path: routesEnum.resetPassword,
+    exact: true,
+    anonymous: true,
+    component: lazy(() => import("./ResetPassword")),
   },
   {
     path: routesEnum.logout,
@@ -78,7 +92,7 @@ export const Routes: FC = () => {
 
   useEffect(() => {
     (async () => {
-      const token = getToken();
+      const token = getAccessToken();
       if (token) {
         const userData = await refreshUserRequest();
         dispatch(setIsLogin(true));

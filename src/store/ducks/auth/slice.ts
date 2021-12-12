@@ -1,11 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-interface TUserInfo {
-  id: string;
-  email: string;
-  name: string;
-  roles: string[];
-}
+import { TUserInfo } from "types";
 
 interface TAuthReducer {
   isLogin: boolean;

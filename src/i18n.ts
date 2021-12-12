@@ -15,5 +15,6 @@ i18n
   });
 
 i18n.loadNamespaces("error");
+i18n.loadNamespaces("response");
 
 export default i18n;

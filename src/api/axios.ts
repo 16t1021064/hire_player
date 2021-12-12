@@ -1,26 +1,16 @@
+import { message as AntMessage } from "antd";
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 import i18n from "i18next";
 import { routesEnum } from "pages/Routes";
-import { getToken } from "utils/auth";
+import { getAccessToken } from "utils/auth";
 
-const defaultErrorCode = "error:e_ERROR";
+const defaultErrorCode = "error:ERROR_SYSTEM";
 
 const axiosInstance = axios.create({
   baseURL: process.env.REACT_APP_API_URI,
 });
 
 const handleSuccess = (res: AxiosResponse) => {
-  // if (res.data?.code !== 0) {
-  //   const errorCode = `error:${res.data.msg_code}`;
-  //   if (typeof res.data !== "object") {
-  //     res.data = { message: i18n.t(defaultErrorCode) };
-  //   } else {
-  //     res.data.message = i18n.exists(errorCode)
-  //       ? i18n.t(errorCode)
-  //       : i18n.t(defaultErrorCode);
-  //   }
-  //   return Promise.reject(res.data);
-  // }
   return res;
 };
 
@@ -29,10 +19,24 @@ const handleError = (err: AxiosError) => {
     window.location.href = routesEnum.logout;
   }
   const data = err?.response?.data;
-  const errorCode = `error:${data?.msg_code}`;
-  data.message = i18n.exists(errorCode)
-    ? i18n.t(errorCode)
-    : i18n.t(defaultErrorCode);
+  if (data?.errors) {
+    const messages = [];
+    let hasSystemError = false;
+    data.errors.forEach((error: any) => {
+      let errorCode = `error:${error}`;
+      if ((data.message = i18n.exists(errorCode))) {
+        messages.push(i18n.t(errorCode));
+      } else {
+        hasSystemError = true;
+      }
+    });
+    if (messages.length === 0 && hasSystemError) {
+      messages.push(i18n.t(defaultErrorCode));
+    }
+    messages.forEach((message: any) => {
+      AntMessage.error(message);
+    });
+  }
   return Promise.reject(data);
 };
 
@@ -40,7 +44,7 @@ axiosInstance.interceptors.response.use(handleSuccess, handleError);
 
 axiosInstance.interceptors.request.use(
   async (config: AxiosRequestConfig) => {
-    let token = getToken();
+    let token = getAccessToken();
     if (token) {
       config = {
         ...config,

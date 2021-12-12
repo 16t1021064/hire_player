@@ -1,6 +1,6 @@
-import { FC } from "react";
+import { FC, useEffect, useMemo, useRef, useState } from "react";
 import { useMutation } from "react-query";
-import { registerRequest } from "api/auth/request";
+import { registerRequest, sendOtpRequest } from "api/auth/request";
 import { LOCAL_STORAGE } from "utils/constant";
 import { useAppDispatch } from "hooks/useRedux";
 import { setIsLogin, setUserInfo } from "store/ducks/auth/slice";
@@ -15,16 +15,35 @@ import Input from "components/Form/Input";
 import Button from "components/Button";
 import Form from "components/Form";
 import FormItem from "components/Form/FormItem";
+import ReCAPTCHA from "react-google-recaptcha";
+import { Col, message, Modal, Row } from "antd";
+import Countdown from "antd/lib/statistic/Countdown";
+import { Form as AntdForm } from "antd";
+import { useTranslation } from "react-i18next";
+
+const reCAPTCHASitekey = process.env.REACT_APP_GOOGLE_RECAPTCHA_SITEKEY;
 
 const Register: FC = () => {
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const history = useHistory();
+  const reCAPTCHARef = useRef(null);
+  const [reCAPTCHAValue, setReCAPTCHAValue] = useState<string | undefined>(
+    undefined
+  );
+  const [enableCountdown, setEnableCountdown] = useState<boolean>(false);
+  const [form] = AntdForm.useForm();
+  const [otpData, setOtpData] = useState<any>({
+    email: undefined,
+    hash: undefined,
+  });
 
   const { mutate: register, status: registerStatus } = useMutation(
     registerRequest,
     {
       onSuccess: (data) => {
-        localStorage.setItem(LOCAL_STORAGE.accessToken, data.token);
+        localStorage.setItem(LOCAL_STORAGE.accessToken, data.accessToken);
+        localStorage.setItem(LOCAL_STORAGE.refreshToken, data.refreshToken);
         dispatch(setIsLogin(true));
         dispatch(setUserInfo(data.userInfo));
         history.replace(routesEnum.home);
@@ -32,18 +51,89 @@ const Register: FC = () => {
     }
   );
 
+  const { mutate: sendOtp, status: sendOtpStatus } = useMutation(
+    sendOtpRequest,
+    {
+      onSuccess: (data) => {
+        if (data.message === "SEND_OTP_SUCCESS") {
+          setOtpData({ ...otpData, email: data.email, hash: data.hash });
+          Modal.success({
+            content: t("response:SEND_OTP_SUCCESS", { email: data.email }),
+          });
+          setEnableCountdown(true);
+        }
+      },
+    }
+  );
+
+  const freezyInput = useMemo(() => {
+    return enableCountdown || registerStatus === "loading";
+  }, [registerStatus, enableCountdown]);
+
   const onFinish = (values: any) => {
-    register({
-      name: values.name,
-      email: values.email,
-      password: values.password,
-    });
+    if (!reCAPTCHAValue) {
+      message.warning("Please check human verification");
+      return;
+    }
+
+    if (!values?.otp || !otpData.hash) {
+      message.warning("Please verify your email");
+    } else if (values.email !== otpData.email) {
+      message.warning("Please verify the new email");
+    } else {
+      register({
+        firstName: values.firstName,
+        lastName: values.lastName,
+        otp: values.otp,
+        hash: otpData.hash,
+        email: values.email,
+        password: values.password,
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (reCAPTCHASitekey && reCAPTCHARef.current) {
+      (reCAPTCHARef.current as any).reset();
+      setReCAPTCHAValue(undefined);
+    }
+  }, []);
+
+  const onReCAPTCHAChange = (value: any) => {
+    setReCAPTCHAValue(value);
+  };
+
+  const onGetOTP = () => {
+    form
+      .validateFields()
+      .then((values) => {
+        if (!reCAPTCHAValue) {
+          message.warning("Please check human verification");
+          return;
+        }
+        if (!enableCountdown) {
+          sendOtp({ email: values.email });
+        }
+      })
+      .catch((error) => {
+        console.log("form fail");
+        console.log(error);
+      });
+  };
+
+  const onFinishCountdown = () => {
+    setEnableCountdown(false);
   };
 
   return (
     <div className={styles.login}>
       <div className={styles.container}>
-        <Form className={styles.form} autoComplete="off" onFinish={onFinish}>
+        <Form
+          form={form}
+          className={styles.form}
+          autoComplete="off"
+          onFinish={onFinish}
+        >
           <div className={clsx(styles.title, "h3")}>Sign in</div>
           <div className={styles.line}>
             <div className={styles.text}>Already a user</div>
@@ -52,13 +142,36 @@ const Register: FC = () => {
             </Link>
           </div>
           <div className={styles.field}>
-            <Label>First Name</Label>
-            <FormItem
-              name="name"
-              rules={[{ required: true, message: "Please input your name!" }]}
-            >
-              <Input />
-            </FormItem>
+            <Row gutter={[15, 0]}>
+              <Col xs={12}>
+                <Label>First name</Label>
+                <FormItem
+                  name="firstName"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input your first name",
+                    },
+                  ]}
+                >
+                  <Input readOnly={freezyInput} />
+                </FormItem>
+              </Col>
+              <Col xs={12}>
+                <Label>Last name</Label>
+                <FormItem
+                  name="lastName"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input your last name",
+                    },
+                  ]}
+                >
+                  <Input readOnly={freezyInput} />
+                </FormItem>
+              </Col>
+            </Row>
           </div>
           <div className={styles.field}>
             <Label>Email</Label>
@@ -69,7 +182,7 @@ const Register: FC = () => {
                 { type: "email", message: "Please input valid email!" },
               ]}
             >
-              <Input />
+              <Input readOnly={freezyInput} autoComplete={"off"} />
             </FormItem>
           </div>
           <div className={styles.field}>
@@ -95,7 +208,7 @@ const Register: FC = () => {
                 }),
               ]}
             >
-              <InputPassword />
+              <InputPassword readOnly={freezyInput} />
             </FormItem>
           </div>
           <div className={styles.field}>
@@ -119,8 +232,46 @@ const Register: FC = () => {
                 }),
               ]}
             >
-              <InputPassword />
+              <InputPassword readOnly={freezyInput} />
             </FormItem>
+          </div>
+          {reCAPTCHASitekey && (
+            <div className={styles.field}>
+              <ReCAPTCHA
+                ref={reCAPTCHARef}
+                sitekey={reCAPTCHASitekey}
+                onChange={onReCAPTCHAChange}
+              />
+            </div>
+          )}
+          <div className={styles.field}>
+            <Label>OTP</Label>
+            <Row gutter={[15, 0]}>
+              <Col flex={"auto"}>
+                <FormItem name="otp">
+                  <Input />
+                </FormItem>
+              </Col>
+              <Col flex={"none"}>
+                <Button
+                  type={"primary"}
+                  className={styles.otpButton}
+                  onClick={onGetOTP}
+                  disabled={enableCountdown}
+                  loading={sendOtpStatus === "loading"}
+                >
+                  {enableCountdown ? "Resend in" : "Get OTP"}
+                  {enableCountdown && (
+                    <Countdown
+                      className={styles.countdown}
+                      value={Date.now() + 1000 * 60}
+                      format={"s"}
+                      onFinish={onFinishCountdown}
+                    ></Countdown>
+                  )}
+                </Button>
+              </Col>
+            </Row>
           </div>
           <Button
             htmlType={"submit"}

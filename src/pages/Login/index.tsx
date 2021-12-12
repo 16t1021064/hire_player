@@ -22,7 +22,8 @@ const Login: FC = () => {
 
   const { mutate: login, status: loginStatus } = useMutation(loginRequest, {
     onSuccess: (data) => {
-      localStorage.setItem(LOCAL_STORAGE.accessToken, data.token);
+      localStorage.setItem(LOCAL_STORAGE.accessToken, data.accessToken);
+      localStorage.setItem(LOCAL_STORAGE.refreshToken, data.refreshToken);
       dispatch(setIsLogin(true));
       dispatch(setUserInfo(data.userInfo));
       history.replace(routesEnum.home);
@@ -84,6 +85,9 @@ const Login: FC = () => {
             >
               <InputPassword />
             </FormItem>
+            <div className={styles.forgotPassword}>
+              <Link to={routesEnum.forgotPassword}>Forgot password ?</Link>
+            </div>
           </div>
           <Button
             htmlType={"submit"}
