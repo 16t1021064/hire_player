@@ -16,6 +16,7 @@ import { useAppSelector } from "hooks/useRedux";
 import { Link } from "react-router-dom";
 import { routesEnum } from "pages/Routes";
 import Avatar from "components/Avatar";
+import { BellOutlined, PlusOutlined } from "@ant-design/icons";
 
 interface TopBarProps {
   onOpenSideBar?: () => void;
@@ -151,7 +152,7 @@ const TopBar: FC<TopBarProps> = ({ onOpenSideBar }) => {
                   ref={notificaitonsButtonRef}
                 >
                   <span className={styles.iconWrap}>
-                    <NotificationsOutline color={"inherit"} />
+                    <BellOutlined />
                   </span>
                   <div className={styles.counter}>1</div>
                 </button>
@@ -193,10 +194,7 @@ const TopBar: FC<TopBarProps> = ({ onOpenSideBar }) => {
             </div>
             <div className={styles.headerItem}>
               <a className={styles.moneyHead} onClick={onRecharge}>
-                <span className={styles.iconWrap}>
-                  <AddOutline color={"inherit"} />
-                </span>
-                $50,00
+                <PlusOutlined /> $50,00
               </a>
             </div>
             <div className={clsx(styles.headerItem, styles.profile)}>

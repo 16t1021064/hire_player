@@ -1,22 +1,21 @@
 import React, { FC, useMemo } from "react";
 import styles from "./index.module.scss";
 import LogoImg from "./img/logo.png";
-import {
-  AccessibilityOutline,
-  ChatbubbleOutline,
-  HomeOutline,
-  LogOutOutline,
-  MoonOutline,
-  PersonAddOutline,
-  PersonOutline,
-  SunnyOutline,
-} from "react-ionicons";
+import { MoonOutline, SunnyOutline } from "react-ionicons";
 import Switch from "components/Form/Switch";
 import { routesEnum } from "pages/Routes";
 import clsx from "clsx";
 import { useAppDispatch, useAppSelector } from "hooks/useRedux";
 import { setTheme } from "store/ducks/system/slice";
 import { Link } from "react-router-dom";
+import {
+  HomeOutlined,
+  UsergroupAddOutlined,
+  UserOutlined,
+  UserAddOutlined,
+  MessageOutlined,
+  UserDeleteOutlined,
+} from "@ant-design/icons";
 
 interface TMenuItem {
   text: string;
@@ -41,22 +40,22 @@ const SideBar: FC = () => {
     const menus: TMenuItem[] = [
       {
         text: "Home",
-        icon: <HomeOutline cssClasses={styles.icon} />,
+        icon: <HomeOutlined className={styles.icon} />,
         link: routesEnum.home,
       },
       {
         text: "Following",
-        icon: <PersonOutline cssClasses={styles.icon} />,
+        icon: <UsergroupAddOutlined className={styles.icon} />,
         link: routesEnum.following,
       },
       {
         text: "Player Profile",
-        icon: <PersonOutline cssClasses={styles.icon} />,
+        icon: <UserOutlined className={styles.icon} />,
         link: routesEnum.playerProfile,
       },
       {
         text: "Chat",
-        icon: <ChatbubbleOutline cssClasses={styles.icon} />,
+        icon: <MessageOutlined className={styles.icon} />,
         link: routesEnum.chat,
       },
     ];
@@ -64,18 +63,18 @@ const SideBar: FC = () => {
     if (isLogin) {
       menus.push({
         text: "Sign-out",
-        icon: <LogOutOutline cssClasses={styles.icon} />,
+        icon: <UserDeleteOutlined className={styles.icon} />,
         link: routesEnum.logout,
       });
     } else {
       menus.push({
         text: "Sign-in",
-        icon: <PersonAddOutline cssClasses={styles.icon} />,
+        icon: <UserOutlined className={styles.icon} />,
         link: routesEnum.login,
       });
       menus.push({
         text: "Sign-up",
-        icon: <AccessibilityOutline cssClasses={styles.icon} />,
+        icon: <UserAddOutlined className={styles.icon} />,
         link: routesEnum.register,
       });
     }
