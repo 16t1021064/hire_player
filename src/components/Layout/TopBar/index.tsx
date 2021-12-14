@@ -1,9 +1,7 @@
 import clsx from "clsx";
 import React, { FC, MouseEvent, useEffect, useRef, useState } from "react";
 import {
-  AddOutline,
   LogOutOutline,
-  NotificationsOutline,
   PersonOutline,
   SearchOutline,
   SettingsOutline,
