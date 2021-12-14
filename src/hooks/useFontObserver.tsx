@@ -1,8 +1,8 @@
 import FontFaceObserver from "fontfaceobserver";
 import { useLayoutEffect, useState } from "react";
 
-const azoSansObserver = new FontFaceObserver("Azo Sans", {});
-const avenirObserver = new FontFaceObserver("Avenir", {});
+const exo2Observer = new FontFaceObserver("Exo_2", {});
+const poppinsObserver = new FontFaceObserver("Poppins", {});
 
 const timeout = 5000; // miliseconds
 
@@ -11,8 +11,8 @@ export default function useFontObserver() {
 
   useLayoutEffect(() => {
     Promise.all([
-      azoSansObserver.load(null, timeout),
-      avenirObserver.load(null, timeout),
+      exo2Observer.load(null, timeout),
+      poppinsObserver.load(null, timeout),
     ])
       .catch((e) => {
         console.error(e);

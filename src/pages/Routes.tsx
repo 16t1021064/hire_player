@@ -20,6 +20,7 @@ export enum routesEnum {
   following = "/following",
   forgotPassword = "/forgot-password",
   resetPassword = "/password-reset",
+  settings = "/settings",
 }
 
 type CustomRouteProps = RouteProps & { private?: boolean; anonymous?: boolean };
@@ -83,6 +84,12 @@ const routes: CustomRouteProps[] = [
     exact: true,
     private: true,
     component: lazy(() => import("./Following")),
+  },
+  {
+    path: routesEnum.settings,
+    exact: true,
+    private: true,
+    component: lazy(() => import("./Settings")),
   },
 ];
 

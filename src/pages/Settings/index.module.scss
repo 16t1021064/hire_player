@@ -1,0 +1,15 @@
+.body {
+  display: flex;
+}
+
+.sidebar {
+  width: 300px;
+  padding: 25px;
+  border-right: 1px solid #f0f3f6;
+  overflow: auto;
+}
+
+.content {
+  width: 100%;
+  padding: 30px 40px 40px 40px;
+}
