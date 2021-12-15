@@ -5,7 +5,7 @@ import styles from "./index.module.scss";
 
 interface ButtonProps extends AntdButtonProps {
   className?: string;
-  type?: "primary" | "link" | "ghost";
+  type?: "primary" | "link" | "ghost" | "default";
   size?: "middle" | "small";
   stretch?: boolean;
 }

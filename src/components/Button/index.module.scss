@@ -1,6 +1,4 @@
 .btn {
-  height: 46px !important;
-  padding: 0 20px !important;
   border-radius: 5px !important;
   font-family: "Exo 2", sans-serif;
   font-size: 14px !important;
@@ -12,10 +10,14 @@
 
 .middle {
   min-width: 166px !important;
+  height: 46px !important;
+  padding: 0 20px !important;
 }
 
 .small {
-  min-width: 90px  !important;
+  min-width: 90px !important;
+  height: 35px !important;
+  padding: 0 10px !important;
 }
 
 .primary {
@@ -45,6 +47,15 @@
   background: #1b77ff !important;
 }
 
+.default {
+  background: rgba(228, 228, 228, 0.5) !important;
+  color: #11142d !important;
+}
+
+.default:hover {
+  background: rgba(228, 228, 228, 0.75) !important;
+}
+
 .stretch {
-  width: 100%;
+  background: rgba(228, 228, 228, 0.75) !important;
 }

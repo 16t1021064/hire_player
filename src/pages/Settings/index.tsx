@@ -2,6 +2,19 @@ import { FC, useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import { useLocation, useHistory } from "react-router";
 import SideBar, { settingKeys } from "./SideBar";
+import UserInfo from "./User/UserInfo";
+import HiredList from "./User/HiredList";
+import DonatedList from "./User/DonatedList";
+import BalanceTransactions from "./User/BalanceTransactions";
+import PlayerInfo from "./Player/PlayerInfo";
+import Payment from "./Payment";
+import Balance from "./Balance";
+import UserBlocks from "./Security/UserBlocks";
+import Password from "./Security/Password";
+import ReceivedDonate from "./Player/ReceivedDonate";
+import ReceivedHire from "./Player/ReceivedHire";
+import Albums from "./Player/Albums";
+import HireSetting from "./Player/HireSetting";
 
 const Settings: FC = () => {
   const location = useLocation();
@@ -25,58 +38,26 @@ const Settings: FC = () => {
         <SideBar activeKey={activeKey} onChangeKey={setActiveKey} />
       </div>
       <div className={styles.content}>
-        {activeKey === settingKeys.user.index && (
-          <div>{settingKeys.user.index}</div>
-        )}
-        {activeKey === settingKeys.user.info && (
-          <div>{settingKeys.user.info}</div>
-        )}
-        {activeKey === settingKeys.user.hired && (
-          <div>{settingKeys.user.hired}</div>
-        )}
-        {activeKey === settingKeys.user.donated && (
-          <div>{settingKeys.user.donated}</div>
-        )}
-        {activeKey === settingKeys.user.balance && (
-          <div>{settingKeys.user.balance}</div>
-        )}
+        {(activeKey === settingKeys.user.index ||
+          activeKey === settingKeys.user.info) && <UserInfo />}
+        {activeKey === settingKeys.user.hired && <HiredList />}
+        {activeKey === settingKeys.user.donated && <DonatedList />}
+        {activeKey === settingKeys.user.balance && <BalanceTransactions />}
 
-        {activeKey === settingKeys.player.index && (
-          <div>{settingKeys.player.index}</div>
-        )}
-        {activeKey === settingKeys.player.info && (
-          <div>{settingKeys.player.info}</div>
-        )}
-        {activeKey === settingKeys.player.hire_setting && (
-          <div>{settingKeys.player.hire_setting}</div>
-        )}
-        {activeKey === settingKeys.player.albumns && (
-          <div>{settingKeys.player.albumns}</div>
-        )}
-        {activeKey === settingKeys.player.received_hire && (
-          <div>{settingKeys.player.received_hire}</div>
-        )}
-        {activeKey === settingKeys.player.received_donate && (
-          <div>{settingKeys.player.received_donate}</div>
-        )}
+        {(activeKey === settingKeys.player.index ||
+          activeKey === settingKeys.player.info) && <PlayerInfo />}
+        {activeKey === settingKeys.player.hire_setting && <HireSetting />}
+        {activeKey === settingKeys.player.albumns && <Albums />}
+        {activeKey === settingKeys.player.received_hire && <ReceivedHire />}
+        {activeKey === settingKeys.player.received_donate && <ReceivedDonate />}
 
-        {activeKey === settingKeys.payment.index && (
-          <div>{settingKeys.payment.index}</div>
-        )}
+        {activeKey === settingKeys.payment.index && <Payment />}
 
-        {activeKey === settingKeys.balance.index && (
-          <div>{settingKeys.balance.index}</div>
-        )}
+        {activeKey === settingKeys.balance.index && <Balance />}
 
-        {activeKey === settingKeys.security.index && (
-          <div>{settingKeys.security.index}</div>
-        )}
-        {activeKey === settingKeys.security.blocks && (
-          <div>{settingKeys.security.blocks}</div>
-        )}
-        {activeKey === settingKeys.security.password && (
-          <div>{settingKeys.security.password}</div>
-        )}
+        {(activeKey === settingKeys.security.index ||
+          activeKey === settingKeys.security.blocks) && <UserBlocks />}
+        {activeKey === settingKeys.security.password && <Password />}
       </div>
     </div>
   );

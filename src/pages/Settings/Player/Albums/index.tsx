@@ -1,3 +1,5 @@
+import clsx from "clsx";
+import Upload from "components/Form/Upload";
 import Gallery, { TPhoto } from "components/Gallery";
 import { FC } from "react";
 import styles from "./index.module.scss";
@@ -41,21 +43,18 @@ const photos: TPhoto[] = [
   },
 ];
 
-const Infomation: FC = () => {
+const Albums: FC = () => {
   return (
-    <div className={styles.content}>
-      <p>I can play LOL, CSGO, F04, Confidentiality, Support consulting</p>
+    <div>
+      <div className={clsx(styles.title, "h5")}>Albums Player</div>
+      <div className={styles.bottom}>
+        <Upload>Upload images</Upload>
+      </div>
       <div>
         <Gallery photos={photos} />
       </div>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium
-        molestias minus repudiandae. Eum voluptate in perspiciatis nesciunt
-        facere hic nemo deleniti ipsam rerum, nobis mollitia est atque placeat
-        autem dolor.
-      </p>
     </div>
   );
 };
 
-export default Infomation;
+export default Albums;

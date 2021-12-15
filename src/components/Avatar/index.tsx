@@ -6,7 +6,7 @@ import DefaultImage from "./img/ava-tuong.jpeg";
 interface AvatarProps {
   className?: string;
   src?: any;
-  size?: "xs" | "sm" | "md" | "xl";
+  size?: "xs" | "sm" | "md" | "lg" | "xl";
   online?: boolean;
   hasBorder?: boolean;
   hasOutline?: boolean;

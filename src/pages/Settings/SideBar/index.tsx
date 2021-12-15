@@ -67,7 +67,7 @@ const menuList: MenuItem[] = [
       },
       {
         key: settingKeys.user.balance,
-        text: "Balance fluctuations",
+        text: "Balance transactions",
       },
     ],
   },

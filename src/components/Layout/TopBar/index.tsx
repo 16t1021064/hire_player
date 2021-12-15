@@ -15,6 +15,7 @@ import { Link } from "react-router-dom";
 import { routesEnum } from "pages/Routes";
 import Avatar from "components/Avatar";
 import { BellOutlined, PlusOutlined } from "@ant-design/icons";
+import { settingKeys } from "pages/Settings/SideBar";
 
 interface TopBarProps {
   onOpenSideBar?: () => void;
@@ -211,18 +212,34 @@ const TopBar: FC<TopBarProps> = ({ onOpenSideBar }) => {
                   visibleProfile ? styles.visibleBody : undefined
                 )}
               >
-                <a className={styles.link} href="#">
+                <Link
+                  className={styles.link}
+                  to={{
+                    pathname: routesEnum.settings,
+                    state: {
+                      settingKey: settingKeys.user.info,
+                    },
+                  }}
+                >
                   <div className={styles.img}>
                     <PersonOutline cssClasses={styles.icon} />
                   </div>
                   Profile
-                </a>
-                <a className={styles.link} href="setting_user.html">
+                </Link>
+                <Link
+                  className={styles.link}
+                  to={{
+                    pathname: routesEnum.settings,
+                    state: {
+                      settingKey: settingKeys.security.password,
+                    },
+                  }}
+                >
                   <div className={styles.img}>
                     <SettingsOutline cssClasses={styles.icon} />
                   </div>
-                  User Setting
-                </a>
+                  Change Password
+                </Link>
                 <Link className={styles.link} to={routesEnum.logout}>
                   <div className={styles.img}>
                     <LogOutOutline cssClasses={styles.icon} />
