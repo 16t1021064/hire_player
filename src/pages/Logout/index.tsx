@@ -13,24 +13,33 @@ const Logout: FC = () => {
   const history = useHistory();
   const dispatch = useAppDispatch();
 
+  const action = () => {
+    localStorage.removeItem(LOCAL_STORAGE.accessToken);
+    localStorage.removeItem(LOCAL_STORAGE.refreshToken);
+    dispatch(setIsLogin(false));
+    dispatch(setUserInfo(null));
+    setTimeout(() => {
+      history.replace(routesEnum.login);
+    });
+  };
+
   const { mutate: logout } = useMutation(logoutRequest, {
     onSuccess: (data) => {
       if (data.message === "LOGOUT_SUCCESS") {
-        localStorage.removeItem(LOCAL_STORAGE.accessToken);
-        localStorage.removeItem(LOCAL_STORAGE.refreshToken);
-        dispatch(setIsLogin(false));
-        dispatch(setUserInfo(null));
-        setTimeout(() => {
-          history.replace(routesEnum.login);
-        });
+        action();
       }
     },
   });
 
   useEffect(() => {
-    logout({
-      refreshToken: getRefreshToken(),
-    });
+    const refreshToken = getRefreshToken();
+    if (refreshToken) {
+      logout({
+        refreshToken,
+      });
+    } else {
+      action();
+    }
   }, []);
 
   return <LoadingFullpage />;

@@ -52,7 +52,7 @@ const routes: CustomRouteProps[] = [
   {
     path: routesEnum.logout,
     exact: true,
-    private: true,
+    // private: true,
     component: lazy(() => import("./Logout")),
   },
   {
@@ -98,7 +98,11 @@ export const Routes: FC = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+    const disabledRoutes: string[] = [routesEnum.logout];
     (async () => {
+      if (disabledRoutes.includes(location.pathname)) {
+        return;
+      }
       const token = getAccessToken();
       if (token) {
         const userData = await refreshUserRequest();
