@@ -1,12 +1,12 @@
 import { FC } from "react";
-import VipPlayers from "./VipPlayers";
+import Players from "./Players";
 import styles from "./index.module.scss";
 import clsx from "clsx";
 
 const Home: FC = () => {
   return (
     <div className={clsx(styles.wrapper, "container")}>
-      <VipPlayers />
+      <Players />
     </div>
   );
 };

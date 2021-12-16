@@ -6,7 +6,7 @@ import styles from "./index.module.scss";
 
 interface SimplePanelProps {
   className?: string;
-  title: string;
+  title: any;
   rightContent?: React.ReactNode;
 }
 
