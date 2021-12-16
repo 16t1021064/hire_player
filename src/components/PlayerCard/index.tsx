@@ -1,17 +1,29 @@
-import { FC } from "react";
+import React, { FC } from "react";
 import styles from "./index.module.scss";
 import ThumbnailImage from "./img/player-1.jpeg";
 import clsx from "clsx";
 import { StarFilled } from "@ant-design/icons";
-import { TPlayerInfo } from "types";
+import { TPlayer } from "types";
+import { useHistory } from "react-router";
+import { routesEnum } from "pages/Routes";
+import { playerState } from "pages/PlayerProfile";
 
 interface PlayerCardProps {
-  player?: TPlayerInfo;
+  player?: TPlayer;
 }
 
 const PlayerCard: FC<PlayerCardProps> = ({ player }) => {
+  const history = useHistory();
+
+  const onClick = (event: React.MouseEvent) => {
+    event.preventDefault();
+    history.push(routesEnum.playerProfile, {
+      [playerState]: player,
+    });
+  };
+
   return (
-    <div className={styles.card}>
+    <div className={styles.card} onClick={onClick}>
       <div className={styles.preview}>
         <img
           className={styles.pic}

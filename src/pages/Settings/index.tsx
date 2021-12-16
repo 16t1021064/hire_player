@@ -16,6 +16,8 @@ import ReceivedHire from "./Player/ReceivedHire";
 import Albums from "./Player/Albums";
 import HireSetting from "./Player/HireSetting";
 
+export const settingState: string = "settings_settingKey";
+
 const Settings: FC = () => {
   const location = useLocation();
   const history = useHistory();
@@ -23,8 +25,8 @@ const Settings: FC = () => {
   const [activeKey, setActiveKey] = useState<string>(settingKeys.user.info);
 
   useEffect(() => {
-    if (location?.state && (location.state as any).settingKey) {
-      const value = (location.state as any).settingKey;
+    if (location?.state && (location.state as any)?.[settingState]) {
+      const value = (location.state as any)[settingState];
       if (typeof value === "string") {
         setActiveKey(value);
       }

@@ -7,7 +7,7 @@ import SimplePanel from "components/SimplePanel";
 import { getPlayersRequest } from "api/players/request";
 import { useMutation } from "react-query";
 import Pagination, { PaginationProps } from "components/Pagination";
-import { TPlayerInfo, TPlayerType } from "types";
+import { TPlayer, TPlayerType } from "types";
 
 const playerTypes: Option[] = [
   { text: "Vip", value: 1 },
@@ -21,7 +21,7 @@ const Players: FC = () => {
     current: 1,
     pageSize: 12,
   });
-  const [players, setPlayers] = useState<TPlayerInfo[]>([]);
+  const [players, setPlayers] = useState<TPlayer[]>([]);
   const [playerType, setPlayerType] = useState<TPlayerType | undefined>(
     undefined
   );

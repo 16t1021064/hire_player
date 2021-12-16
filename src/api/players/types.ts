@@ -1,4 +1,4 @@
-import { TPlayerInfo, TPlayerType } from "types";
+import { TPlayer, TPlayerType } from "types";
 
 export interface TGetPlayersRequest {
   userId?: string;
@@ -12,7 +12,7 @@ export interface TGetPlayersRequest {
 
 export interface TGetPlayersResponse {
   data: {
-    results: TPlayerInfo[];
+    results: TPlayer[];
     page: number;
     limit: number;
     totalPages: number;

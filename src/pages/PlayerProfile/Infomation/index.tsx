@@ -1,59 +1,29 @@
 import Gallery, { TPhoto } from "components/Gallery";
-import { FC } from "react";
+import { FC, useMemo } from "react";
+import { TPlayer } from "types";
 import styles from "./index.module.scss";
 
-const photos: TPhoto[] = [
-  {
-    key: "1",
-    src: "https://source.unsplash.com/BhcutpohYwg/800x800",
-    width: 1,
-    height: 1,
-  },
-  {
-    key: "2",
-    src: "https://source.unsplash.com/j5KAuRrYX7g/800x800",
-    width: 1,
-    height: 1,
-  },
-  {
-    key: "3",
-    src: "https://source.unsplash.com/pQyIutdScOY/800x800",
-    width: 1,
-    height: 1,
-  },
-  {
-    key: "4",
-    src: "https://source.unsplash.com/55JRsxcAiWE/800x800",
-    width: 1,
-    height: 1,
-  },
-  {
-    key: "5",
-    src: "https://source.unsplash.com/BhcutpohYwg/800x800",
-    width: 1,
-    height: 1,
-  },
-  {
-    key: "6",
-    src: "https://source.unsplash.com/j5KAuRrYX7g/800x800",
-    width: 1,
-    height: 1,
-  },
-];
+interface InfomationProps {
+  player: TPlayer;
+}
 
-const Infomation: FC = () => {
+const Infomation: FC<InfomationProps> = ({ player }) => {
+  const photos: TPhoto[] = useMemo(() => {
+    return player.images.map((image, pos: number) => ({
+      key: `${pos}`,
+      src: image.link,
+      width: 1,
+      height: 1,
+    }));
+  }, [player]);
+
   return (
     <div className={styles.content}>
-      <p>I can play LOL, CSGO, F04, Confidentiality, Support consulting</p>
+      <p>{player.gameName}</p>
       <div>
         <Gallery photos={photos} />
       </div>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium
-        molestias minus repudiandae. Eum voluptate in perspiciatis nesciunt
-        facere hic nemo deleniti ipsam rerum, nobis mollitia est atque placeat
-        autem dolor.
-      </p>
+      <p>{player.description}</p>
     </div>
   );
 };

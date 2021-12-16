@@ -7,8 +7,13 @@ import HireModal from "components/HireModal";
 import DonateModal from "components/DonateModal";
 import MessageModal from "components/MessageModal";
 import Avatar from "components/Avatar";
+import { TPlayer } from "types";
 
-const Header: FC = () => {
+interface HeaderProps {
+  player: TPlayer;
+}
+
+const Header: FC<HeaderProps> = ({ player }) => {
   const [visibleHireModal, setVisibleHireModal] = useState<boolean>(false);
   const [visibleDonateModal, setVisibleDonateModal] = useState<boolean>(false);
   const [visibleMessageModal, setVisibleMessageModal] =
@@ -45,23 +50,29 @@ const Header: FC = () => {
           <Avatar
             className={styles.avatar}
             hasOutline
-            online={true}
+            online={player?.isOnline ? true : undefined}
             size={"xl"}
           />
           <div className={styles.wrap}>
-            <div className={clsx(styles.man, "h2", styles.confirm)}>
-              Tuong Nguyen
+            <div
+              className={clsx(
+                styles.man,
+                "h2",
+                player?.playerVerified ? styles.confirm : undefined
+              )}
+            >
+              {player.playerName}
             </div>
             <div className={styles.parameters}>
               <div className={styles.parameter}>
                 {" "}
                 <span>HAS BEEN HIRED</span>
-                <strong>3000 hour</strong>
+                <strong>{player.totalTimeHired} hour</strong>
               </div>
               <div className={styles.parameter}>
                 {" "}
                 <span>COMPLETION RATE </span>
-                <strong>93.67 %</strong>
+                <strong>{player.completionRate.toFixed(2)} %</strong>
               </div>
             </div>
           </div>

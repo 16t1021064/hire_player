@@ -12,7 +12,7 @@ export interface TUserInfo {
 
 export type TPlayerType = 1 | 2 | 3; //1: Vip, 2: Hot, 3: New
 
-export interface TPlayerInfo {
+export interface TPlayer {
   costPerHour: number;
   totalTimeHired: number;
   completionRate: number;

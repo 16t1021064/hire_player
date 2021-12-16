@@ -16,6 +16,7 @@ import { routesEnum } from "pages/Routes";
 import Avatar from "components/Avatar";
 import { BellOutlined, PlusOutlined } from "@ant-design/icons";
 import { settingKeys } from "pages/Settings/SideBar";
+import { settingState } from "pages/Settings";
 
 interface TopBarProps {
   onOpenSideBar?: () => void;
@@ -217,7 +218,7 @@ const TopBar: FC<TopBarProps> = ({ onOpenSideBar }) => {
                   to={{
                     pathname: routesEnum.settings,
                     state: {
-                      settingKey: settingKeys.user.info,
+                      [settingState]: settingKeys.user.info,
                     },
                   }}
                 >
@@ -231,7 +232,7 @@ const TopBar: FC<TopBarProps> = ({ onOpenSideBar }) => {
                   to={{
                     pathname: routesEnum.settings,
                     state: {
-                      settingKey: settingKeys.security.password,
+                      [settingState]: settingKeys.security.password,
                     },
                   }}
                 >
