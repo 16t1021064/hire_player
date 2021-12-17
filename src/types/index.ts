@@ -37,6 +37,19 @@ export interface TPlayer {
   avgRating: number;
 }
 
+export type TReviewStatus = 1 | 2; // 1: Active, 2: Inactive
+export interface TReview {
+  starPoint: number;
+  deletedAt: string | null;
+  status: TReviewStatus;
+  content: string;
+  reviewer: string | TPlayer;
+  receiver: string | TPlayer;
+  createdAt: string;
+  updatedAt: string;
+  id: string;
+}
+
 export interface TImage {
   fieldname: string;
   originalname: string;

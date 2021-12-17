@@ -70,10 +70,17 @@
 
 .btns {
   display: flex;
-  font-size: 0;
   margin-left: 30px;
 
   > *:not(:last-child) {
     margin-right: 24px;
   }
+}
+
+.right {
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }

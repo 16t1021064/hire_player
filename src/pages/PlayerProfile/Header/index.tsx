@@ -8,6 +8,9 @@ import DonateModal from "components/DonateModal";
 import MessageModal from "components/MessageModal";
 import Avatar from "components/Avatar";
 import { TPlayer } from "types";
+import { useAppSelector } from "hooks/useRedux";
+import { useHistory } from "react-router";
+import { routesEnum } from "pages/Routes";
 
 interface HeaderProps {
   player: TPlayer;
@@ -18,6 +21,8 @@ const Header: FC<HeaderProps> = ({ player }) => {
   const [visibleDonateModal, setVisibleDonateModal] = useState<boolean>(false);
   const [visibleMessageModal, setVisibleMessageModal] =
     useState<boolean>(false);
+  const { isLogin } = useAppSelector((state) => state.auth);
+  const history = useHistory();
 
   const onHire = () => {
     setVisibleHireModal(true);
@@ -41,6 +46,10 @@ const Header: FC<HeaderProps> = ({ player }) => {
 
   const onCancelMessage = () => {
     setVisibleMessageModal(false);
+  };
+
+  const onLogin = () => {
+    history.push(routesEnum.login);
   };
 
   return (
@@ -78,15 +87,28 @@ const Header: FC<HeaderProps> = ({ player }) => {
           </div>
         </div>
         <div className={styles.btns}>
-          <Button type={"primary"} size={"small"} onClick={onHire}>
-            Hire
-          </Button>
-          <Button type={"ghost"} size={"small"} onClick={onDonate}>
-            Donate
-          </Button>
-          <Button type={"ghost"} size={"small"} onClick={onMessage}>
-            <ChatbubbleEllipsesOutline />
-          </Button>
+          {isLogin ? (
+            <>
+              <Button type={"primary"} size={"small"} onClick={onHire}>
+                Hire
+              </Button>
+              <Button type={"ghost"} size={"small"} onClick={onDonate}>
+                Donate
+              </Button>
+              <Button type={"ghost"} size={"small"} onClick={onMessage}>
+                <ChatbubbleEllipsesOutline />
+              </Button>
+            </>
+          ) : (
+            <div className={styles.right}>
+              <Button type={"primary"} size={"small"} onClick={onLogin} stretch>
+                Login
+              </Button>
+              <div>
+                <small>Login to hire, chat, donate for player</small>
+              </div>
+            </div>
+          )}
         </div>
       </div>
       <HireModal visible={visibleHireModal} onCancel={onCancelHire} />
