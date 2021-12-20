@@ -30,12 +30,7 @@ const HireSetting: FC = () => {
                 <Label>Time Frame For Receiving The Hire</Label>
                 <div>
                   {[...Array(24).keys()].map((num: number) => (
-                    <Checkbox
-                      key={num}
-                      className={styles.checkbox}
-                      value={num + 1}
-                      size={"md"}
-                    >
+                    <Checkbox key={num} className={styles.checkbox} size={"md"}>
                       {num + 1}:00
                     </Checkbox>
                   ))}

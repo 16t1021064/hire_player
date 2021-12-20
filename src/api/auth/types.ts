@@ -1,4 +1,4 @@
-import { TUserInfo } from "types";
+import { TUser } from "types";
 
 export interface TLoginRequest {
   email: string;
@@ -6,20 +6,19 @@ export interface TLoginRequest {
 }
 
 export interface TLoginResponse {
-  userInfo: TUserInfo;
+  data: TUser;
   accessToken: string;
   refreshToken: string;
   message: "LOGIN_SUCCESS";
 }
 
 export interface TGetProfileResponse {
-  userInfo: TUserInfo;
-  message: string;
+  data: TUser;
+  message: "GET_PROFILE_SUCCESS";
 }
 
 export interface TRegisterRequest {
-  firstName: string;
-  lastName: string;
+  userName: string;
   email: string;
   hash: string;
   otp: string;
@@ -27,7 +26,7 @@ export interface TRegisterRequest {
 }
 
 export interface TRegisterResponse {
-  userInfo: TUserInfo;
+  data: TUser;
   accessToken: string;
   refreshToken: string;
   message: "REGISTER_SUCCESS";
@@ -48,7 +47,7 @@ export interface TLogoutRequest {
 }
 
 export interface TLogoutResponse {
-  userInfo: TUserInfo | null;
+  data: TUser | null;
   message: "LOGOUT_SUCCESS";
 }
 
@@ -67,6 +66,6 @@ export interface TResetPasswordRequest {
 }
 
 export interface TResetPasswordResponse {
-  userInfo: TUserInfo;
+  data: TUser;
   message: "RESET_PASSWORD_SUCCESS";
 }

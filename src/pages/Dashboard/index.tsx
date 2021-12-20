@@ -7,7 +7,7 @@ const Dashboard: FC = () => {
 
   return userInfo ? (
     <div className={"container"}>
-      <p>Hi {userInfo.firstName + " " + userInfo.lastName} !</p>
+      <p>Hi {userInfo.userName} !</p>
     </div>
   ) : (
     <LoadingFullpage tip="Loading..." />

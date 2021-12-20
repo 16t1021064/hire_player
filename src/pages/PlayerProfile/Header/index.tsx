@@ -61,6 +61,7 @@ const Header: FC<HeaderProps> = ({ player }) => {
             hasOutline
             online={player?.isOnline ? true : undefined}
             size={"xl"}
+            src={player?.playerAvatar?.link}
           />
           <div className={styles.wrap}>
             <div
@@ -70,18 +71,18 @@ const Header: FC<HeaderProps> = ({ player }) => {
                 player?.playerVerified ? styles.confirm : undefined
               )}
             >
-              {player.playerName}
+              {player?.playerName}
             </div>
             <div className={styles.parameters}>
               <div className={styles.parameter}>
                 {" "}
                 <span>HAS BEEN HIRED</span>
-                <strong>{player.totalTimeHired} hour</strong>
+                <strong>{player?.totalTimeHired} hour</strong>
               </div>
               <div className={styles.parameter}>
                 {" "}
                 <span>COMPLETION RATE </span>
-                <strong>{player.completionRate.toFixed(2)} %</strong>
+                <strong>{player?.completionRate?.toFixed(2) || 60} %</strong>
               </div>
             </div>
           </div>

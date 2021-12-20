@@ -9,21 +9,23 @@ interface InfomationProps {
 
 const Infomation: FC<InfomationProps> = ({ player }) => {
   const photos: TPhoto[] = useMemo(() => {
-    return player.images.map((image, pos: number) => ({
-      key: `${pos}`,
-      src: image.link,
-      width: 1,
-      height: 1,
-    }));
+    return (
+      player?.images?.map((image, pos: number) => ({
+        key: `${pos}`,
+        src: image.link,
+        width: 1,
+        height: 1,
+      })) || []
+    );
   }, [player]);
 
   return (
     <div className={styles.content}>
-      <p>{player.gameName}</p>
+      <p>{player?.gameName}</p>
       <div>
         <Gallery photos={photos} />
       </div>
-      <p>{player.description}</p>
+      <p>{player?.description}</p>
     </div>
   );
 };

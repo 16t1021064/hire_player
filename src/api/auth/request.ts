@@ -22,7 +22,7 @@ export const loginRequest = async (
   return data;
 };
 
-export const refreshUserRequest = async (): Promise<TGetProfileResponse> => {
+export const getProfileRequest = async (): Promise<TGetProfileResponse> => {
   const { data } = await axiosInstance.get(`/auth/get-profile`);
   return data;
 };

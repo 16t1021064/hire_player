@@ -1,8 +1,8 @@
-import { TPlayer, TPlayerType } from "types";
+import { TPlayerStatus, TPlayerType, TUser } from "types";
 
 export interface TGetPlayersRequest {
   userId?: string;
-  status?: 1 | 2; // 1: Active, 2: Inactive
+  status?: TPlayerStatus;
   typePlayer?: TPlayerType;
   sortBy?: string;
   limit?: number;
@@ -12,11 +12,16 @@ export interface TGetPlayersRequest {
 
 export interface TGetPlayersResponse {
   data: {
-    results: TPlayer[];
+    results: TUser[];
     page: number;
     limit: number;
     totalPages: number;
     totalResults: number;
   };
   message: "GET_PLAYER_INFO_SUCCESS";
+}
+
+export interface TGetPlayerResponse {
+  data: TUser | null;
+  message: "GET_DETAIL_PLAYER_INFO_SUCCESS";
 }

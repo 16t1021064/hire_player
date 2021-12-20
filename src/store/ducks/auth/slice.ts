@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { TUserInfo } from "types";
+import { TUser } from "types";
 
 interface TAuthReducer {
   isLogin: boolean;
-  userInfo: TUserInfo | null;
+  userInfo: TUser | null;
 }
 
 const initialState: TAuthReducer = {
@@ -21,7 +21,7 @@ const systemSlice = createSlice({
         isLogin: action.payload,
       };
     },
-    setUserInfo(state, action: PayloadAction<TUserInfo | null>) {
+    setUserInfo(state, action: PayloadAction<TUser | null>) {
       return {
         ...state,
         userInfo: action.payload,

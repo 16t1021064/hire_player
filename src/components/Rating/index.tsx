@@ -1,9 +1,9 @@
 import { FC } from "react";
 import styles from "./index.module.scss";
-import Avatar from "./img/ava-tuong.jpeg";
 import { Rate } from "antd";
-import { TPlayer, TReview } from "types";
+import { TReview, TUser } from "types";
 import TimeAgo from "react-timeago";
+import Avatar from "components/Avatar";
 
 interface RatingProps {
   review: TReview;
@@ -12,17 +12,20 @@ interface RatingProps {
 const Rating: FC<RatingProps> = ({ review }) => {
   return (
     <div className={styles.wrap}>
-      <div className={styles.avatar}>
-        <img className={styles.pic} src={Avatar} alt={""} />
-      </div>
+      <Avatar
+        className={styles.avatar}
+        src={(review?.reviewer as TUser)?.avatar?.link}
+      />
       <div>
         <div className={styles.top}>
           <div className={styles.author}>
-            {(review?.reviewer as TPlayer)?.playerName || "Tuong Nguyen"}
+            {(review?.reviewer as TUser)?.userName || "Tuong Nguyen"}
           </div>
-          <div className={styles.time}>
-            <TimeAgo date={review.createdAt} />
-          </div>
+          {review?.createdAt && (
+            <div className={styles.time}>
+              <TimeAgo date={review.createdAt} />
+            </div>
+          )}
         </div>
         <div className={styles.text}>{review.content}</div>
         <div>

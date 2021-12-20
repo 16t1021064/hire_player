@@ -1,5 +1,9 @@
 import axiosInstance from "../axios";
-import { TGetPlayersRequest, TGetPlayersResponse } from "./types";
+import {
+  TGetPlayerResponse,
+  TGetPlayersRequest,
+  TGetPlayersResponse,
+} from "./types";
 
 export const getPlayersRequest = async (
   request: TGetPlayersRequest
@@ -7,5 +11,12 @@ export const getPlayersRequest = async (
   const { data } = await axiosInstance.get(`/players`, {
     params: request,
   });
+  return data;
+};
+
+export const getPlayerRequest = async (
+  playerId: string
+): Promise<TGetPlayerResponse> => {
+  const { data } = await axiosInstance.get(`/players/${playerId}`);
   return data;
 };

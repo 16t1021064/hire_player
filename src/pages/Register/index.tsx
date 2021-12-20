@@ -16,10 +16,11 @@ import Button from "components/Button";
 import Form from "components/Form";
 import FormItem from "components/Form/FormItem";
 import ReCAPTCHA from "react-google-recaptcha";
-import { Col, message, Modal, Row } from "antd";
+import { Col, message, Modal, Row, Tooltip } from "antd";
 import Countdown from "antd/lib/statistic/Countdown";
 import { Form as AntdForm } from "antd";
 import { useTranslation } from "react-i18next";
+import { QuestionOutlined } from "@ant-design/icons";
 
 const reCAPTCHASitekey = process.env.REACT_APP_GOOGLE_RECAPTCHA_SITEKEY;
 
@@ -45,7 +46,7 @@ const Register: FC = () => {
         localStorage.setItem(LOCAL_STORAGE.accessToken, data.accessToken);
         localStorage.setItem(LOCAL_STORAGE.refreshToken, data.refreshToken);
         dispatch(setIsLogin(true));
-        dispatch(setUserInfo(data.userInfo));
+        dispatch(setUserInfo(data.data));
         history.replace(routesEnum.home);
       },
     }
@@ -82,8 +83,7 @@ const Register: FC = () => {
       message.warning("Please verify the new email");
     } else {
       register({
-        firstName: values.firstName,
-        lastName: values.lastName,
+        userName: values.username,
         otp: values.otp,
         hash: otpData.hash,
         email: values.email,
@@ -125,6 +125,27 @@ const Register: FC = () => {
     setEnableCountdown(false);
   };
 
+  const usernameHelp = (
+    <Tooltip
+      title={
+        <div>
+          <div>Username must be:</div>
+          <div>- Min length is 6, max length is 20</div>
+          <div>
+            - Contains letters, numberic or special characters (
+            <strong>_ .</strong>)
+          </div>
+          <div>
+            - Do not end with special character. No double character side by
+            side
+          </div>
+        </div>
+      }
+    >
+      <QuestionOutlined />
+    </Tooltip>
+  );
+
   return (
     <div className={styles.login}>
       <div className={styles.container}>
@@ -134,7 +155,7 @@ const Register: FC = () => {
           autoComplete="off"
           onFinish={onFinish}
         >
-          <div className={clsx(styles.title, "h3")}>Sign in</div>
+          <div className={clsx(styles.title, "h3")}>Register</div>
           <div className={styles.line}>
             <div className={styles.text}>Already a user</div>
             <Link className={styles.link} to={routesEnum.login}>
@@ -142,36 +163,35 @@ const Register: FC = () => {
             </Link>
           </div>
           <div className={styles.field}>
-            <Row gutter={[15, 0]}>
-              <Col xs={12}>
-                <Label>First name</Label>
-                <FormItem
-                  name="firstName"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input your first name",
-                    },
-                  ]}
-                >
-                  <Input readOnly={freezyInput} />
-                </FormItem>
-              </Col>
-              <Col xs={12}>
-                <Label>Last name</Label>
-                <FormItem
-                  name="lastName"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input your last name",
-                    },
-                  ]}
-                >
-                  <Input readOnly={freezyInput} />
-                </FormItem>
-              </Col>
-            </Row>
+            <Label>Username</Label>
+            <FormItem
+              name="username"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input your username",
+                },
+                () => ({
+                  validator(_, value) {
+                    if (!value) {
+                      return Promise.resolve();
+                    }
+                    if (
+                      !value.match(
+                        /^(?=.{6,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/
+                      )
+                    ) {
+                      return Promise.reject(
+                        new Error("User name invalid format")
+                      );
+                    }
+                    return Promise.resolve();
+                  },
+                }),
+              ]}
+            >
+              <Input readOnly={freezyInput} suffix={usernameHelp} />
+            </FormItem>
           </div>
           <div className={styles.field}>
             <Label>Email</Label>

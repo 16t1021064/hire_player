@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { FC } from "react";
 import styles from "./index.module.scss";
-import DefaultImage from "./img/ava-tuong.jpeg";
+import DefaultImage from "assets/images/default-avatar.jpg";
 
 interface AvatarProps {
   className?: string;

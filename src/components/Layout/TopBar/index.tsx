@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import React, { FC, MouseEvent, useEffect, useRef, useState } from "react";
+import { FC, MouseEvent, useEffect, useRef, useState } from "react";
 import {
   LogOutOutline,
   PersonOutline,
@@ -35,7 +35,7 @@ const TopBar: FC<TopBarProps> = ({ onOpenSideBar }) => {
   const drawerSideBarQuery = useMediaQuery(SIDEBAR_QUERY);
   const [mobileHeaderVisible, setMobileHeaderVisible] =
     useState<boolean>(false);
-  const { isLogin } = useAppSelector((state) => state.auth);
+  const { isLogin, userInfo } = useAppSelector((state) => state.auth);
 
   // trigger hide notifications
   useEffect(() => {
@@ -203,7 +203,11 @@ const TopBar: FC<TopBarProps> = ({ onOpenSideBar }) => {
                 className={styles.profileHead}
                 onClick={onProfileClick}
               >
-                <Avatar size={"md"} hasBorder={false} />
+                <Avatar
+                  size={"md"}
+                  hasBorder={false}
+                  src={userInfo?.avatar?.link}
+                />
               </a>
               <div
                 ref={profilePanelRef}

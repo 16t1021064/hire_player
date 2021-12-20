@@ -3,7 +3,7 @@ import PrivateRoute from "auth/PrivateRoute";
 import { FC, useEffect } from "react";
 import { Route, RouteProps, Switch } from "react-router-dom";
 import { useLocation } from "react-router";
-import { refreshUserRequest } from "api/auth/request";
+import { getProfileRequest } from "api/auth/request";
 import { getAccessToken } from "utils/auth";
 import { setIsLogin, setUserInfo } from "store/ducks/auth/slice";
 import { useAppDispatch } from "hooks/useRedux";
@@ -104,9 +104,9 @@ export const Routes: FC = () => {
       }
       const token = getAccessToken();
       if (token) {
-        const userData = await refreshUserRequest();
+        const userData = await getProfileRequest();
         dispatch(setIsLogin(true));
-        dispatch(setUserInfo(userData.userInfo));
+        dispatch(setUserInfo(userData.data));
       }
     })();
   }, [location]);

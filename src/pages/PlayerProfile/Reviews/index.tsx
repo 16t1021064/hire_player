@@ -39,7 +39,7 @@ const Reviews: FC<ReviewsProps> = ({ receiverId }) => {
       limit: pagination.pageSize,
       page: 1,
       receiverId,
-      populate: "reviewer:playerName",
+      populate: "reviewer:userName,avatar",
     });
   }, []);
 
@@ -48,7 +48,7 @@ const Reviews: FC<ReviewsProps> = ({ receiverId }) => {
       limit: pagination.pageSize,
       page: page,
       receiverId,
-      populate: "reviewer:playerName",
+      populate: "reviewer:userName,avatar",
     });
   };
 

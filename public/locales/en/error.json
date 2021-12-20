@@ -2,7 +2,11 @@
   "ERROR_SYSTEM": "System error",
   "ERROR_INCORRECT_EMAIL_OR_PASSWORD": "Incorrect email or password",
   "ERROR_PASSWORD_INVALID": "Password invalid",
+  "ERROR_USERNAME_INVALID": "Username invalid",
   "ERROR_EMAIL_ALREADY_EXISTS": "Email already exists",
+  "ERROR_USERNAME_ALREADY_EXISTS": "Username already exists",
   "ERROR_EMAIL_DOES_NOT_EXIST": "Email does not exist",
-  "ERROR_INVALID_OR_EXPIRED_PASSWORD_RESET_TOKEN": "Invalid or expired password reset token"
+  "ERROR_INVALID_OR_EXPIRED_PASSWORD_RESET_TOKEN": "Invalid or expired password reset token",
+  "ERROR_FORBIDDEN": "Forbidden",
+  "ERROR_PLAYER_NOT_FOUND": "Player not found"
 }

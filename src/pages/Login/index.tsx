@@ -25,7 +25,7 @@ const Login: FC = () => {
       localStorage.setItem(LOCAL_STORAGE.accessToken, data.accessToken);
       localStorage.setItem(LOCAL_STORAGE.refreshToken, data.refreshToken);
       dispatch(setIsLogin(true));
-      dispatch(setUserInfo(data.userInfo));
+      dispatch(setUserInfo(data.data));
       history.replace(routesEnum.home);
     },
   });
@@ -41,7 +41,7 @@ const Login: FC = () => {
     <div className={styles.login}>
       <div className={styles.container}>
         <Form className={styles.form} autoComplete="off" onFinish={onFinish}>
-          <div className={clsx(styles.title, "h3")}>Sign in</div>
+          <div className={clsx(styles.title, "h3")}>Login</div>
           <div className={styles.line}>
             <div className={styles.text}>New user?</div>
             <Link className={styles.link} to={routesEnum.register}>
