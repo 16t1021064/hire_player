@@ -1,0 +1,171 @@
+.login
+	position: relative
+	display: flex
+	justify-content: center
+	align-items: center
+	min-height: 100vh
+	padding: 30px 
+	+cover
+	+d
+		min-height: 80vh 
+	+m
+		min-height: auto 
+		padding: 0
+		background: none !important
+	&__container
+		position: relative
+		z-index: 2
+		display: flex
+		align-items: center
+		width: 100% 
+		max-width: 960px
+	&__wrap
+		flex-shrink: 0
+		width: 240px
+		margin-right: auto
+		+m
+			display: none
+	&__form
+		margin: auto
+		position: relative
+		flex-shrink: 0
+		width: 450px
+		padding: 48px 48px 54px
+		border-radius: 20px
+		background: $wh
+		border: 1px solid $border
+		+t
+			width: 400px
+			padding: 32px
+		+m
+			width: 100% 
+			padding: 40px 32px
+			border-radius: 0
+	&__logo
+		display: inline-block
+		margin-bottom: 27px
+		font-size: 0 
+	&__info
+		margin-bottom: 32px
+		margin-right: -20px
+		font-size: 16px
+		font-weight: 700 
+		color: $wh 
+	.games
+		margin-bottom: 22px
+	.games__item
+		background: rgba($bl, .5)
+		color: $wh
+		&:hover
+			background: rgba($bl, .35)
+		+nl
+			margin-bottom: 16px
+	&__add
+		display: inline-flex
+		align-items: center
+		margin-bottom: 48px
+		font-weight: 700
+		color: $wh  
+		transition: opacity .25s 
+		.icon
+			margin-right: 12px
+			font-size: 20px
+			color: $wh
+		&:hover
+			opacity: .8  
+	&__flex
+		display: flex
+		align-items: center
+	.switch
+		margin-right: auto
+	&__download
+		font-size: 0
+		.icon
+			font-size: 20px
+			color: $wh
+			transition: fill .25s
+		&:hover .icon
+			fill: rgba($wh, .75)
+	&__close
+		position: absolute
+		top: 24px
+		right: 24px
+		display: flex
+		justify-content: center
+		align-items: center
+		flex-shrink: 0 
+		width: 48px
+		height: 48px
+		border-radius: 50%
+		box-shadow: 0 2px 7px rgba(#000, .1)   
+		font-size: 0 
+		transition: all .25s 
+		+m
+			top: 48px
+		.icon
+			font-size: 12px
+			color: $text
+			transition: fill .25s 
+		&:hover
+			box-shadow: 0 5px 15px rgba(#000, .1) 
+			.icon
+				fill: $primary
+	&__title
+		margin-bottom: 20px
+	&__line
+		display: flex
+		align-items: center
+		margin-bottom: 42px 
+		font-size: 12px
+		font-weight: 500
+	&__text
+		color: $gray-dark 
+	&__line &__link
+		margin-left: 16px
+		color: $blue
+		transition: color .25s
+		&:hover
+			color: $blue-dark
+	.field
+		+nl
+			margin-bottom: 24px
+	&__or
+		padding: 24px 0 
+		font-size: 12px
+		font-weight: 500
+		color: $gray-dark
+	&__row
+		display: flex
+		margin: 0 -8px
+		+nl
+			margin-bottom: 24px
+	&__col
+		flex: 0 0 calc(50% - 16px)
+		width: calc(50% - 16px)
+		margin: 0 8px 
+
++dark
+	.login
+		&__form
+			background: $dark1
+			border: 1px solid $border-dark
+			+m
+				background: $dark 
+		.games__item
+			background: rgba($bl, .5)
+		&__download
+			.icon
+				fill: $gray-light
+			&:hover .icon
+				color: $wh 
+		&__close
+			background: $dark
+			+m
+				background: $dark1  
+			.icon
+				color: $wh
+			&:hover
+				box-shadow: none
+				.icon
+					fill: $primary
+

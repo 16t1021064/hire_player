@@ -1,0 +1,258 @@
+.setting
+	&__body
+		display: flex
+		+m
+			display: inline
+	&__sidebar
+		width: 300px
+		padding: 25px
+		border-right: 1px solid $border-light
+		overflow: auto
+		+d
+			width: 280px
+			padding: 10px
+		+m
+			display: none
+			padding-top: 0px
+			width: 100%
+			max-width: 220px
+			border: none
+		&__head
+			position: relative
+			display: flex
+			align-items: center
+			height: 32px
+			padding: 0 45px 0 20px
+			font-size: 12px
+			font-weight: 500
+			color: $gray-dark
+			cursor: pointer
+			-webkit-tap-highlight-color: rgba(0,0,0,0)
+			transition: color .25s
+			+d
+				padding: 0 36px 0 12px 
+			&:before
+				content: ""
+				position: absolute
+				top: 50%
+				right: 25px
+				transform: translateY(-50%) 
+				width: 11px
+				height: 6px
+				background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='8' viewBox='0 0 14 8'%3E%3Cpath fill='%2311142d' d='M13.707.293a1 1 0 0 1 .083 1.32l-.083.094-6 6a1 1 0 0 1-1.32.083l-.094-.083-6-6A1 1 0 0 1 1.613.21l.094.083L7 5.585 12.293.293a1 1 0 0 1 1.32-.083l.094.083z'/%3E%3C/svg%3E") no-repeat 50% 50% / 100% auto
+				transition: transform .25s 
+				+d
+					right: 16px
+			&:hover
+				color: $text
+			&__item.active &__head:before
+				transform: translateY(-50%) rotate(180deg)   
+			&__details
+				flex-grow: 1
+				padding: 0 16px
+				+d
+					padding: 0 12px 
+				+m
+					padding-left: 16px
+			&__man
+				font-weight: 600
+		&__wrapper
+			.sidebar-menu
+				.sidebar-item
+					padding: 0 15px 5px 15px
+					.sidebar-header
+						padding-bottom: 5px
+    					padding-top: 5px
+						font-size: 14px
+						
+						.icon
+							width: 14px
+    						height: 14px
+							margin-right: 8px
+	&__content
+		width: 100%
+		padding: 30px 40px 40px 40px
+		+m
+			width: 100%
+			padding-top: 0px
+	&__menu__mobile
+		.icon
+			width: 32px
+			height: 32px
+		.setting__menu__outline
+			text-align: right
+			display: none
+			+m
+				display: block
+		.setting__menu__close
+			text-align: right
+			display: none
+		+d
+			padding: 20px 20px 0 20px
+		+m
+			padding: 20px 20px 0 20px
+				
+	&__balance
+		display: flex
+		margin-bottom: 30px
+		align-items: center
+		.btn
+			margin-left: auto
+	&__title
+		padding-top: 0px
+		margin-bottom: 25px
+		+m
+			margin-bottom: 20px
+	&__tags
+		display: flex
+		flex-wrap: wrap
+		margin: -13px 0 32px -13px
+		+m
+			display: none
+	&__tag
+		margin: 13px 0 0 13px
+		border: 2px solid $primary
+		border-radius: 12px 
+		padding: 6px 16px
+		line-height: (20/14)
+		font-weight: 600
+		color: $text   
+		transition: all .25s
+		&:hover,
+		&.active
+			background: $primary
+			border-color: $primary 
+			color: $wh
+	&__form > &__field
+		margin-bottom: 32px
+	&__user
+		+nl
+			margin-bottom: 32px
+			padding-bottom: 32px
+			border-bottom: 1px solid $border-light
+			+m
+				padding-bottom: 24px
+	&__category
+		margin-bottom: 32px
+		color: $gray-dark
+	&__line
+		display: flex
+	&__ava
+		flex-shrink: 0
+		width: 80px
+		height: 80px
+		font-size: 0
+	&__ava &__pic
+		width: 100% 
+		min-height: 100%
+		border-radius: 50%
+		image-orientation: from-image
+	&__details
+		flex: 0 0 calc(100% - 64px)
+		width: calc(100% - 64px)
+		padding-left: 40px
+		+m
+			flex: 0 0 calc(100% - 80px)
+			width: calc(100% - 80px)
+			padding-left: 24px
+	&__btns
+		display: flex
+		margin-bottom: 12px
+		+m
+			display: block
+			margin: 0 0 16px
+	&__btns &__btn
+		+m
+			min-width: 100%
+			height: 40px
+	&__btns &__btn,
+	&__loading
+		+nl
+			margin-right: 16px
+			+m
+				margin: 0 0 12px
+	&__loading
+		position: relative
+		overflow: hidden
+		border-radius: 16px 
+	&__file
+		position: absolute
+		top: 0
+		left: 0
+		font-size: 140px
+		opacity: 0
+	&__text
+		color: $gray-dark
+	&__fieldset
+		margin-bottom: 24px
+	&__fieldset > &__field
+		+nl
+			margin-bottom: 20px
+	
+	&__row
+		display: flex
+		margin: 0 -8px
+		+m
+			display: block
+			margin: 0
+		+nl
+			margin-bottom: 20px
+		&__wrap
+			display: flex
+			flex-wrap: wrap
+			margin-bottom: 20px
+			max-width: 680px
+			&__field
+				display: flex
+				width: 60px
+				margin-right: 20px
+				margin-bottom: 10px
+				+m
+					width: 70px
+				label
+					margin-right: 8px
+				span
+					font-size: 16px
+					font-weight: 500
+					padding-bottom: 10px
+					
+	
+	&__row &__field
+		flex: 0 0 calc(50% - 16px)
+		width: calc(50% - 16px)
+		margin: 0 8px
+		+m
+			width: 100%
+			margin: 0
+		+nl
+			+m
+				margin-bottom: 24px
+	&__row__col__3 &__field
+		flex: 0 0 calc(33.33% - 16px)
+		width: calc(33.33% - 16px)
+		margin: 0 8px
+	&__row &__field__info
+		display:flex
+		margin: 0 8px
+		width: calc(100% - 16px)
+		+m
+			width: 100%
+			margin: 0
+		+nl
+			+m
+				margin-bottom: 24px
+	&__form > &__btn
+		min-width: 184px
+		+m
+			min-width: 100% 
+	&_settings
+		max-width: 630px
+		margin: 15px auto
+		background: $wh
+		border-radius: 24px
++dark
+	.setting
+		&__sidebar
+			border-right: 1px solid $border-dark
+		&__user
+			border-bottom: 1px solid $border-dark

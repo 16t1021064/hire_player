@@ -1,0 +1,48 @@
+.collection
+	&__head
+		display: flex
+		align-items: center
+		+m
+			display: block
+			margin-bottom: 24px
+	&__title
+		margin-right: auto
+		+m
+			margin: 0 0 24px 
+	&__field
+		min-width: 235px
+		margin-left: 30px
+		+m
+			min-width: 100%
+			margin: 0 
+	&__list
+		display: flex
+		flex-wrap: wrap
+		margin: 0 -16px
+		+d
+			flex-wrap: wrap
+			margin-top: -32px
+		+m
+			display: block
+			margin: 0
+		.card
+			flex: 0 0 calc(25% - 32px)
+			width: calc(25% - 32px)
+			margin: 40px 16px 0
+			+w
+				flex: 0 0 calc(33.33% - 32px)
+				width: calc(33.33% - 32px)
+			+d
+				flex: 0 0 calc(50% - 32px)
+				width: calc(50% - 32px)
+				margin-top: 32px
+			+m
+				width: 100%
+				margin: 0 
+			+nl
+				+m
+					margin-bottom: 32px
+	+nl
+		margin-bottom: 55px
+		+m
+			margin-bottom: 46px

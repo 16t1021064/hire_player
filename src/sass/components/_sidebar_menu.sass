@@ -1,0 +1,85 @@
+.sidebar-menu
+	.sidebar-item
+		padding: 0 20px 20px 20px
+		border-radius: 12px
+		background: transparent
+		white-space: nowrap
+		font-size: 14px
+		font-weight: 600
+		transition: all .25s
+		a
+			color: $gray-dark
+.sidebar-menu>li.active>a
+	color: $primary
+
+.sidebar-menu 
+	.sidebar-header
+		display: flex
+		align-items: center
+		font-size: 16px
+		letter-spacing: .5px
+		padding-bottom: 8px
+		padding-top: 8px
+		text-transform: capitalize
+		font-weight: 600
+		&:hover
+			color: $primary
+			a
+				&:hover
+					color: $primary
+		.icon
+			width: 18px
+			height: 18px
+			margin-right: 12px
+		.icon-menu
+			margin-left: auto
+			font-size: 15px
+			.icon
+				margin-right: 0px
+			.icon-arrow-down-outline
+				display: none
+	.sidebar-item
+		.sidebar-submenu
+			transition: color 2s
+			margin-left: 21px
+			display: none
+			li
+				&:hover
+					color: $primary
+				a
+					&:hover
+						color: $primary
+			a
+				margin-left: 11px
+				font-size: 14px
+				line-height: 2.5
+				padding-bottom: 7px
+				padding-top: 7px
+		.sidebar-submenu.menu-open
+			display: block
+	.sidebar-item.active
+		.sidebar-header
+			.icon-menu
+				.icon-arrow-forward-outline
+					display: none
+				.icon-arrow-down-outline
+					display: block
+
++dark
+	.sidebar-menu>li.active>a
+		color: $wh
+	.sidebar-menu
+		.sidebar-item
+			.sidebar-header
+				&:hover
+					color: $wh
+				a
+					&:hover
+						color: $wh
+			.sidebar-submenu
+				li
+					&:hover
+						color: $wh
+					a
+						&:hover
+							color: $wh

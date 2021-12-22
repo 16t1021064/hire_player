@@ -1,17 +1,7 @@
-import LoadingFullpage from "components/LoadingFullpage";
-import { useAppSelector } from "hooks/useRedux";
 import { FC } from "react";
 
 const Dashboard: FC = () => {
-  const { userInfo } = useAppSelector((state) => state.auth);
-
-  return userInfo ? (
-    <div className={"container"}>
-      <p>Hi {userInfo.userName} !</p>
-    </div>
-  ) : (
-    <LoadingFullpage tip="Loading..." />
-  );
+  return <div>Dashboard</div>;
 };
 
 export default Dashboard;

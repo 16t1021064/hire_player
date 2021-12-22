@@ -1,5 +1,4 @@
 import { logoutRequest } from "api/auth/request";
-import LoadingFullpage from "components/LoadingFullpage";
 import { useAppDispatch } from "hooks/useRedux";
 import { FC, useEffect } from "react";
 import { useMutation } from "react-query";
@@ -42,7 +41,7 @@ const Logout: FC = () => {
     }
   }, []);
 
-  return <LoadingFullpage />;
+  return <></>;
 };
 
 export default Logout;

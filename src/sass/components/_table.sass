@@ -1,0 +1,33 @@
+.table-reponsive
+	overflow-x: auto
+.table-latitude 
+	width: 100% 
+	color: $gray-dark
+thead 
+	th
+		text-transform: uppercase
+		text-align: left
+		padding: 10px 
+		border: 1px solid $border-light
+		padding-left: 10px 
+		border: 1px solid $border-light
+tbody
+	tr
+		border-bottom: 1px solid $border-light
+	td
+		padding: 10px
+		border: 1px solid $border-light
+		+m
+			width: 100%
+
++dark
+	.table-latitude
+		color: $wh
+		thead 
+			th
+				border: 1px solid $border-dark
+		tbody
+			tr
+				border-bottom: 1px solid $border-dark
+			td
+				border: 1px solid $border-dark
