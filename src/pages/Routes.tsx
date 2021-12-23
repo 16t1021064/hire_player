@@ -34,43 +34,36 @@ const routes: CustomRouteProps[] = [
   {
     path: routesEnum.login,
     exact: true,
-    anonymous: true,
     component: lazy(() => import("./Login")),
   },
   {
     path: routesEnum.forgotPassword,
     exact: true,
-    anonymous: true,
     component: lazy(() => import("./ForgotPassword")),
   },
   {
     path: routesEnum.resetPassword,
     exact: true,
-    anonymous: true,
     component: lazy(() => import("./ResetPassword")),
   },
   {
     path: routesEnum.logout,
     exact: true,
-    // private: true,
     component: lazy(() => import("./Logout")),
   },
   {
     path: routesEnum.register,
     exact: true,
-    anonymous: true,
     component: lazy(() => import("./Register")),
   },
   {
     path: routesEnum.dashboard,
     exact: true,
-    private: true,
     component: lazy(() => import("./Dashboard")),
   },
   {
     path: routesEnum.chat,
     exact: true,
-    private: true,
     component: lazy(() => import("./Chat")),
   },
   {
@@ -81,13 +74,11 @@ const routes: CustomRouteProps[] = [
   {
     path: routesEnum.following,
     exact: true,
-    private: true,
     component: lazy(() => import("./Following")),
   },
   {
     path: routesEnum.settings,
     exact: true,
-    private: true,
     component: lazy(() => import("./Settings")),
   },
 ];

@@ -1,37 +1,110 @@
+import CardPlayer from "components/CardPlayer";
+import Header from "components/Header";
+import Layout from "components/Layout";
+import Sidebar from "components/Sidebar";
 import { FC } from "react";
+import PlayerImage from "img/player-1.jpeg";
 
 const Home: FC = () => {
   return (
-    <div className="login">
-      <div className="login__container">
-        <div className="login__form">
-          <div className="login__title h3">Sign in</div>
-          <div className="login__line">
-            <div className="login__text">New user?</div>
-            <a className="login__link" href="#">
-              Create an account
-            </a>
-          </div>
-          <div className="field">
-            <div className="field__label">Usename or email</div>
-            <div className="field__wrap">
-              <input className="field__input" type="email" />
+    <Layout>
+      <div className="page">
+        <Sidebar />
+        <div className="page__wrapper">
+          <Header />
+          <div className="page__center">
+            <div className="collection">
+              <div className="collection__head">
+                <div className="collection__title h5">Vip Players</div>
+                <div className="collection__field field">
+                  <div className="field__wrap">
+                    <select name="" id="" className="field__select">
+                      <option value="Vip">Vip</option>
+                      <option value="Hot">Hot</option>
+                      <option value="New">New</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div className="collection__list">
+                <CardPlayer
+                  ava={PlayerImage}
+                  name="Player Name"
+                  description="Rank up with me"
+                  gameCategories="F04,CSGO,LOL,PUBG"
+                  classStatus="confirm"
+                  price="$60.00/h"
+                  start="4.8"
+                ></CardPlayer>
+                <CardPlayer
+                  ava={PlayerImage}
+                  name="Player Name"
+                  description="Rank up with me"
+                  gameCategories="F04,CSGO,LOL,PUBG"
+                  classStatus="confirm"
+                  price="$60.00/h"
+                  start="4.8"
+                ></CardPlayer>
+                <CardPlayer
+                  ava={PlayerImage}
+                  name="Player Name"
+                  description="Rank up with me"
+                  gameCategories="F04,CSGO,LOL,PUBG"
+                  classStatus="confirm"
+                  price="$60.00/h"
+                  start="4.8"
+                ></CardPlayer>
+                <CardPlayer
+                  ava={PlayerImage}
+                  name="Player Name"
+                  description="Rank up with me"
+                  gameCategories="F04,CSGO,LOL,PUBG"
+                  classStatus="confirm"
+                  price="$60.00/h"
+                  start="4.8"
+                ></CardPlayer>
+                <CardPlayer
+                  ava={PlayerImage}
+                  name="Player Name"
+                  description="Rank up with me"
+                  gameCategories="F04,CSGO,LOL,PUBG"
+                  classStatus="confirm"
+                  price="$60.00/h"
+                  start="4.8"
+                ></CardPlayer>
+                <CardPlayer
+                  ava={PlayerImage}
+                  name="Player Name"
+                  description="Rank up with me"
+                  gameCategories="F04,CSGO,LOL,PUBG"
+                  classStatus="confirm"
+                  price="$60.00/h"
+                  start="4.8"
+                ></CardPlayer>
+                <CardPlayer
+                  ava={PlayerImage}
+                  name="Player Name"
+                  description="Rank up with me"
+                  gameCategories="F04,CSGO,LOL,PUBG"
+                  classStatus="confirm"
+                  price="$60.00/h"
+                  start="4.8"
+                ></CardPlayer>
+                <CardPlayer
+                  ava={PlayerImage}
+                  name="Player Name"
+                  description="Rank up with me"
+                  gameCategories="F04,CSGO,LOL,PUBG"
+                  classStatus="confirm"
+                  price="$60.00/h"
+                  start="4.8"
+                ></CardPlayer>
+              </div>
             </div>
           </div>
-          <div className="field">
-            <div className="field__label">Password</div>
-            <div className="field__wrap">
-              <input className="field__input" type="password" />
-            </div>
-          </div>
-          <button className="login__btn btn btn_primary btn_wide">
-            Continue
-          </button>
-          <div className="login__or">Or continue with</div>
-          <button className="login__btn btn btn_blue btn_wide">Google</button>
         </div>
       </div>
-    </div>
+    </Layout>
   );
 };
 
