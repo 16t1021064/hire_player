@@ -44,7 +44,7 @@
 			font-size: 24px
 			fill: $green
 		.icon-moon-outline
-			display: none
+			display: none !important
 			fill: rgba($wh, .3)
 	&__input:checked + &__flex &__box:before
 		transform: translate(24px,-50%)
@@ -60,8 +60,8 @@
 		transform: translate(48px,-50%)
 		border-color: $primary  
 	&_theme &__input:checked + &__in .icon-moon-outline
-		display: inline-block
+		display: inline-block !important
 	&_theme &__input:checked + &__in .icon-sunny-outline
-		display: none
+		display: none !important
 	+hover
 		opacity: .8

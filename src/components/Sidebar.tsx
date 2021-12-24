@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import clsx from "clsx";
 import IonIcon from "@reacticons/ionicons";
 import Logo from "img/logo.png";
@@ -11,6 +11,31 @@ interface SidebarProps {
   classSidebar?: string;
 }
 const Sidebar: FC<SidebarProps> = ({ classSidebar }) => {
+  useEffect(() => {
+    console.log(localStorage.getItem("darkMode"));
+    if (localStorage.getItem("darkMode") === "on") {
+      document.body.classList.add("dark");
+      document.addEventListener("DOMContentLoaded", function () {
+        (document.querySelector(".js-switch-theme input") as any).checked =
+          true;
+      });
+    }
+
+    (function () {
+      const switchTheme = $(".js-switch-theme"),
+        body = $("body");
+
+      switchTheme.on("change", function () {
+        if (!body.hasClass("dark")) {
+          body.addClass("dark");
+          localStorage.setItem("darkMode", "on");
+        } else {
+          body.removeClass("dark");
+          localStorage.setItem("darkMode", "off");
+        }
+      });
+    })();
+  });
   return (
     <>
       <div className={clsx("sidebar", classSidebar)}>
@@ -100,17 +125,24 @@ const Sidebar: FC<SidebarProps> = ({ classSidebar }) => {
             </div>
           </div>
         </div>
-      </div>
-      <div className="sidebar__bottom">
-        <label htmlFor="" className="switch switch_theme js-switch-theme">
-          <input type="checkbox" className="switch__input" />
-          <span className="switch__in">
-            <span className="switch__box"></span>
-            <span className="switch__icon"></span>
-            <IonIcon className="icon icon-moon-outline" name="moon-outline" />
-            <IonIcon className="icon icon-sunny-outline" name="sunny-outline" />
-          </span>
-        </label>
+        <div className="sidebar__bottom">
+          <label className="switch switch_theme js-switch-theme">
+            <input className="switch__input" type="checkbox" />
+            <span className="switch__in">
+              <span className="switch__box"></span>
+              <span className="switch__icon">
+                <IonIcon
+                  className="icon icon-moon-outline"
+                  name="moon-outline"
+                />
+                <IonIcon
+                  className="icon icon-sunny-outline"
+                  name="sunny-outline"
+                />
+              </span>
+            </span>
+          </label>
+        </div>
       </div>
     </>
   );

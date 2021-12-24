@@ -114,57 +114,6 @@ const Layout: FC = ({ children }) => {
         });
       });
     })();
-    // // Menu sidebar
-    // (function () {
-    //   $(".sidebar-header").on("click", function () {
-    //     var item = $(this),
-    //       sidebar_item = item.parent(),
-    //       sub_menu = sidebar_item.find(".sidebar-submenu");
-    //     if (sidebar_item.hasClass("active") && sub_menu) {
-    //       sidebar_item.removeClass("active");
-    //       sub_menu.removeClass("menu-open");
-    //     } else {
-    //       $(".sidebar-item").removeClass("active");
-    //       $(".sidebar-submenu").removeClass("menu-open");
-    //       sidebar_item.addClass("active");
-    //       sub_menu.addClass("menu-open");
-    //       return true;
-    //     }
-    //     return false;
-    //   });
-    //   // setting menu mobile
-    //   $(".setting__menu__outline").on("click", function () {
-    //     //icon
-    //     $(this).css("display", "none");
-    //     $(".setting__menu__close").css("display", "block");
-    //     //content
-    //     $(".setting__sidebar").css("display", "block");
-    //     $(".setting__content").css("display", "none");
-    //   });
-    //   $(".setting__menu__close").on("click", function () {
-    //     //icon
-    //     $(this).css("display", "none");
-    //     $(".setting__menu__outline").css("display", "block");
-    //     //content
-    //     $(".setting__sidebar").css("display", "none");
-    //     $(".setting__content").css("display", "block");
-    //   });
-    // })();
-    // toggle body theme
-    (function () {
-      const switchTheme = $(".js-switch-theme"),
-        body = $("body");
-
-      switchTheme.on("change", function () {
-        if (!body.hasClass("dark")) {
-          body.addClass("dark");
-          localStorage.setItem("darkMode", "on");
-        } else {
-          body.removeClass("dark");
-          localStorage.setItem("darkMode", "off");
-        }
-      });
-    })();
   });
   return (
     <>
