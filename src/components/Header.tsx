@@ -1,6 +1,8 @@
 import { FC, useRef } from "react";
 import IonIcon from "@reacticons/ionicons";
 import AvaTuong from "img/ava-tuong.jpeg";
+import { Link } from "react-router-dom";
+import { routesEnum } from "pages/Routes";
 
 const Header: FC = () => {
   const rechargeLink = useRef<any>(null);
@@ -21,7 +23,7 @@ const Header: FC = () => {
         </button>
       </form>
       <div className="header__control">
-        <a href="" className="header__item header__item_search">
+        <a className="header__item header__item_search">
           <IonIcon className="icon icon-search-outline" name="search-outline" />
         </a>
         <div className="header__item header__item_notifications js-header-item">
@@ -36,7 +38,7 @@ const Header: FC = () => {
             <div className="notifications">
               <div className="notifications__info h6">Recent Notification</div>
               <div className="notifications__list">
-                <a href="" className="notifications__item">
+                <a className="notifications__item">
                   <div className="notifications__ava">
                     <img src={AvaTuong} alt="" className="notifications__pic" />
                   </div>
@@ -50,7 +52,7 @@ const Header: FC = () => {
                     </div>
                   </div>
                 </a>
-                <a href="" className="notifications__item">
+                <a className="notifications__item">
                   <div className="notifications__ava">
                     <img src={AvaTuong} alt="" className="notifications__pic" />
                   </div>
@@ -82,11 +84,11 @@ const Header: FC = () => {
         </a>
       </div>
       <div className="header__item header__item_profile">
-        <a href="" className="header__head">
+        <a className="header__head">
           <img src={AvaTuong} alt="" className="header__pic" />
         </a>
         <div className="header__body">
-          <a href="" className="header__link">
+          <Link to={routesEnum.settingUserPassword} className="header__link">
             <div className="header__img">
               <IonIcon
                 className="icon icon-person-outline"
@@ -94,8 +96,8 @@ const Header: FC = () => {
               />
             </div>
             Profile
-          </a>
-          <a href="" className="header__link">
+          </Link>
+          <Link to={routesEnum.settingUserPassword} className="header__link">
             <div className="header__img">
               <IonIcon
                 className="icon icon-settings-outline"
@@ -103,8 +105,8 @@ const Header: FC = () => {
               />
             </div>
             Change password
-          </a>
-          <a href="" className="header__link">
+          </Link>
+          <Link to={routesEnum.logout} className="header__link">
             <div className="header__img">
               <IonIcon
                 className="icon icon-log-out-outline"
@@ -112,7 +114,7 @@ const Header: FC = () => {
               />
             </div>
             Log Out
-          </a>
+          </Link>
         </div>
       </div>
     </div>

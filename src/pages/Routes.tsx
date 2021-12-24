@@ -14,13 +14,24 @@ export enum routesEnum {
   login = "/login",
   logout = "/logout",
   register = "/register",
-  dashboard = "/dashboard",
   chat = "/chat",
   playerProfile = "/player-profile",
   following = "/following",
   forgotPassword = "/forgot-password",
   resetPassword = "/password-reset",
-  settings = "/settings",
+  settingBalance = "/setting-balance",
+  settingBalanceFluctuation = "/setting-balance-fluctuation",
+  settingBlockUsers = "/setting-block-users",
+  settingPayments = "/setting-payments",
+  settingPlayer = "/setting-player",
+  settingPlayerAlbums = "/setting-player-albums",
+  settingPlayerDonateHistory = "/setting-player-donate-history",
+  settingPlayerHireHistory = "/setting-player-hire-history",
+  settingPlayerHire = "/setting-player-hire",
+  settingUser = "/setting-user",
+  settingUserDonateHistory = "/setting-user-donate-history",
+  settingUserHireHistory = "/setting-user-hire-history",
+  settingUserPassword = "/setting-user-password",
 }
 
 type CustomRouteProps = RouteProps & { private?: boolean; anonymous?: boolean };
@@ -57,11 +68,6 @@ const routes: CustomRouteProps[] = [
     component: lazy(() => import("./Register")),
   },
   {
-    path: routesEnum.dashboard,
-    exact: true,
-    component: lazy(() => import("./Dashboard")),
-  },
-  {
     path: routesEnum.chat,
     exact: true,
     component: lazy(() => import("./Chat")),
@@ -77,9 +83,69 @@ const routes: CustomRouteProps[] = [
     component: lazy(() => import("./Following")),
   },
   {
-    path: routesEnum.settings,
+    path: routesEnum.settingBalance,
     exact: true,
-    component: lazy(() => import("./Settings")),
+    component: lazy(() => import("./SettingBalance")),
+  },
+  {
+    path: routesEnum.settingBalanceFluctuation,
+    exact: true,
+    component: lazy(() => import("./SettingBalanceFluctuation")),
+  },
+  {
+    path: routesEnum.settingBlockUsers,
+    exact: true,
+    component: lazy(() => import("./SettingBlockUsers")),
+  },
+  {
+    path: routesEnum.settingPayments,
+    exact: true,
+    component: lazy(() => import("./SettingPayments")),
+  },
+  {
+    path: routesEnum.settingPlayer,
+    exact: true,
+    component: lazy(() => import("./SettingPlayer")),
+  },
+  {
+    path: routesEnum.settingPlayerAlbums,
+    exact: true,
+    component: lazy(() => import("./SettingPlayerAlbums")),
+  },
+  {
+    path: routesEnum.settingPlayerDonateHistory,
+    exact: true,
+    component: lazy(() => import("./SettingPlayerDonateHistory")),
+  },
+  {
+    path: routesEnum.settingPlayerHireHistory,
+    exact: true,
+    component: lazy(() => import("./SettingPlayerHireHistory")),
+  },
+  {
+    path: routesEnum.settingPlayerHire,
+    exact: true,
+    component: lazy(() => import("./SettingPlayerHire")),
+  },
+  {
+    path: routesEnum.settingUser,
+    exact: true,
+    component: lazy(() => import("./SettingUser")),
+  },
+  {
+    path: routesEnum.settingUserHireHistory,
+    exact: true,
+    component: lazy(() => import("./SettingUserHireHistory")),
+  },
+  {
+    path: routesEnum.settingUserDonateHistory,
+    exact: true,
+    component: lazy(() => import("./SettingUserDonateHistory")),
+  },
+  {
+    path: routesEnum.settingUserPassword,
+    exact: true,
+    component: lazy(() => import("./SettingUserPassword")),
   },
 ];
 
