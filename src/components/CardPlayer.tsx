@@ -1,8 +1,14 @@
 import IonIcon from "@reacticons/ionicons";
 import clsx from "clsx";
-import { FC } from "react";
+import React, { FC } from "react";
+import { TUser } from "types";
+import DefaultImage from "assets/images/default-image.jpg";
+import { useHistory } from "react-router-dom";
+import { routesEnum } from "pages/Routes";
+import { playerStateName } from "pages/PlayerProfile";
 
 interface CardPlayerProps {
+  player?: TUser;
   ava?: string;
   name?: string;
   description?: string;
@@ -12,35 +18,58 @@ interface CardPlayerProps {
   start?: string;
 }
 
-const CardPlayer: FC<CardPlayerProps> = ({
-  ava,
-  description,
-  gameCategories,
-  classStatus,
-  name,
-  price,
-  start,
-}) => {
+const CardPlayer: FC<CardPlayerProps> = ({ player, classStatus }) => {
+  const history = useHistory();
+
+  const onClick = (event: React.MouseEvent) => {
+    event.preventDefault();
+    if (player) {
+      history.push(routesEnum.playerProfile, {
+        [playerStateName]: player.id,
+      });
+    }
+  };
+
   return (
-    <div className="card">
+    <a className="card" onClick={onClick}>
       <div className="card__preview">
-        <img src={ava} alt="" className="card__pic" />
+        <img
+          src={player?.playerInfo?.playerAvatar?.link || DefaultImage}
+          alt=""
+          className="card__pic"
+        />
       </div>
       <div className="card__body">
         <div className="card__title__player">
-          <div className={clsx("card__player__name", classStatus)}>{name}</div>
+          <div
+            className={clsx(
+              "card__player__name",
+              player?.emailVerifiedAt ? "confirm" : undefined,
+              classStatus
+            )}
+          >
+            {player?.playerInfo?.playerName || "Player Name"}
+          </div>
         </div>
         <div className="card__desc">
-          <div className="card__player__desc">{description}</div>
-          <div className="card__player__game">{gameCategories}</div>
+          <div className="card__player__desc">
+            {player?.playerInfo?.description || "Rank up with me"}
+          </div>
+          <div className="card__player__game">
+            {player?.playerInfo?.gameName || "F04, CSGO, LOL, PUBG"}
+          </div>
         </div>
       </div>
       <div className="card__foot">
-        <div className="price">{price}</div>
+        <div className="price">
+          ${(player?.playerInfo?.costPerHour || 12).toFixed(2)}/h
+        </div>
         <IonIcon className="icon icon-star" name="star" />
-        <span className="span__start">{start}</span>
+        <span className="span__start">
+          {(player?.playerInfo?.avgRating || 4.8).toFixed(2)}
+        </span>
       </div>
-    </div>
+    </a>
   );
 };
 

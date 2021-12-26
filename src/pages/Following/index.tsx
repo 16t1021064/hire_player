@@ -3,7 +3,6 @@ import Header from "components/Header";
 import Layout from "components/Layout";
 import Sidebar from "components/Sidebar";
 import { FC } from "react";
-import PlayerImage from "img/player-1.jpeg";
 
 const Following: FC = () => {
   return (
@@ -20,78 +19,14 @@ const Following: FC = () => {
                 </div>
               </div>
               <div className="collection__list">
-                <CardPlayer
-                  ava={PlayerImage}
-                  name="Player Name"
-                  description="Rank up with me"
-                  gameCategories="F04,CSGO,LOL,PUBG"
-                  classStatus="confirm"
-                  price="$60.00/h"
-                  start="4.8"
-                ></CardPlayer>
-                <CardPlayer
-                  ava={PlayerImage}
-                  name="Player Name"
-                  description="Rank up with me"
-                  gameCategories="F04,CSGO,LOL,PUBG"
-                  classStatus="confirm"
-                  price="$60.00/h"
-                  start="4.8"
-                ></CardPlayer>
-                <CardPlayer
-                  ava={PlayerImage}
-                  name="Player Name"
-                  description="Rank up with me"
-                  gameCategories="F04,CSGO,LOL,PUBG"
-                  classStatus="confirm"
-                  price="$60.00/h"
-                  start="4.8"
-                ></CardPlayer>
-                <CardPlayer
-                  ava={PlayerImage}
-                  name="Player Name"
-                  description="Rank up with me"
-                  gameCategories="F04,CSGO,LOL,PUBG"
-                  classStatus="confirm"
-                  price="$60.00/h"
-                  start="4.8"
-                ></CardPlayer>
-                <CardPlayer
-                  ava={PlayerImage}
-                  name="Player Name"
-                  description="Rank up with me"
-                  gameCategories="F04,CSGO,LOL,PUBG"
-                  classStatus="confirm"
-                  price="$60.00/h"
-                  start="4.8"
-                ></CardPlayer>
-                <CardPlayer
-                  ava={PlayerImage}
-                  name="Player Name"
-                  description="Rank up with me"
-                  gameCategories="F04,CSGO,LOL,PUBG"
-                  classStatus="confirm"
-                  price="$60.00/h"
-                  start="4.8"
-                ></CardPlayer>
-                <CardPlayer
-                  ava={PlayerImage}
-                  name="Player Name"
-                  description="Rank up with me"
-                  gameCategories="F04,CSGO,LOL,PUBG"
-                  classStatus="confirm"
-                  price="$60.00/h"
-                  start="4.8"
-                ></CardPlayer>
-                <CardPlayer
-                  ava={PlayerImage}
-                  name="Player Name"
-                  description="Rank up with me"
-                  gameCategories="F04,CSGO,LOL,PUBG"
-                  classStatus="confirm"
-                  price="$60.00/h"
-                  start="4.8"
-                ></CardPlayer>
+                <CardPlayer />
+                <CardPlayer />
+                <CardPlayer />
+                <CardPlayer />
+                <CardPlayer />
+                <CardPlayer />
+                <CardPlayer />
+                <CardPlayer />
               </div>
             </div>
           </div>
