@@ -77,6 +77,16 @@ const Login: FC = () => {
                     />
                   </div>
                 </div>
+                <div className="field">
+                  <div className="field__wrap">
+                    <Link
+                      to={routesEnum.forgotPassword}
+                      className="login__link"
+                    >
+                      Forgot password ?
+                    </Link>
+                  </div>
+                </div>
                 <button
                   type="submit"
                   className="login__btn btn btn_primary btn_wide"
