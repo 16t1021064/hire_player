@@ -28,12 +28,6 @@ const menus: TMenu[] = [
     private: true,
   },
   {
-    text: "Player Profile",
-    href: routesEnum.playerProfile,
-    icon: "person-outline",
-    private: true,
-  },
-  {
     text: "Chat",
     href: routesEnum.chat,
     icon: "chatbubble-outline",
