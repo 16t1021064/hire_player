@@ -11,6 +11,7 @@ type TNotifyType =
 interface Options {
   title?: string;
   message: string;
+  onRemoval?: ((id: string, removedBy: any) => void) | undefined;
 }
 
 const notify = (options: Options, type: TNotifyType = "default") => {
@@ -26,6 +27,7 @@ const notify = (options: Options, type: TNotifyType = "default") => {
       duration: 5000,
       onScreen: true,
     },
+    onRemoval: options.onRemoval,
   });
 };
 
