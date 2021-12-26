@@ -1,8 +1,8 @@
-import { message as AntMessage } from "antd";
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 import i18n from "i18next";
 import { routesEnum } from "pages/Routes";
 import { getAccessToken } from "utils/auth";
+import { notifyDanger } from "utils/notify";
 
 const defaultErrorCode = "error:ERROR_SYSTEM";
 
@@ -33,8 +33,9 @@ const handleError = (err: AxiosError) => {
     if (messages.length === 0 && hasSystemError) {
       messages.push(i18n.t(defaultErrorCode));
     }
+
     messages.forEach((message: any) => {
-      AntMessage.error(message);
+      notifyDanger(message);
     });
   }
   return Promise.reject(data);

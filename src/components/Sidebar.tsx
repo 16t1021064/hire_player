@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import { FC, useEffect } from "react";
 import clsx from "clsx";
 import IonIcon from "@reacticons/ionicons";
@@ -6,11 +5,61 @@ import Logo from "img/logo.png";
 import LogoWhite from "img/logo-white.png";
 import { Link } from "react-router-dom";
 import { routesEnum } from "pages/Routes";
+import { useAppSelector } from "hooks/useRedux";
+
+interface TMenu {
+  text: string;
+  href: string;
+  icon?: string;
+  private?: boolean;
+  anonymous?: boolean;
+}
+
+const menus: TMenu[] = [
+  {
+    text: "Home",
+    href: routesEnum.home,
+    icon: "home-outline",
+  },
+  {
+    text: "Following",
+    href: routesEnum.following,
+    icon: "person-outline",
+    private: true,
+  },
+  {
+    text: "Player Profile",
+    href: routesEnum.playerProfile,
+    icon: "person-outline",
+    private: true,
+  },
+  {
+    text: "Chat",
+    href: routesEnum.chat,
+    icon: "chatbubble-outline",
+    private: true,
+  },
+  {
+    text: "Sign-in",
+    href: routesEnum.login,
+    icon: "person-circle-outline",
+    anonymous: true,
+  },
+  {
+    text: "Sign-up",
+    href: routesEnum.register,
+    icon: "person-circle-outline",
+    anonymous: true,
+  },
+];
 
 interface SidebarProps {
   classSidebar?: string;
 }
+
 const Sidebar: FC<SidebarProps> = ({ classSidebar }) => {
+  const { isLogin } = useAppSelector((state) => state.auth);
+
   useEffect(() => {
     console.log(localStorage.getItem("darkMode"));
     if (localStorage.getItem("darkMode") === "on") {
@@ -22,7 +71,9 @@ const Sidebar: FC<SidebarProps> = ({ classSidebar }) => {
     }
 
     (function () {
+      // eslint-disable-next-line no-undef
       const switchTheme = $(".js-switch-theme"),
+        // eslint-disable-next-line no-undef
         body = $("body");
 
       switchTheme.on("change", function () {
@@ -36,6 +87,7 @@ const Sidebar: FC<SidebarProps> = ({ classSidebar }) => {
       });
     })();
   });
+
   return (
     <>
       <div className={clsx("sidebar", classSidebar)}>
@@ -64,63 +116,27 @@ const Sidebar: FC<SidebarProps> = ({ classSidebar }) => {
                 <span></span>Menu
               </div>
               <ul className="sidebar-menu">
-                <li className="sidebar-item">
-                  <Link to={routesEnum.home} className="sidebar-header">
-                    <IonIcon
-                      className="icon icon-home-outline"
-                      name="home-outline"
-                    />
-                    <span>Home</span>
-                  </Link>
-                </li>
-                <li className="sidebar-item">
-                  <Link to={routesEnum.following} className="sidebar-header">
-                    <IonIcon
-                      className="icon icon-person-outline"
-                      name="person-outline"
-                    />
-                    <span>Following</span>
-                  </Link>
-                </li>
-                <li className="sidebar-item">
-                  <Link
-                    to={routesEnum.playerProfile}
-                    className="sidebar-header"
-                  >
-                    <IonIcon
-                      className="icon icon-person-outline"
-                      name="person-outline"
-                    />
-                    <span>Player Profile</span>
-                  </Link>
-                </li>
-                <li className="sidebar-item">
-                  <Link to={routesEnum.chat} className="sidebar-header">
-                    <IonIcon
-                      className="icon icon-chatbubble-outline"
-                      name="chatbubble-outline"
-                    />
-                    <span>Chat</span>
-                  </Link>
-                </li>
-                <li className="sidebar-item">
-                  <Link to={routesEnum.login} className="sidebar-header">
-                    <IonIcon
-                      className="icon icon-person-circle-outline"
-                      name="person-circle-outline"
-                    />
-                    <span>Sign-in</span>
-                  </Link>
-                </li>
-                <li className="sidebar-item">
-                  <Link to={routesEnum.register} className="sidebar-header">
-                    <IonIcon
-                      className="icon icon-person-circle-outline"
-                      name="person-circle-outline"
-                    />
-                    <span>Sign-up</span>
-                  </Link>
-                </li>
+                {menus
+                  .filter((menu) => {
+                    if (isLogin) {
+                      return (!menu.private && !menu.anonymous) || menu.private;
+                    } else {
+                      return (
+                        (!menu.private && !menu.anonymous) || menu.anonymous
+                      );
+                    }
+                  })
+                  .map((menu: TMenu, position: number) => (
+                    <li key={position} className="sidebar-item">
+                      <Link to={menu.href} className="sidebar-header">
+                        <IonIcon
+                          className={`icon icon-${menu.icon}`}
+                          name={menu.icon as any}
+                        />
+                        <span>{menu.text}</span>
+                      </Link>
+                    </li>
+                  ))}
               </ul>
             </div>
           </div>
