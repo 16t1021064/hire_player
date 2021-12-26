@@ -1,10 +1,79 @@
-import { FC } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 import Header from "components/Header";
 import Layout from "components/Layout";
 import Sidebar from "components/Sidebar";
+import qs from "qs";
+import { useMutation } from "react-query";
+import { resetPasswordRequest } from "api/auth/request";
+import { Link, useHistory, useLocation } from "react-router-dom";
+import { routesEnum } from "pages/Routes";
+import notify from "utils/notify";
+
+interface TData {
+  userId: string | undefined;
+  token: string | undefined;
+}
 
 const ResetPassword: FC = () => {
-  return (
+  const history = useHistory();
+  const location = useLocation();
+  const [forbidden, setForbidden] = useState<boolean>(false);
+  const [disabled, setDisabled] = useState<boolean>(false);
+  const passwordRef = useRef<HTMLInputElement>(null);
+  const [data, setData] = useState<TData | undefined>({
+    userId: undefined,
+    token: undefined,
+  });
+
+  useEffect(() => {
+    const params: any = qs.parse(location.search, { ignoreQueryPrefix: true });
+    if (params?.token && params?.id) {
+      setData({ ...data, userId: params.id, token: params.token });
+    } else {
+      setForbidden(true);
+    }
+  }, [location]);
+
+  const { mutate: resetPassword, status: resetPasswordStatus } = useMutation(
+    resetPasswordRequest,
+    {
+      onSuccess: (data) => {
+        if (data.message === "RESET_PASSWORD_SUCCESS") {
+          setDisabled(true);
+          notify(
+            {
+              message: "Reset password successful",
+              onRemoval: () => {
+                history.push(routesEnum.login);
+              },
+            },
+            "success"
+          );
+        }
+      },
+    }
+  );
+
+  const onSubmit = (event: React.SyntheticEvent) => {
+    event.preventDefault();
+    if (
+      resetPasswordStatus !== "loading" &&
+      !disabled &&
+      passwordRef.current?.value &&
+      data?.userId &&
+      data?.token
+    ) {
+      resetPassword({
+        userId: data.userId,
+        token: data.token,
+        password: passwordRef.current.value,
+      });
+    }
+  };
+
+  return forbidden ? (
+    <></>
+  ) : (
     <Layout>
       <div className="page">
         <Sidebar />
@@ -12,23 +81,30 @@ const ResetPassword: FC = () => {
           <Header />
           <div className="login">
             <div className="login__container">
-              <div className="login__form">
+              <form className="login__form" onSubmit={onSubmit}>
                 <div className="login__title h3">Reset Password</div>
                 <div className="login__line">
-                  <a href="" className="login__link">
+                  <Link to={routesEnum.login} className="login__link">
                     Back to login
-                  </a>
+                  </Link>
                 </div>
                 <div className="field">
-                  <div className="field__label">Password</div>
+                  <div className="field__label">New password</div>
                   <div className="field__wrap">
-                    <input type="password" className="field__input" />
+                    <input
+                      type="password"
+                      className="field__input"
+                      ref={passwordRef}
+                    />
                   </div>
                 </div>
-                <button className="login__btn btn btn_primary btn_wide">
+                <button
+                  type="submit"
+                  className="login__btn btn btn_primary btn_wide"
+                >
                   Continue
                 </button>
-              </div>
+              </form>
             </div>
           </div>
         </div>
