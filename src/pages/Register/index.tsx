@@ -20,23 +20,10 @@ const Register: FC = () => {
                     Login now
                   </a>
                 </div>
-
-                <div className="login__row">
-                  <div className="login__col">
-                    <div className="field">
-                      <div className="field__label">First name</div>
-                      <div className="field__wrap">
-                        <input type="text" className="field__input" />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="login__col">
-                    <div className="field">
-                      <div className="field__label">Last name</div>
-                      <div className="field__wrap">
-                        <input type="text" className="field__input" />
-                      </div>
-                    </div>
+                <div className="field">
+                  <div className="field__label">Usename</div>
+                  <div className="field__wrap">
+                    <input className="field__input" type="text" />
                   </div>
                 </div>
                 <div className="field">

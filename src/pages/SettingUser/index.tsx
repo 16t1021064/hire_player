@@ -64,22 +64,14 @@ const SettingUser: FC = () => {
                         <input className="field__input" type="text" />
                       </div>
                     </div>
-                    <div className="setting__field field">
-                      <div className="field__label">Nick Name</div>
-                      <div className="field__wrap">
-                        <input className="field__input" type="text" />
-                      </div>
-                    </div>
                   </div>
-                  <div className="setting__row">
-                    <div className="setting__field field">
-                      <div className="field__label">Gender</div>
-                      <div className="field__wrap">
-                        <select className="field__select">
-                          <option>Male</option>
-                          <option>Female</option>
-                        </select>
-                      </div>
+                  <div className="setting__field field">
+                    <div className="field__label">Gender</div>
+                    <div className="field__wrap">
+                      <select className="field__select">
+                        <option>Male</option>
+                        <option>Female</option>
+                      </select>
                     </div>
                   </div>
                 </div>

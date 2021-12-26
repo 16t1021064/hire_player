@@ -31,13 +31,21 @@ const SettingPlayer: FC = () => {
               <form className="setting__form">
                 <div className="setting__title h5">Player Info</div>
                 <div className="setting__fieldset">
-                  <div className="setting__row setting__row__col__3">
+                  <div className="setting__row">
+                    <div className="setting__field field">
+                      <div className="field__label">PLAYER NAME:</div>
+                      <div className="field__wrap">
+                        <input className="field__input" type="text" />
+                      </div>
+                    </div>
                     <div className="setting__field field">
                       <div className="field__label">GAME NAME:</div>
                       <div className="field__wrap">
                         <input className="field__input" type="text" />
                       </div>
                     </div>
+                  </div>
+                  <div className="setting__row">
                     <div className="setting__field field">
                       <div className="field__label">TITLE OR RANK:</div>
                       <div className="field__wrap">
