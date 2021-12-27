@@ -62,7 +62,6 @@
     "redux": "^4.1.0",
     "redux-logger": "^3.0.6",
     "redux-saga": "^1.1.3",
-    "sass": "^1.45.1",
     "styled-components": "^5.3.3",
     "web-vitals": "^1.0.1",
     "yarn": "^1.22.17"
