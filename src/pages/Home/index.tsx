@@ -3,6 +3,7 @@ import React, { FC, useEffect, useRef, useState } from "react";
 import { useMutation } from "react-query";
 import { getPlayersRequest } from "api/players/request";
 import { TUser, TPlayerType } from "types";
+// import useSocket from "hooks/useSocket";
 
 const LIMIT: number = 8;
 
@@ -37,6 +38,12 @@ const Home: FC = () => {
       page: 1,
     });
   }, []);
+
+  // const { socket, id, connected } = useSocket();
+
+  // useEffect(() => {
+  //   console.log(socket, id, connected);
+  // }, [socket, id, connected]);
 
   return (
     <div className="page__center">
