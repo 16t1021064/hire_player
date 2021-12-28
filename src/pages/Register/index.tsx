@@ -1,7 +1,4 @@
 import { registerRequest, sendOtpRequest } from "api/auth/request";
-import Header from "components/Header";
-import Layout from "components/Layout";
-import Sidebar from "components/Sidebar";
 import { useAppDispatch } from "hooks/useRedux";
 import { routesEnum } from "pages/Routes";
 import React, { FC, useRef, useState } from "react";
@@ -107,102 +104,73 @@ const Register: FC = () => {
   };
 
   return (
-    <Layout>
-      <div className="page">
-        <Sidebar />
-        <div className="page__wrapper">
-          <Header />
-          <div className="login">
-            <div className="login__container">
-              <form className="login__form" onSubmit={onSubmit}>
-                <div className="login__title h3">Sign up</div>
-                <div className="login__line">
-                  <div className="login__text">Already a user</div>
-                  <Link to={routesEnum.home} className="login__link">
-                    Login now
-                  </Link>
-                </div>
-                <div className="field">
-                  <div className="field__label">Usename</div>
-                  <div className="field__wrap">
-                    <input
-                      className="field__input"
-                      type="text"
-                      ref={usernameRef}
-                    />
-                  </div>
-                </div>
-                <div className="field">
-                  <div className="field__label">Email Address</div>
-                  <div className="field__wrap">
-                    <input
-                      type="email"
-                      className="field__input"
-                      ref={emailRef}
-                    />
-                  </div>
-                </div>
-                <div className="field">
-                  <div className="field__label">Password</div>
-                  <div className="field__wrap">
-                    <input
-                      type="password"
-                      className="field__input"
-                      ref={passwordRef}
-                    />
-                  </div>
-                </div>
-                <div className="login__row">
-                  <div className="login__col field">
-                    <div className="field__label">Verify by OTP</div>
-                    <div className="field__wrap">
-                      <input
-                        type="text"
-                        className="field__input"
-                        ref={otpRef}
-                      />
-                    </div>
-                  </div>
-                  <div className="login__col field">
-                    <div className="field__label">&nbsp;</div>
-                    <div className="field__wrap">
-                      <button
-                        type="button"
-                        className="login__btn btn btn_primary btn_wide"
-                        disabled={enableCountdown}
-                        onClick={onSendOtp}
-                      >
-                        {enableCountdown ? (
-                          <Countdown
-                            date={Date.now() + 60000}
-                            renderer={renderer}
-                          />
-                        ) : (
-                          "Get Code"
-                        )}
-                      </button>
-                    </div>
-                  </div>
-                </div>
-                <button
-                  type="submit"
-                  className="login__btn btn btn_primary btn_wide"
-                >
-                  Continue
-                </button>
-                <div className="login__or">Sign up by Open ID</div>
-                <button
-                  type="button"
-                  className="login__btn btn btn_blue btn_wide"
-                >
-                  Google Account
-                </button>
-              </form>
+    <div className="login">
+      <div className="login__container">
+        <form className="login__form" onSubmit={onSubmit}>
+          <div className="login__title h3">Sign up</div>
+          <div className="login__line">
+            <div className="login__text">Already a user</div>
+            <Link to={routesEnum.home} className="login__link">
+              Login now
+            </Link>
+          </div>
+          <div className="field">
+            <div className="field__label">Usename</div>
+            <div className="field__wrap">
+              <input className="field__input" type="text" ref={usernameRef} />
             </div>
           </div>
-        </div>
+          <div className="field">
+            <div className="field__label">Email Address</div>
+            <div className="field__wrap">
+              <input type="email" className="field__input" ref={emailRef} />
+            </div>
+          </div>
+          <div className="field">
+            <div className="field__label">Password</div>
+            <div className="field__wrap">
+              <input
+                type="password"
+                className="field__input"
+                ref={passwordRef}
+              />
+            </div>
+          </div>
+          <div className="login__row">
+            <div className="login__col field">
+              <div className="field__label">Verify by OTP</div>
+              <div className="field__wrap">
+                <input type="text" className="field__input" ref={otpRef} />
+              </div>
+            </div>
+            <div className="login__col field">
+              <div className="field__label">&nbsp;</div>
+              <div className="field__wrap">
+                <button
+                  type="button"
+                  className="login__btn btn btn_primary btn_wide"
+                  disabled={enableCountdown}
+                  onClick={onSendOtp}
+                >
+                  {enableCountdown ? (
+                    <Countdown date={Date.now() + 60000} renderer={renderer} />
+                  ) : (
+                    "Get Code"
+                  )}
+                </button>
+              </div>
+            </div>
+          </div>
+          <button type="submit" className="login__btn btn btn_primary btn_wide">
+            Continue
+          </button>
+          <div className="login__or">Sign up by Open ID</div>
+          <button type="button" className="login__btn btn btn_blue btn_wide">
+            Google Account
+          </button>
+        </form>
       </div>
-    </Layout>
+    </div>
   );
 };
 

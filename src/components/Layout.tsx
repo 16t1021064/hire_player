@@ -1,6 +1,8 @@
 import { FC, useEffect } from "react";
 import ReactNotification from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
+import Header from "./Header";
+import Sidebar from "./Sidebar";
 
 const Layout: FC = ({ children }) => {
   useEffect(() => {
@@ -138,7 +140,15 @@ const Layout: FC = ({ children }) => {
   return (
     <>
       <ReactNotification />
-      {children}
+
+      <div className="page">
+        <Sidebar />
+        <div className="page__wrapper">
+          <Header />
+          {children}
+        </div>
+      </div>
+
       <div
         className="popup popup_normal mfp-hide mfp-zoom-in"
         id="popup-recharge"

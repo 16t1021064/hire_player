@@ -1,7 +1,4 @@
 import React, { FC, useEffect, useRef, useState } from "react";
-import Header from "components/Header";
-import Layout from "components/Layout";
-import Sidebar from "components/Sidebar";
 import qs from "qs";
 import { useMutation } from "react-query";
 import { resetPasswordRequest } from "api/auth/request";
@@ -74,42 +71,31 @@ const ResetPassword: FC = () => {
   return forbidden ? (
     <></>
   ) : (
-    <Layout>
-      <div className="page">
-        <Sidebar />
-        <div className="page__wrapper">
-          <Header />
-          <div className="login">
-            <div className="login__container">
-              <form className="login__form" onSubmit={onSubmit}>
-                <div className="login__title h3">Reset Password</div>
-                <div className="login__line">
-                  <Link to={routesEnum.login} className="login__link">
-                    Back to login
-                  </Link>
-                </div>
-                <div className="field">
-                  <div className="field__label">New password</div>
-                  <div className="field__wrap">
-                    <input
-                      type="password"
-                      className="field__input"
-                      ref={passwordRef}
-                    />
-                  </div>
-                </div>
-                <button
-                  type="submit"
-                  className="login__btn btn btn_primary btn_wide"
-                >
-                  Continue
-                </button>
-              </form>
+    <div className="login">
+      <div className="login__container">
+        <form className="login__form" onSubmit={onSubmit}>
+          <div className="login__title h3">Reset Password</div>
+          <div className="login__line">
+            <Link to={routesEnum.login} className="login__link">
+              Back to login
+            </Link>
+          </div>
+          <div className="field">
+            <div className="field__label">New password</div>
+            <div className="field__wrap">
+              <input
+                type="password"
+                className="field__input"
+                ref={passwordRef}
+              />
             </div>
           </div>
-        </div>
+          <button type="submit" className="login__btn btn btn_primary btn_wide">
+            Continue
+          </button>
+        </form>
       </div>
-    </Layout>
+    </div>
   );
 };
 

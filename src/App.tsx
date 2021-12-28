@@ -1,11 +1,14 @@
 import { Routes } from "pages/Routes";
 import "./sass/app.sass";
 import "./App.sass";
+import Layout from "components/Layout";
 
 function App() {
   return (
     <>
-      <Routes />
+      <Layout>
+        <Routes />
+      </Layout>
     </>
   );
 }

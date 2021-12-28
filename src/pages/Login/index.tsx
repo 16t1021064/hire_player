@@ -1,7 +1,4 @@
 import { loginRequest } from "api/auth/request";
-import Header from "components/Header";
-import Layout from "components/Layout";
-import Sidebar from "components/Sidebar";
 import { useAppDispatch } from "hooks/useRedux";
 import { routesEnum } from "pages/Routes";
 import React, { FC, useRef } from "react";
@@ -42,70 +39,49 @@ const Login: FC = () => {
   };
 
   return (
-    <Layout>
-      <div className="page">
-        <Sidebar />
-        <div className="page__wrapper">
-          <Header />
-          <div className="login">
-            <div className="login__container">
-              <form className="login__form" onSubmit={onSubmit}>
-                <div className="login__title h3">Sign in</div>
-                <div className="login__line">
-                  <div className="login__text">New user?</div>
-                  <Link to={routesEnum.register} className="login__link">
-                    Create an account
-                  </Link>
-                </div>
-                <div className="field">
-                  <div className="field__label">Usename or email</div>
-                  <div className="field__wrap">
-                    <input
-                      type="email"
-                      className="field__input"
-                      ref={emailRef}
-                    />
-                  </div>
-                </div>
-                <div className="field">
-                  <div className="field__label">Password</div>
-                  <div className="field__wrap">
-                    <input
-                      type="password"
-                      className="field__input"
-                      ref={passwordRef}
-                    />
-                  </div>
-                </div>
-                <div className="field">
-                  <div className="field__wrap">
-                    <Link
-                      to={routesEnum.forgotPassword}
-                      className="login__link"
-                    >
-                      Forgot password ?
-                    </Link>
-                  </div>
-                </div>
-                <button
-                  type="submit"
-                  className="login__btn btn btn_primary btn_wide"
-                >
-                  Continue
-                </button>
-                <div className="login__or">Or continue with</div>
-                <button
-                  type="button"
-                  className="login__btn btn btn_blue btn_wide"
-                >
-                  Google
-                </button>
-              </form>
+    <div className="login">
+      <div className="login__container">
+        <form className="login__form" onSubmit={onSubmit}>
+          <div className="login__title h3">Sign in</div>
+          <div className="login__line">
+            <div className="login__text">New user?</div>
+            <Link to={routesEnum.register} className="login__link">
+              Create an account
+            </Link>
+          </div>
+          <div className="field">
+            <div className="field__label">Usename or email</div>
+            <div className="field__wrap">
+              <input type="email" className="field__input" ref={emailRef} />
             </div>
           </div>
-        </div>
+          <div className="field">
+            <div className="field__label">Password</div>
+            <div className="field__wrap">
+              <input
+                type="password"
+                className="field__input"
+                ref={passwordRef}
+              />
+            </div>
+          </div>
+          <div className="field">
+            <div className="field__wrap">
+              <Link to={routesEnum.forgotPassword} className="login__link">
+                Forgot password ?
+              </Link>
+            </div>
+          </div>
+          <button type="submit" className="login__btn btn btn_primary btn_wide">
+            Continue
+          </button>
+          <div className="login__or">Or continue with</div>
+          <button type="button" className="login__btn btn btn_blue btn_wide">
+            Google
+          </button>
+        </form>
       </div>
-    </Layout>
+    </div>
   );
 };
 
