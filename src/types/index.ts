@@ -1,3 +1,9 @@
+export interface TPagination {
+  page?: number;
+  limit?: number;
+  totalPages?: number;
+  totalResults?: number;
+}
 export interface TUser {
   id: string;
   money?: number;
@@ -53,11 +59,37 @@ export type TReviewStatus = 1 | 2; // 1: Active, 2: Inactive
 export interface TReview {
   id: string;
   starPoint?: number;
-  deletedAt?: string | null;
   status?: TReviewStatus;
   content?: string;
   reviewer?: string | TUser;
   receiver?: string | TUser;
+  deletedAt?: string | null;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface TMessage {
+  id: string;
+  conversation?: string | TConversation;
+  sender?: string | TUser;
+  body?: {
+    attachments?: any[];
+    content?: string;
+  };
+  deletedAt?: string | null;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export type TConversationStatus = 1 | 2; // 1: Active, 2: Inactive
+export interface TConversation {
+  id: string;
+  members?: string[] | TUser[];
+  latestMessage?: TMessage;
+  customer?: string | TUser;
+  player?: string | TUser;
+  status?: TConversationStatus;
+  deletedAt?: string | null;
   createdAt?: string;
   updatedAt?: string;
 }

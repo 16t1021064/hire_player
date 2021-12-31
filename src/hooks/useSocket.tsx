@@ -13,24 +13,24 @@ const useSocket = () => {
     const accessToken = getAccessToken();
 
     if (!process.env?.REACT_APP_SOCKET_URL || !accessToken || !isLogin) {
+      if (socket && socket.connected) {
+        socket.disconnect();
+      }
       return;
     }
 
     const soc = io(process.env.REACT_APP_SOCKET_URL, {
-      // transports: ["websocket"],
       extraHeaders: {
         Authorization: `Bearer ${accessToken}`,
       },
     });
 
     soc.on("connect", () => {
-      console.log("connect");
       setId(soc.id);
       setConnected(soc.connected);
     });
 
     soc.on("disconnect", () => {
-      console.log("disconnect");
       setId(soc.id);
       setConnected(soc.connected);
     });
@@ -43,7 +43,7 @@ const useSocket = () => {
         socket.close();
       }
     };
-  }, []);
+  }, [isLogin]);
 
   return { socket, connected, id };
 };
