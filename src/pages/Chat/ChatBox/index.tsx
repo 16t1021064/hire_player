@@ -112,7 +112,6 @@ const ChatBox: FC<ChatBoxProps> = ({ conv, socket, connected }) => {
         );
       }
       handleOnMessagesRef.current = handleOnMessages;
-      console.log("assign handle");
       socket?.on(SocketListeners.onMessages, handleOnMessagesRef.current);
     }
   }, [connected, userInfo, messageGroups]);
@@ -131,8 +130,9 @@ const ChatBox: FC<ChatBoxProps> = ({ conv, socket, connected }) => {
       <div className="chat_messenger__head">
         <div className="chat_messenger__title h6 mr-auto">
           {`${conv?.target?.userName}${
-            conv?.target?.playerInfo?.playerName &&
-            " - " + conv.target.playerInfo.playerName
+            conv?.target?.playerInfo?.playerName
+              ? " - " + conv.target.playerInfo.playerName
+              : ""
           }`}
         </div>
         <div className="chat__actions">
