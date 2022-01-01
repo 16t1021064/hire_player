@@ -6,6 +6,7 @@ import { useMutation } from "react-query";
 import { getConversationsRequest } from "api/conversations/request";
 import { TConvertedConversation } from "..";
 import ReactTimeago from "react-timeago";
+import clsx from "clsx";
 
 const LIMIT: number = 8;
 
@@ -44,8 +45,6 @@ const SideBar: FC<SideBarProps> = ({ onChangeConv }) => {
         limit: LIMIT,
         page: 1,
         populate: "customer|player",
-        customerId: userInfo.id,
-        playerId: userInfo.id,
         sortBy: "updatedAt:desc",
       });
     }
@@ -83,22 +82,26 @@ const SideBar: FC<SideBarProps> = ({ onChangeConv }) => {
                 onSelectMessage(event, conversation);
               }}
             >
-              <div className="ava ava_online">
+              <div
+                className={clsx(
+                  "ava",
+                  conversation?.target?.isOnline && "ava_online"
+                )}
+              >
                 <img
-                  src={
-                    conversation?.target?.playerInfo?.playerAvatar?.link ||
-                    DefaultAvatar
-                  }
+                  src={conversation?.target?.avatar?.link || DefaultAvatar}
                   alt=""
                   className="ava__pic"
                 />
               </div>
               <div className="chat__details">
                 <div className="chat__man">
-                  {conversation?.target?.playerInfo?.playerName || "Unknown"}
+                  {conversation?.target?.userName || "Unknown"}
                 </div>
                 <div className="chat__time">
-                  <ReactTimeago date={conversation.createdAt || 0} />
+                  {conversation?.latestMessage?.createdAt && (
+                    <ReactTimeago date={conversation.latestMessage.createdAt} />
+                  )}
                 </div>
               </div>
             </a>

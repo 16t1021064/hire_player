@@ -1,7 +1,11 @@
 import IonIcon from "@reacticons/ionicons";
-import { getMessagesRequest } from "api/messages/request";
-import { FC, useEffect, useState } from "react";
+import { createMessageRequest, getMessagesRequest } from "api/messages/request";
+import { useAppSelector } from "hooks/useRedux";
+import { FC, SyntheticEvent, useEffect, useRef, useState } from "react";
 import { useMutation } from "react-query";
+import { SocketListeners } from "socket";
+import { Socket } from "socket.io-client";
+import { TListenerData_OnMessages } from "socket/types";
 import { TPagination } from "types";
 import { generateGroups } from "utils/message";
 import { TConvertedConversation } from "..";
@@ -9,9 +13,11 @@ import MessageGroup, { TMessageGroup } from "../MessageGroup";
 
 interface ChatBoxProps {
   conv: TConvertedConversation;
+  socket: Socket | undefined;
+  connected: boolean;
 }
 
-const ChatBox: FC<ChatBoxProps> = ({ conv }) => {
+const ChatBox: FC<ChatBoxProps> = ({ conv, socket, connected }) => {
   const [messageGroups, setMessageGroups] = useState<TMessageGroup[]>([]);
   const [messagesPagination, setMessagesPagination] = useState<TPagination>({
     page: 1,
@@ -19,6 +25,12 @@ const ChatBox: FC<ChatBoxProps> = ({ conv }) => {
     totalPages: 1,
     totalResults: 0,
   });
+  const messageRef = useRef<HTMLInputElement | null>(null);
+  const chatListRef = useRef<HTMLDivElement | null>(null);
+  const handleOnMessagesRef = useRef<
+    ((data: TListenerData_OnMessages) => void) | null
+  >(null);
+  const userInfo = useAppSelector((state) => state.auth.userInfo);
 
   const { mutate: fetchMessages } = useMutation(getMessagesRequest, {
     onSuccess: (data) => {
@@ -30,25 +42,98 @@ const ChatBox: FC<ChatBoxProps> = ({ conv }) => {
         totalPages: data.data.totalPages,
         totalResults: data.data.totalResults,
       });
+      fnScrollBottom();
     },
   });
 
+  const { mutate: createMessage, status: createMessageStatus } = useMutation(
+    createMessageRequest,
+    {
+      onSuccess: (data) => {
+        console.log(data);
+      },
+    }
+  );
+
   useEffect(() => {
     setMessageGroups([]);
-    fetchMessages({
-      id: conv.id,
-      sortBy: "createdAt:desc",
-      limit: messagesPagination.limit,
-      page: messagesPagination.page,
-      populate: "sender",
+    setMessagesPagination({
+      ...messagesPagination,
+      page: 1,
+      limit: 10,
+      totalPages: 1,
+      totalResults: 0,
+    });
+    setTimeout(() => {
+      fetchMessages({
+        id: conv.id,
+        sortBy: "createdAt:desc",
+        limit: messagesPagination.limit,
+        page: messagesPagination.page,
+        populate: "sender",
+      });
     });
   }, [conv]);
+
+  const onSubmit = (event: SyntheticEvent) => {
+    event.preventDefault();
+    if (
+      createMessageStatus !== "loading" &&
+      messageRef.current?.value &&
+      userInfo
+    ) {
+      createMessage({
+        id: conv.id,
+        body: {
+          content: messageRef.current.value,
+        },
+        senderId: userInfo.id,
+      });
+      messageRef.current.value = "";
+    }
+  };
+
+  const handleOnMessages = (data: TListenerData_OnMessages) => {
+    const latestMessage = { ...data.latestMessage, sender: data.sender };
+    const newMessageGroups = messageGroups.concat(
+      generateGroups([latestMessage])
+    );
+    console.log("newMessageGroups", newMessageGroups);
+    setMessageGroups(newMessageGroups);
+    fnScrollBottom();
+  };
+
+  useEffect(() => {
+    if (connected && userInfo) {
+      if (handleOnMessagesRef.current) {
+        socket?.removeListener(
+          SocketListeners.onMessages,
+          handleOnMessagesRef.current
+        );
+      }
+      handleOnMessagesRef.current = handleOnMessages;
+      console.log("assign handle");
+      socket?.on(SocketListeners.onMessages, handleOnMessagesRef.current);
+    }
+  }, [connected, userInfo, messageGroups]);
+
+  const fnScrollBottom = () => {
+    setTimeout(() => {
+      if (chatListRef.current) {
+        (chatListRef.current as any).scrollTop =
+          chatListRef.current?.scrollHeight;
+      }
+    });
+  };
 
   return (
     <>
       <div className="chat_messenger__head">
         <div className="chat_messenger__title h6 mr-auto">
-          {conv?.target?.playerInfo?.playerName}
+          {`${conv?.target?.userName}${
+            conv?.target?.playerInfo?.playerName &&
+            " - " + conv.target.playerInfo.playerName
+          }`}
         </div>
         <div className="chat__actions">
           <button className="chat__action chat__action__btn__back__chat">
@@ -66,22 +151,25 @@ const ChatBox: FC<ChatBoxProps> = ({ conv }) => {
         </div>
       </div>
       <div className="chat_messenger__body">
-        <div className="chat_messenger__list">
+        <div className="chat_messenger__list" ref={chatListRef}>
           {messageGroups.map((messageGroup, num: number) => (
             <MessageGroup key={num} group={messageGroup} />
           ))}
         </div>
-        <div className="chat_messenger__foot">
+        <form className="chat_messenger__foot" onSubmit={onSubmit}>
           <input
             type="text"
             placeholder="Send a message…"
             className="chat_messenger__input"
+            ref={messageRef}
           />
-          <button className="chat_messenger__btn btn btn_primary">Send</button>
-          <button className="chat_messenger__smile">
+          <button type="submit" className="chat_messenger__btn btn btn_primary">
+            Send
+          </button>
+          <button type="button" className="chat_messenger__smile">
             <IonIcon className="icon icon-happy-outline" name="happy-outline" />
           </button>
-        </div>
+        </form>
       </div>
     </>
   );

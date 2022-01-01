@@ -51,9 +51,11 @@ axiosInstance.interceptors.request.use(
         ...config,
         headers: {
           Authorization: `Bearer ${token}`,
+          "Content-type": "application/json",
         },
         // withCredentials: true,
-        data: convertToFormData(config.data),
+        // data: convertToFormData(config.data),
+        data: JSON.stringify(config.data),
       };
     }
     return config;
@@ -61,14 +63,14 @@ axiosInstance.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-const convertToFormData = (data: { string: string }) => {
-  const bodyFormData = new FormData();
-  if (data) {
-    for (const [key, value] of Object.entries(data)) {
-      bodyFormData.append(key, value);
-    }
-  }
-  return bodyFormData;
-};
+// const convertToFormData = (data: { string: string }) => {
+//   const bodyFormData = new FormData();
+//   if (data) {
+//     for (const [key, value] of Object.entries(data)) {
+//       bodyFormData.append(key, value);
+//     }
+//   }
+//   return bodyFormData;
+// };
 
 export default axiosInstance;

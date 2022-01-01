@@ -1,5 +1,10 @@
 import axiosInstance from "../axios";
-import { TGetMessagesRequest, TGetMessagesResponse } from "./types";
+import {
+  TCreateMessageRequest,
+  TCreateMessageResponse,
+  TGetMessagesRequest,
+  TGetMessagesResponse,
+} from "./types";
 
 export const getMessagesRequest = async (
   request: TGetMessagesRequest
@@ -9,6 +14,16 @@ export const getMessagesRequest = async (
     {
       params: request,
     }
+  );
+  return data;
+};
+
+export const createMessageRequest = async (
+  request: TCreateMessageRequest
+): Promise<TCreateMessageResponse> => {
+  const { data } = await axiosInstance.post(
+    `/conversations/${request.id}/message`,
+    request
   );
   return data;
 };

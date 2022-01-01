@@ -1,4 +1,4 @@
-import { TMessage } from "types";
+import { TBodyMessage, TConversation, TMessage, TUser } from "types";
 
 export interface TGetMessagesRequest {
   id: string; // conversation id
@@ -18,4 +18,20 @@ export interface TGetMessagesResponse {
     totalResults: number;
   };
   message: "GET_CONVERSATIONS_SUCCESS";
+}
+
+export interface TCreateMessageRequest {
+  id: string; // conversation id
+  body: TBodyMessage;
+  senderId: string;
+}
+
+export interface TCreateMessageResponse {
+  data: {
+    conversation: TConversation;
+    body: TBodyMessage;
+    sender: TUser;
+    latestMessage: TMessage;
+  };
+  message: "CREATE_MESSAGE_SUCCESS";
 }

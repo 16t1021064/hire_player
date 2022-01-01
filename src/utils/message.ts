@@ -20,9 +20,9 @@ export const generateGroups = (messages: TMessage[]): TMessageGroup[] => {
       // inital array is empty, add new group
       if (!prevPos) {
         prevGroups.push({
-          avatar: sender?.playerInfo?.playerAvatar?.link,
+          avatar: sender?.avatar?.link,
           senderId: sender?.id,
-          name: sender?.playerInfo?.playerName,
+          name: sender?.userName,
           time: message?.createdAt,
           messages: [message?.body?.content || ""],
         });
@@ -49,9 +49,9 @@ export const generateGroups = (messages: TMessage[]): TMessageGroup[] => {
       } else {
         // out of period, add new group
         prevGroups.push({
-          avatar: sender?.playerInfo?.playerAvatar?.link,
+          avatar: sender?.avatar?.link,
           senderId: sender?.id,
-          name: sender?.playerInfo?.playerName,
+          name: sender?.userName,
           time: message?.createdAt,
           messages: [message?.body?.content || ""],
         });

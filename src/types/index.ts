@@ -68,14 +68,15 @@ export interface TReview {
   updatedAt?: string;
 }
 
+export interface TBodyMessage {
+  attachments?: any[];
+  content?: string;
+}
 export interface TMessage {
   id: string;
   conversation?: string | TConversation;
   sender?: string | TUser;
-  body?: {
-    attachments?: any[];
-    content?: string;
-  };
+  body?: TBodyMessage;
   deletedAt?: string | null;
   createdAt?: string;
   updatedAt?: string;
