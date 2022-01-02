@@ -80,6 +80,7 @@ export interface TMessage {
   deletedAt?: string | null;
   createdAt?: string;
   updatedAt?: string;
+  unreadStatus?: any;
 }
 
 export type TConversationStatus = 1 | 2; // 1: Active, 2: Inactive

@@ -4,6 +4,8 @@ import {
   TCreateMessageResponse,
   TGetMessagesRequest,
   TGetMessagesResponse,
+  TReadMessagesRequest,
+  TReadMessagesResponse,
 } from "./types";
 
 export const getMessagesRequest = async (
@@ -24,6 +26,15 @@ export const createMessageRequest = async (
   const { data } = await axiosInstance.post(
     `/conversations/${request.id}/message`,
     request
+  );
+  return data;
+};
+
+export const readMessagesRequest = async (
+  request: TReadMessagesRequest
+): Promise<TReadMessagesResponse> => {
+  const { data } = await axiosInstance.post(
+    `/conversations/${request.id}/message/readers`
   );
   return data;
 };

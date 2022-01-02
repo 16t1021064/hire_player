@@ -1,4 +1,4 @@
-import { FC, MouseEvent, useEffect, useMemo, useState } from "react";
+import { FC, MouseEvent, useEffect, useMemo, useRef, useState } from "react";
 import DefaultAvatar from "assets/images/default-avatar.jpg";
 import { TConversation, TUser } from "types";
 import { useAppSelector } from "hooks/useRedux";
@@ -7,6 +7,13 @@ import { getConversationsRequest } from "api/conversations/request";
 import { TConvertedConversation } from "..";
 import ReactTimeago from "react-timeago";
 import clsx from "clsx";
+import styles from "./index.module.sass";
+import { Socket } from "socket.io-client";
+import {
+  TListenerData_OnConversations,
+  TListenerData_OnMessages,
+} from "socket/types";
+import { SocketListeners } from "socket";
 
 const LIMIT: number = 8;
 
@@ -27,11 +34,19 @@ const fnConvertConversation = (
 
 interface SideBarProps {
   onChangeConv: (conv: TConvertedConversation) => void;
+  socket: Socket | undefined;
+  connected: boolean;
 }
 
-const SideBar: FC<SideBarProps> = ({ onChangeConv }) => {
+const SideBar: FC<SideBarProps> = ({ onChangeConv, socket, connected }) => {
   const [conversations, setConversations] = useState<TConversation[]>([]);
   const userInfo = useAppSelector((state) => state.auth.userInfo);
+  const handleOnConversationsRef = useRef<
+    ((data: TListenerData_OnConversations) => void) | null
+  >(null);
+  const handleOnMessagesRef = useRef<
+    ((data: TListenerData_OnMessages) => void) | null
+  >(null);
 
   const { mutate: fetchConversations } = useMutation(getConversationsRequest, {
     onSuccess: (data) => {
@@ -65,6 +80,67 @@ const SideBar: FC<SideBarProps> = ({ onChangeConv }) => {
     onChangeConv(conversation);
   };
 
+  const handleOnConversations = (data: TListenerData_OnConversations) => {
+    let hasChange = false;
+    const cloneConvs = [...conversations];
+    for (let i = 0; i < cloneConvs.length; i = i + 1) {
+      if (cloneConvs[i].id === data.id) {
+        cloneConvs[i] = data;
+        hasChange = true;
+      }
+    }
+    if (hasChange) {
+      setConversations(cloneConvs);
+    }
+  };
+
+  useEffect(() => {
+    if (!connected) {
+      return;
+    }
+    if (handleOnConversationsRef.current) {
+      socket?.removeListener(
+        SocketListeners.onConversations,
+        handleOnConversationsRef.current
+      );
+    }
+    handleOnConversationsRef.current = handleOnConversations;
+    socket?.on(
+      SocketListeners.onConversations,
+      handleOnConversationsRef.current
+    );
+  }, [connected, conversations]);
+
+  const handleOnMessages = (data: TListenerData_OnMessages) => {
+    const latestMessage = { ...data.latestMessage, sender: data.sender };
+    const conv = { ...data.conversation, latestMessage };
+    const clonedConvs = [...conversations];
+    let hasChange = false;
+    for (let i = 0; i < clonedConvs.length; i = i + 1) {
+      if (clonedConvs[i].id === conv.id) {
+        clonedConvs[i] = conv;
+        hasChange = true;
+      }
+    }
+    if (hasChange) {
+      setConversations(clonedConvs);
+    }
+  };
+
+  useEffect(() => {
+    if (!connected) {
+      return;
+    }
+    if (handleOnMessagesRef.current) {
+      socket?.removeListener(
+        SocketListeners.onMessages,
+        handleOnMessagesRef.current
+      );
+    }
+    handleOnMessagesRef.current = handleOnMessages;
+    socket?.on(SocketListeners.onMessages, handleOnMessagesRef.current);
+  }, [connected, conversations]);
+
   return (
     <div className="chat__item active">
       <div
@@ -95,7 +171,16 @@ const SideBar: FC<SideBarProps> = ({ onChangeConv }) => {
                 />
               </div>
               <div className="chat__details">
-                <div className="chat__man">
+                <div
+                  className={clsx(
+                    "chat__man",
+                    userInfo &&
+                      conversation?.latestMessage?.unreadStatus?.[
+                        userInfo?.id
+                      ] &&
+                      styles.unread
+                  )}
+                >
                   {conversation?.target?.userName || "Unknown"}
                 </div>
                 <div className="chat__time">

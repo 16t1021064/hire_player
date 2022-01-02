@@ -35,3 +35,11 @@ export interface TCreateMessageResponse {
   };
   message: "CREATE_MESSAGE_SUCCESS";
 }
+
+export interface TReadMessagesRequest {
+  id: string; // conversation id
+}
+
+export interface TReadMessagesResponse {
+  message: "READER_MESSAGES_SUCCESS";
+}

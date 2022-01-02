@@ -1,5 +1,9 @@
 import IonIcon from "@reacticons/ionicons";
-import { createMessageRequest, getMessagesRequest } from "api/messages/request";
+import {
+  createMessageRequest,
+  getMessagesRequest,
+  readMessagesRequest,
+} from "api/messages/request";
 import { useAppSelector } from "hooks/useRedux";
 import { FC, SyntheticEvent, useEffect, useRef, useState } from "react";
 import { useMutation } from "react-query";
@@ -31,6 +35,7 @@ const ChatBox: FC<ChatBoxProps> = ({ conv, socket, connected }) => {
     ((data: TListenerData_OnMessages) => void) | null
   >(null);
   const userInfo = useAppSelector((state) => state.auth.userInfo);
+  const [focusText, setFocusText] = useState<boolean>(false);
 
   const { mutate: fetchMessages } = useMutation(getMessagesRequest, {
     onSuccess: (data) => {
@@ -42,9 +47,11 @@ const ChatBox: FC<ChatBoxProps> = ({ conv, socket, connected }) => {
         totalPages: data.data.totalPages,
         totalResults: data.data.totalResults,
       });
-      fnScrollBottom();
+      fnFocusBox();
     },
   });
+
+  const { mutate: readMessages } = useMutation(readMessagesRequest);
 
   const { mutate: createMessage, status: createMessageStatus } = useMutation(
     createMessageRequest,
@@ -98,32 +105,37 @@ const ChatBox: FC<ChatBoxProps> = ({ conv, socket, connected }) => {
     const newMessageGroups = messageGroups.concat(
       generateGroups([latestMessage])
     );
-    console.log("newMessageGroups", newMessageGroups);
     setMessageGroups(newMessageGroups);
-    fnScrollBottom();
+    fnFocusBox();
   };
 
   useEffect(() => {
-    if (connected && userInfo) {
-      if (handleOnMessagesRef.current) {
-        socket?.removeListener(
-          SocketListeners.onMessages,
-          handleOnMessagesRef.current
-        );
-      }
-      handleOnMessagesRef.current = handleOnMessages;
-      socket?.on(SocketListeners.onMessages, handleOnMessagesRef.current);
+    if (!connected) {
+      return;
     }
-  }, [connected, userInfo, messageGroups]);
+    if (handleOnMessagesRef.current) {
+      socket?.removeListener(
+        SocketListeners.onMessages,
+        handleOnMessagesRef.current
+      );
+    }
+    handleOnMessagesRef.current = handleOnMessages;
+    socket?.on(SocketListeners.onMessages, handleOnMessagesRef.current);
+  }, [connected, messageGroups]);
 
-  const fnScrollBottom = () => {
+  const fnFocusBox = () => {
     setTimeout(() => {
       if (chatListRef.current) {
         (chatListRef.current as any).scrollTop =
           chatListRef.current?.scrollHeight;
       }
+      messageRef.current?.focus();
     });
   };
+
+  useEffect(() => {
+    readMessages({ id: conv.id });
+  }, [focusText]);
 
   return (
     <>
@@ -162,6 +174,12 @@ const ChatBox: FC<ChatBoxProps> = ({ conv, socket, connected }) => {
             placeholder="Send a message…"
             className="chat_messenger__input"
             ref={messageRef}
+            onFocus={() => {
+              setFocusText(true);
+            }}
+            onBlur={() => {
+              setFocusText(false);
+            }}
           />
           <button type="submit" className="chat_messenger__btn btn btn_primary">
             Send

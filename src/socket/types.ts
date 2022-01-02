@@ -14,3 +14,5 @@ export interface TListenerData_OnMessages {
   sender: TUser;
   latestMessage: TMessage;
 }
+
+export type TListenerData_OnConversations = TConversation;

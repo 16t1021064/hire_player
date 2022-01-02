@@ -7,6 +7,7 @@ import { useAppSelector } from "hooks/useRedux";
 import { SocketEvents, SocketListeners } from "socket";
 import {
   TEventData_StartOnline,
+  TListenerData_OnConversations,
   TListenerData_OnStartOnline,
 } from "socket/types";
 
@@ -23,17 +24,22 @@ const Chat: FC = () => {
 
   useEffect(() => {
     if (connected && userInfo) {
-      // emit
       const startOnlineData: TEventData_StartOnline = {
         userId: userInfo.id,
       };
       socket?.emit(SocketEvents.startOnline, startOnlineData);
 
-      // listen
       socket?.on(
         SocketListeners.onStartOnline,
         (data: TListenerData_OnStartOnline) => {
           console.log(SocketListeners.onStartOnline, data.UsersOnline);
+        }
+      );
+
+      socket?.on(
+        SocketListeners.onConversations,
+        (data: TListenerData_OnConversations) => {
+          console.log(SocketListeners.onConversations, data);
         }
       );
     }
@@ -42,7 +48,11 @@ const Chat: FC = () => {
   return (
     <div className="chat">
       <div className="chat__sidebar">
-        <SideBar onChangeConv={setActiveConv} />
+        <SideBar
+          onChangeConv={setActiveConv}
+          socket={socket}
+          connected={connected}
+        />
       </div>
       <div className="chat_messenger">
         {activeConv && (
