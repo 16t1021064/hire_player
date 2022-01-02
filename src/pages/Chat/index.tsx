@@ -49,6 +49,7 @@ const Chat: FC = () => {
     <div className="chat">
       <div className="chat__sidebar">
         <SideBar
+          activeConv={activeConv}
           onChangeConv={setActiveConv}
           socket={socket}
           connected={connected}

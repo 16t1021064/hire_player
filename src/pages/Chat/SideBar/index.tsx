@@ -33,12 +33,18 @@ const fnConvertConversation = (
 };
 
 interface SideBarProps {
+  activeConv: TConvertedConversation | undefined;
   onChangeConv: (conv: TConvertedConversation) => void;
   socket: Socket | undefined;
   connected: boolean;
 }
 
-const SideBar: FC<SideBarProps> = ({ onChangeConv, socket, connected }) => {
+const SideBar: FC<SideBarProps> = ({
+  activeConv,
+  onChangeConv,
+  socket,
+  connected,
+}) => {
   const [conversations, setConversations] = useState<TConversation[]>([]);
   const userInfo = useAppSelector((state) => state.auth.userInfo);
   const handleOnConversationsRef = useRef<
@@ -77,7 +83,7 @@ const SideBar: FC<SideBarProps> = ({ onChangeConv, socket, connected }) => {
     conversation: TConvertedConversation
   ) => {
     event.preventDefault();
-    onChangeConv(conversation);
+    onChangeConv({ ...conversation });
   };
 
   const handleOnConversations = (data: TListenerData_OnConversations) => {
@@ -112,18 +118,27 @@ const SideBar: FC<SideBarProps> = ({ onChangeConv, socket, connected }) => {
   }, [connected, conversations]);
 
   const handleOnMessages = (data: TListenerData_OnMessages) => {
-    const latestMessage = { ...data.latestMessage, sender: data.sender };
-    const conv = { ...data.conversation, latestMessage };
-    const clonedConvs = [...conversations];
-    let hasChange = false;
-    for (let i = 0; i < clonedConvs.length; i = i + 1) {
-      if (clonedConvs[i].id === conv.id) {
-        clonedConvs[i] = conv;
-        hasChange = true;
+    if (activeConv?.id === data.conversation.id) {
+      fetchConversations({
+        limit: LIMIT,
+        page: 1,
+        populate: "customer|player",
+        sortBy: "updatedAt:desc",
+      });
+    } else {
+      const latestMessage = { ...data.latestMessage, sender: data.sender };
+      const conv = { ...data.conversation, latestMessage };
+      const clonedConvs = [...conversations];
+      let hasChange = false;
+      for (let i = 0; i < clonedConvs.length; i = i + 1) {
+        if (clonedConvs[i].id === conv.id) {
+          clonedConvs[i] = conv;
+          hasChange = true;
+        }
       }
-    }
-    if (hasChange) {
-      setConversations(clonedConvs);
+      if (hasChange) {
+        setConversations(clonedConvs);
+      }
     }
   };
 
@@ -139,7 +154,7 @@ const SideBar: FC<SideBarProps> = ({ onChangeConv, socket, connected }) => {
     }
     handleOnMessagesRef.current = handleOnMessages;
     socket?.on(SocketListeners.onMessages, handleOnMessagesRef.current);
-  }, [connected, conversations]);
+  }, [connected, conversations, activeConv]);
 
   return (
     <div className="chat__item active">

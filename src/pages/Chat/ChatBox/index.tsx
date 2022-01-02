@@ -101,6 +101,7 @@ const ChatBox: FC<ChatBoxProps> = ({ conv, socket, connected }) => {
   };
 
   const handleOnMessages = (data: TListenerData_OnMessages) => {
+    if (data.conversation.id !== conv.id) return;
     const latestMessage = { ...data.latestMessage, sender: data.sender };
     const newMessageGroups = messageGroups.concat(
       generateGroups([latestMessage])
