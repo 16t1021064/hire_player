@@ -1,16 +1,38 @@
-import { FC, MouseEvent, useRef } from "react";
+import { FC, MouseEvent, useEffect, useRef } from "react";
 import IonIcon from "@reacticons/ionicons";
 import AvaTuong from "img/ava-tuong.jpeg";
 import { Link } from "react-router-dom";
 import { routesEnum } from "pages/Routes";
 import { openPopup } from "utils/magnific";
+import useSocket from "hooks/useSocket";
+import { SocketListeners } from "socket";
 
 const Header: FC = () => {
   const modalRechargeRef = useRef<HTMLDivElement | null>(null);
+  const handleOnNotifsRef = useRef<((data: any) => void) | null>(null);
+
+  const { socket, connected } = useSocket();
+
+  const handleOnNotifs = (data: any) => {
+    console.log(SocketListeners.onNotifications, data);
+  };
+
+  useEffect(() => {
+    if (!connected) {
+      return;
+    }
+    if (handleOnNotifsRef.current) {
+      socket?.removeListener(
+        SocketListeners.onNotifications,
+        handleOnNotifsRef.current
+      );
+    }
+    handleOnNotifsRef.current = handleOnNotifs;
+    socket?.on(SocketListeners.onMessages, handleOnNotifsRef.current);
+  }, [connected]);
 
   const onRecharge = (event: MouseEvent) => {
     event.preventDefault();
-    console.log("onRecharge");
     openPopup(modalRechargeRef.current);
   };
 
