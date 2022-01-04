@@ -27,7 +27,7 @@ const Layout: FC = ({ children }) => {
       items.each(function () {
         // eslint-disable-next-line no-undef
         let item = $(this),
-          head = item.find(".header__head"),
+          head = item.find(".header__head:not(.js-propagation)"),
           body = item.find(".header__body");
 
         head.on("click", function (e) {
@@ -83,17 +83,6 @@ const Layout: FC = ({ children }) => {
         $("body").removeClass("no-scroll");
       });
     })();
-    // magnificPopup
-    (function () {
-      // eslint-disable-next-line no-undef
-      var link: any = $(".js-popup-open");
-      link.magnificPopup({
-        type: "inline",
-        fixedContentPos: true,
-        removalDelay: 200,
-        mainClass: "mfp-zoom-in",
-      });
-    })();
     // tabs
     (function () {
       // tab info player
@@ -147,45 +136,6 @@ const Layout: FC = ({ children }) => {
           <Header />
           {children}
         </div>
-      </div>
-
-      <div
-        className="popup popup_normal mfp-hide mfp-zoom-in"
-        id="popup-recharge"
-      >
-        <form className="popup__form">
-          <div className="popup__title h5">Recharge</div>
-          <div className="popup__fieldset">
-            <div className="popup__field field">
-              <div className="field__label">Withdraw Method</div>
-              <div className="field__wrap">
-                <select className="field__select">
-                  <option>PayPal</option>
-                  <option>Bank</option>
-                </select>
-              </div>
-            </div>
-          </div>
-          <div className="popup__fieldset">
-            <div className="popup__row">
-              <div className="popup__field field">
-                <div className="field__label">Amount</div>
-                <div className="field__wrap">
-                  <input className="field__input" type="number" />
-                </div>
-              </div>
-              <div className="popup__field field">
-                <div className="field__label">PayPal Email</div>
-                <div className="field__wrap">
-                  <input className="field__input" type="email" />
-                </div>
-              </div>
-            </div>
-          </div>
-          <button className="popup__btn btn btn_primary" type="submit">
-            Recharge now
-          </button>
-        </form>
       </div>
     </>
   );

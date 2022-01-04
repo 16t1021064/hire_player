@@ -1,4 +1,4 @@
-import { FC, useEffect, useMemo, useState } from "react";
+import { FC, MouseEvent, useEffect, useMemo, useRef, useState } from "react";
 import IonIcon from "@reacticons/ionicons";
 import { useHistory, useLocation } from "react-router-dom";
 import { useMutation } from "react-query";
@@ -10,6 +10,7 @@ import Gallery, { TPhoto } from "components/Gallery";
 import { getReviewsRequest } from "api/reviews/request";
 import TimeAgo from "react-timeago";
 import DefaultAvatar from "assets/images/default-avatar.jpg";
+import { openPopup } from "utils/magnific";
 
 interface RatingProps {
   review: TReview;
@@ -57,7 +58,9 @@ const PlayerProfile: FC = () => {
   const history = useHistory();
   const location = useLocation();
   const [reviews, setReviews] = useState<TReview[]>([]);
-
+  const modalHireRef = useRef<HTMLDivElement | null>(null);
+  const modalDonateRef = useRef<HTMLDivElement | null>(null);
+  const modalMessageRef = useRef<HTMLDivElement | null>(null);
   const [player, setPlayer] = useState<TUser | undefined>(undefined);
 
   const { mutate: getPlayer } = useMutation(getPlayerRequest, {
@@ -112,6 +115,21 @@ const PlayerProfile: FC = () => {
     }
   }, [player]);
 
+  const onHire = (event: MouseEvent) => {
+    event.preventDefault();
+    openPopup(modalHireRef.current);
+  };
+
+  const onDonate = (event: MouseEvent) => {
+    event.preventDefault();
+    openPopup(modalDonateRef.current);
+  };
+
+  const onMessage = (event: MouseEvent) => {
+    event.preventDefault();
+    openPopup(modalMessageRef.current);
+  };
+
   return player ? (
     <>
       <div className="page__center">
@@ -159,23 +177,23 @@ const PlayerProfile: FC = () => {
             </div>
             <div className="author__btns">
               <a
-                href="#popup-hire-player"
-                data-effect="mfp-zoom-in"
-                className="js-popup-open author__btn btn btn__small btn_primary"
+                href=""
+                className="author__btn btn btn__small btn_primary"
+                onClick={onHire}
               >
                 <span className="btn__text">Hire</span>
               </a>
               <a
-                href="#popup-donate-player"
-                data-effect="mfp-zoom-in"
-                className="js-popup-open author__btn btn btn__small btn_gray"
+                href=""
+                className="author__btn btn btn__small btn_gray"
+                onClick={onDonate}
               >
                 <span className="btn__text">Donate</span>
               </a>
               <a
-                className="js-popup-open author__btn btn btn_gray btn_square"
-                href="#popup-message-player"
-                data-effect="mfp-zoom-in"
+                href=""
+                className="author__btn btn btn_gray btn_square"
+                onClick={onMessage}
               >
                 <IonIcon
                   className="icon icon-chatbubble-ellipses-outline"
@@ -205,7 +223,7 @@ const PlayerProfile: FC = () => {
         </div>
       </div>
       {/* popup Hire */}
-      <div className="popup popup_normal mfp-hide" id="popup-hire-player">
+      <div className="popup popup_normal mfp-hide" ref={modalHireRef}>
         <form action="" className="popup__form">
           <div className="popup__title h5">Hire Player</div>
           <div className="popup__fieldset">
@@ -261,7 +279,7 @@ const PlayerProfile: FC = () => {
       </div>
 
       {/* popup donate */}
-      <div className="popup popup_normal mfp-hide" id="popup-donate-player">
+      <div className="popup popup_normal mfp-hide" ref={modalDonateRef}>
         <form action="" className="popup__form">
           <div className="popup__title h5">Donate Player</div>
           <div className="popup__fieldset">
@@ -297,7 +315,7 @@ const PlayerProfile: FC = () => {
       </div>
 
       {/* popup message */}
-      <div className="popup popup_normal mfp-hide" id="popup-message-player">
+      <div className="popup popup_normal mfp-hide" ref={modalMessageRef}>
         <form action="" className="popup__form">
           <div className="popup__title h5">Send a message</div>
           <div className="popup__fieldset">
