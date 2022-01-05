@@ -66,7 +66,7 @@ const SideBar: FC<SideBarProps> = ({
         limit: LIMIT,
         page: 1,
         populate: "customer|player",
-        sortBy: "updatedAt:desc",
+        sortBy: "latestMessage.createdAt:desc",
       });
     }
   }, [userInfo]);
@@ -123,7 +123,7 @@ const SideBar: FC<SideBarProps> = ({
         limit: LIMIT,
         page: 1,
         populate: "customer|player",
-        sortBy: "updatedAt:desc",
+        sortBy: "latestMessage.createdAt:desc",
       });
     } else {
       const latestMessage = { ...data.latestMessage, sender: data.sender };
