@@ -113,3 +113,18 @@ export interface THire {
   createdAt?: string;
   updatedAt?: string;
 }
+
+export interface TNotification {
+  id: string;
+  payload?: {
+    conversationId?: string;
+    hireId?: string;
+  };
+  isRead?: boolean;
+  customer?: TUser;
+  player?: TUser;
+  action: number;
+  href?: string;
+  createdAt?: string;
+  updatedAt?: string;
+}

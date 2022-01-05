@@ -1,4 +1,10 @@
-import { TBodyMessage, TConversation, TMessage, TUser } from "types";
+import {
+  TBodyMessage,
+  TConversation,
+  TMessage,
+  TNotification,
+  TUser,
+} from "types";
 
 export interface TEventData_StartOnline {
   userId: string;
@@ -16,3 +22,5 @@ export interface TListenerData_OnMessages {
 }
 
 export type TListenerData_OnConversations = TConversation;
+
+export type TListenerData_OnNotifications = TNotification;

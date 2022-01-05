@@ -34,7 +34,7 @@ const Home: FC = () => {
   useEffect(() => {
     fetch({
       limit: LIMIT,
-      page: 1,
+      page: 6,
     });
   }, []);
 

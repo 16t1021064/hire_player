@@ -9,12 +9,15 @@ import { SocketEvents, SocketListeners } from "socket";
 import { useAppSelector } from "hooks/useRedux";
 import {
   TEventData_StartOnline,
+  TListenerData_OnNotifications,
   TListenerData_OnStartOnline,
 } from "socket/types";
 
 const Header: FC = () => {
   const modalRechargeRef = useRef<HTMLDivElement | null>(null);
-  const handleOnNotifsRef = useRef<((data: any) => void) | null>(null);
+  const handleOnNotifsRef = useRef<
+    ((data: TListenerData_OnNotifications) => void) | null
+  >(null);
   const userInfo = useAppSelector((state) => state.auth.userInfo);
 
   const { socket, connected } = useSocket();
@@ -35,7 +38,7 @@ const Header: FC = () => {
     }
   }, [connected, userInfo]);
 
-  const handleOnNotifs = (data: any) => {
+  const handleOnNotifs = (data: TListenerData_OnNotifications) => {
     console.log(SocketListeners.onNotifications, data);
   };
 
@@ -50,7 +53,7 @@ const Header: FC = () => {
       );
     }
     handleOnNotifsRef.current = handleOnNotifs;
-    socket?.on(SocketListeners.onMessages, handleOnNotifsRef.current);
+    socket?.on(SocketListeners.onNotifications, handleOnNotifsRef.current);
   }, [connected]);
 
   const onRecharge = (event: MouseEvent) => {
