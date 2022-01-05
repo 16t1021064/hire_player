@@ -1,18 +1,18 @@
 const sassResourcesLoader = require("craco-sass-resources-loader");
-// const CracoLessPlugin = require("craco-less");
+const CracoLessPlugin = require("craco-less");
 
 module.exports = {
   plugins: [
-    // {
-    //   plugin: CracoLessPlugin,
-    //   options: {
-    //     lessLoaderOptions: {
-    //       lessOptions: {
-    //         javascriptEnabled: true,
-    //       },
-    //     },
-    //   },
-    // },
+    {
+      plugin: CracoLessPlugin,
+      options: {
+        lessLoaderOptions: {
+          lessOptions: {
+            javascriptEnabled: true,
+          },
+        },
+      },
+    },
     {
       plugin: sassResourcesLoader,
       options: {

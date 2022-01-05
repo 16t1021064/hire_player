@@ -3,6 +3,7 @@ import ReactNotification from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
+import { ConfigProvider } from "antd";
 
 const Layout: FC = ({ children }) => {
   useEffect(() => {
@@ -127,7 +128,7 @@ const Layout: FC = ({ children }) => {
     })();
   });
   return (
-    <>
+    <ConfigProvider>
       <ReactNotification />
 
       <div className="page">
@@ -137,7 +138,7 @@ const Layout: FC = ({ children }) => {
           {children}
         </div>
       </div>
-    </>
+    </ConfigProvider>
   );
 };
 
