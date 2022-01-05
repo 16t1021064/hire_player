@@ -95,3 +95,21 @@ export interface TConversation {
   createdAt?: string;
   updatedAt?: string;
 }
+
+export interface THire {
+  id: string;
+  acceptedAt?: string | null;
+  deletedAt?: string | null;
+  canceledAt?: string | null;
+  seenAt?: string | null;
+  hireStep?: number;
+  isCompleteSoon?: boolean;
+  timeRent?: number;
+  cost?: number;
+  customerNote?: string;
+  customer?: string | TUser;
+  player?: string | TUser;
+  conversation: string | TConversation;
+  createdAt?: string;
+  updatedAt?: string;
+}

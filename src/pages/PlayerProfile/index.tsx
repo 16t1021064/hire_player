@@ -1,4 +1,11 @@
-import { FC, MouseEvent, useEffect, useMemo, useRef, useState } from "react";
+import React, {
+  FC,
+  MouseEvent,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import IonIcon from "@reacticons/ionicons";
 import { useHistory, useLocation } from "react-router-dom";
 import { useMutation } from "react-query";
@@ -11,6 +18,7 @@ import { getReviewsRequest } from "api/reviews/request";
 import TimeAgo from "react-timeago";
 import DefaultAvatar from "assets/images/default-avatar.jpg";
 import { openPopup } from "utils/magnific";
+import { createHireRequest } from "api/hires/request";
 
 interface RatingProps {
   review: TReview;
@@ -62,6 +70,8 @@ const PlayerProfile: FC = () => {
   const modalDonateRef = useRef<HTMLDivElement | null>(null);
   const modalMessageRef = useRef<HTMLDivElement | null>(null);
   const [player, setPlayer] = useState<TUser | undefined>(undefined);
+  const hireHoursRef = useRef<HTMLSelectElement | null>(null);
+  const hireMessageRef = useRef<HTMLTextAreaElement | null>(null);
 
   const { mutate: getPlayer } = useMutation(getPlayerRequest, {
     onSuccess: (data) => {
@@ -81,9 +91,13 @@ const PlayerProfile: FC = () => {
       if (value) {
         getPlayer(value);
       }
-      history.replace({ ...location, state: undefined });
+      // history.replace({ ...location, state: undefined });
     }
   }, [location]);
+
+  useEffect(() => {
+    console.log(player);
+  }, [player]);
 
   const photos: TPhoto[] = useMemo(() => {
     return (
@@ -128,6 +142,30 @@ const PlayerProfile: FC = () => {
   const onMessage = (event: MouseEvent) => {
     event.preventDefault();
     openPopup(modalMessageRef.current);
+  };
+
+  const { mutate: createHire, status: createHireStatus } = useMutation(
+    createHireRequest,
+    {
+      onSuccess: (data) => {
+        //
+      },
+    }
+  );
+
+  const onSubmit = (event: React.SyntheticEvent) => {
+    console.log("a");
+    event.preventDefault();
+    const hours = parseInt(`${hireHoursRef.current?.value}`) || 0;
+    const message = hireMessageRef.current?.value;
+    if (createHireStatus !== "loading" && hours && message) {
+      createHire({
+        playerId: player?.id || "",
+        timeRent: hours,
+        cost: player?.playerInfo?.costPerHour || 0,
+        customerNote: message,
+      });
+    }
   };
 
   return player ? (
@@ -224,25 +262,26 @@ const PlayerProfile: FC = () => {
       </div>
       {/* popup Hire */}
       <div className="popup popup_normal mfp-hide" ref={modalHireRef}>
-        <form action="" className="popup__form">
+        <form className="popup__form" onSubmit={onSubmit}>
           <div className="popup__title h5">Hire Player</div>
           <div className="popup__fieldset">
             <div className="popup__row">
               <div className="popup__field field">
                 <div className="field__label">Player</div>
                 <div className="field__wrap"></div>
-                <span>Tuong Nguyen</span>
+                <span>{player.playerInfo?.playerName}</span>
               </div>
               <div className="popup__field field">
                 <div className="field__label">Time to rent</div>
                 <div className="field__wrap">
-                  <select name="" id="" className="field__select">
-                    <option value="1 hour">1 hour</option>
-                    <option value="2 hour">2 hour</option>
-                    <option value="3 hour">3 hour</option>
-                    <option value="4 hour">4 hour</option>
-                    <option value="5 hour">5 hour</option>
-                    <option value="6 hour">6 hour</option>
+                  <select id="" className="field__select" ref={hireHoursRef}>
+                    {Array.from(
+                      Array(player?.playerInfo?.timeMaxHire || 0).keys()
+                    ).map((num) => (
+                      <option key={num} value={num + 1}>
+                        {num + 1} hour
+                      </option>
+                    ))}
                   </select>
                 </div>
               </div>
@@ -251,13 +290,13 @@ const PlayerProfile: FC = () => {
               <div className="popup__field field">
                 <div className="field__label">Cost</div>
                 <div className="field__wrap">
-                  <span>$20</span>
+                  <span>${player.playerInfo?.costPerHour || 0}</span>
                 </div>
               </div>
               <div className="popup__field field">
                 <div className="field__label">Current balance</div>
                 <div className="field__wrap">
-                  <span>$50,00</span>
+                  <span>${player.money?.toFixed(2)}</span>
                 </div>
               </div>
             </div>
@@ -265,16 +304,17 @@ const PlayerProfile: FC = () => {
               <div className="field__label">Message</div>
               <div className="field__wrap">
                 <textarea
-                  name=""
-                  id=""
                   cols={30}
                   rows={10}
                   className="field__textarea"
+                  ref={hireMessageRef}
                 ></textarea>
               </div>
             </div>
           </div>
-          <button className="popup__btn btn btn_primary">Hire now</button>
+          <button type="submit" className="popup__btn btn btn_primary">
+            Hire now
+          </button>
         </form>
       </div>
 

@@ -12,5 +12,10 @@
   "ERROR_BODY_INVALID": "Content invalid",
   "ERROR_SENDER_NOT_IN_CONVERSATION": "Sender not in conversation",
   "ERROR_CONVERSATION_NOT_FOUND": "Conversation not found",
-  "ERROR_SENDER_NOT_FOUND": "Sender not found"
+  "ERROR_SENDER_NOT_FOUND": "Sender not found",
+  "ERROR_PLAYER_ID_INVALID": "Player id invalid",
+  "ERROR_CUSTOMER_ID_INVALID": "Customer id invalid",
+  "ERROR_USER_NOT_PLAYER": "User not player",
+  "ERROR_PLAYER_NOT_RECEIVE_HIRE": "Player not reveive hỉe",
+  "ERROR_PLAYER_BUSY": "Player busy"
 }

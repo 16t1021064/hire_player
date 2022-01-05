@@ -5,13 +5,35 @@ import { Link } from "react-router-dom";
 import { routesEnum } from "pages/Routes";
 import { openPopup } from "utils/magnific";
 import useSocket from "hooks/useSocket";
-import { SocketListeners } from "socket";
+import { SocketEvents, SocketListeners } from "socket";
+import { useAppSelector } from "hooks/useRedux";
+import {
+  TEventData_StartOnline,
+  TListenerData_OnStartOnline,
+} from "socket/types";
 
 const Header: FC = () => {
   const modalRechargeRef = useRef<HTMLDivElement | null>(null);
   const handleOnNotifsRef = useRef<((data: any) => void) | null>(null);
+  const userInfo = useAppSelector((state) => state.auth.userInfo);
 
   const { socket, connected } = useSocket();
+
+  useEffect(() => {
+    if (connected && userInfo) {
+      const startOnlineData: TEventData_StartOnline = {
+        userId: userInfo.id,
+      };
+      socket?.emit(SocketEvents.startOnline, startOnlineData);
+
+      socket?.on(
+        SocketListeners.onStartOnline,
+        (data: TListenerData_OnStartOnline) => {
+          console.log(SocketListeners.onStartOnline, data.UsersOnline);
+        }
+      );
+    }
+  }, [connected, userInfo]);
 
   const handleOnNotifs = (data: any) => {
     console.log(SocketListeners.onNotifications, data);
