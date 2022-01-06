@@ -26,6 +26,7 @@ const notify = (options: Options, type: TNotifyType = "default") => {
     dismiss: {
       duration: 5000,
       onScreen: true,
+      pauseOnHover: true,
     },
     onRemoval: options.onRemoval,
   });

@@ -12,6 +12,7 @@ import {
   TListenerData_OnNotifications,
   TListenerData_OnStartOnline,
 } from "socket/types";
+import { showNotification } from "utils/notification";
 
 const Header: FC = () => {
   const modalRechargeRef = useRef<HTMLDivElement | null>(null);
@@ -40,6 +41,7 @@ const Header: FC = () => {
 
   const handleOnNotifs = (data: TListenerData_OnNotifications) => {
     console.log(SocketListeners.onNotifications, data);
+    showNotification(data);
   };
 
   useEffect(() => {
