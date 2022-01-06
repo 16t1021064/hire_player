@@ -166,7 +166,6 @@ const PlayerProfile: FC = () => {
       createHire({
         playerId: player?.id || "",
         timeRent: hours,
-        cost: player?.playerInfo?.costPerHour || 0,
         customerNote: message,
       });
     }

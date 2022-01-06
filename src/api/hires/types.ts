@@ -3,7 +3,6 @@ import { TConversation, THire } from "types";
 export interface TCreateHireRequest {
   playerId: string;
   timeRent: number;
-  cost: number;
   customerNote: string;
 }
 
