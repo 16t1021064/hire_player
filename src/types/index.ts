@@ -115,16 +115,16 @@ export interface THire {
 }
 
 export interface TNotificationHirePayload {
-  conversation?: TConversation;
-  hire?: THire;
+  conversation?: string | TConversation;
+  hire?: string | THire;
 }
 
 export interface TNotification {
   id: string;
   payload?: TNotificationHirePayload;
   isRead?: boolean;
-  customer?: TUser;
-  player?: TUser;
+  customer?: string | TUser;
+  player?: string | TUser;
   action: number;
   href?: string;
   createdAt?: string;

@@ -1,8 +1,5 @@
 import { FC, MouseEvent, useEffect, useRef } from "react";
 import IonIcon from "@reacticons/ionicons";
-import AvaTuong from "img/ava-tuong.jpeg";
-import { Link } from "react-router-dom";
-import { routesEnum } from "pages/Routes";
 import { openPopup } from "utils/magnific";
 import useSocket from "hooks/useSocket";
 import { SocketEvents, SocketListeners } from "socket";
@@ -12,7 +9,9 @@ import {
   TListenerData_OnNotifications,
   TListenerData_OnStartOnline,
 } from "socket/types";
-import { showNotification } from "utils/notification";
+import { showNotification } from "utils/notifications";
+import Notifications from "./Notifications";
+import Profile from "./Profile";
 
 const Header: FC = () => {
   const modalRechargeRef = useRef<HTMLDivElement | null>(null);
@@ -22,6 +21,88 @@ const Header: FC = () => {
   const userInfo = useAppSelector((state) => state.auth.userInfo);
 
   const { socket, connected } = useSocket();
+
+  useEffect(() => {
+    // page
+    (function () {
+      // eslint-disable-next-line no-undef, @typescript-eslint/no-unused-vars
+      const page = $(".page");
+      // eslint-disable-next-line no-undef
+      const sidebar = $(".sidebar");
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const burger = sidebar.find(".sidebar__burger");
+      const close = sidebar.find(".sidebar__close");
+      // eslint-disable-next-line no-undef
+      const header = $(".header");
+      const burgerHeader = header.find(".header__burger");
+      const search = header.find(".header__search");
+      const openSearch = header.find(".header__item_search");
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      let items = header.find(".header__item");
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      let wrap = header.find(".header__wrap");
+
+      // items.each(function () {
+      //   // eslint-disable-next-line no-undef
+      //   let item = $(this),
+      //     head = item.find(".header__head:not(.js-propagation)"),
+      //     body = item.find(".header__body");
+
+      //   head.on("click", function (e) {
+      //     e.stopPropagation();
+      //     e.preventDefault();
+      //     console.log("click");
+      //     burgerHeader.removeClass("active");
+      //     sidebar.removeClass("visible");
+      //     search.slideUp();
+      //     if (!item.hasClass("active")) {
+      //       items.removeClass("active");
+      //       item.addClass("active");
+      //     } else {
+      //       items.removeClass("active");
+      //     }
+      //   });
+
+      //   body.on("click", function (e) {
+      //     e.stopPropagation();
+      //   });
+
+      //   // eslint-disable-next-line no-undef
+      //   $("body").on("click", function () {
+      //     items.removeClass("active");
+      //   });
+      // });
+
+      openSearch.on("click", function (e) {
+        e.preventDefault();
+        burgerHeader.removeClass("active");
+        search.slideToggle();
+        sidebar.removeClass("visible");
+        // eslint-disable-next-line no-undef
+        $("html").removeClass("no-scroll");
+        // eslint-disable-next-line no-undef
+        $("body").removeClass("no-scroll");
+      });
+      burgerHeader.on("click", function () {
+        burgerHeader.toggleClass("active");
+        search.slideUp();
+        sidebar.toggleClass("visible");
+        // eslint-disable-next-line no-undef
+        $("html").toggleClass("no-scroll");
+        // eslint-disable-next-line no-undef
+        $("body").toggleClass("no-scroll");
+      });
+      close.on("click", function () {
+        burgerHeader.removeClass("active");
+        search.slideUp();
+        sidebar.removeClass("visible");
+        // eslint-disable-next-line no-undef
+        $("html").removeClass("no-scroll");
+        // eslint-disable-next-line no-undef
+        $("body").removeClass("no-scroll");
+      });
+    })();
+  });
 
   useEffect(() => {
     if (connected && userInfo) {
@@ -87,60 +168,7 @@ const Header: FC = () => {
               name="search-outline"
             />
           </a>
-          <div className="header__item header__item_notifications js-header-item">
-            <button className="header__head js-header-head">
-              <IonIcon
-                className="icon icon-notifications-outline"
-                name="notifications-outline"
-              />
-              <div className="header__counter">2</div>
-            </button>
-            <div className="header__body js-header-body">
-              <div className="notifications">
-                <div className="notifications__info h6">
-                  Recent Notification
-                </div>
-                <div className="notifications__list">
-                  <a className="notifications__item">
-                    <div className="notifications__ava">
-                      <img
-                        src={AvaTuong}
-                        alt=""
-                        className="notifications__pic"
-                      />
-                    </div>
-                    <div className="notifications__details">
-                      <div className="notifications__line">
-                        <div className="notifications__user">Tuong Nguyen</div>
-                        <div className="notifications__time">8 days ago</div>
-                      </div>
-                      <div className="notifications__text">
-                        Rejected your Hire request
-                      </div>
-                    </div>
-                  </a>
-                  <a className="notifications__item">
-                    <div className="notifications__ava">
-                      <img
-                        src={AvaTuong}
-                        alt=""
-                        className="notifications__pic"
-                      />
-                    </div>
-                    <div className="notifications__details">
-                      <div className="notifications__line">
-                        <div className="notifications__user">Tuong Nguyen</div>
-                        <div className="notifications__time">8 days ago</div>
-                      </div>
-                      <div className="notifications__text">
-                        has accepted your Hire request
-                      </div>
-                    </div>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
+          <Notifications />
         </div>
         <div className="header__item header__item__money">
           <a
@@ -152,40 +180,7 @@ const Header: FC = () => {
             $50,00
           </a>
         </div>
-        <div className="header__item header__item_profile">
-          <a className="header__head">
-            <img src={AvaTuong} alt="" className="header__pic" />
-          </a>
-          <div className="header__body">
-            <Link to={routesEnum.settingUserPassword} className="header__link">
-              <div className="header__img">
-                <IonIcon
-                  className="icon icon-person-outline"
-                  name="person-outline"
-                />
-              </div>
-              Profile
-            </Link>
-            <Link to={routesEnum.settingUserPassword} className="header__link">
-              <div className="header__img">
-                <IonIcon
-                  className="icon icon-settings-outline"
-                  name="settings-outline"
-                />
-              </div>
-              Change password
-            </Link>
-            <Link to={routesEnum.logout} className="header__link">
-              <div className="header__img">
-                <IonIcon
-                  className="icon icon-log-out-outline"
-                  name="log-out-outline"
-                />
-              </div>
-              Log Out
-            </Link>
-          </div>
-        </div>
+        <Profile />
       </div>
       <div className="popup popup_normal mfp-hide" ref={modalRechargeRef}>
         <form className="popup__form">
