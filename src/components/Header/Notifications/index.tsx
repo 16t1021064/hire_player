@@ -1,13 +1,5 @@
 import IonIcon from "@reacticons/ionicons";
-import {
-  FC,
-  Fragment,
-  MouseEvent,
-  ReactNode,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { FC, Fragment, MouseEvent, useEffect, useRef, useState } from "react";
 import { useMutation } from "react-query";
 import { getNotificationsRequest } from "api/notifications/request";
 import { useAppSelector } from "hooks/useRedux";
@@ -28,13 +20,6 @@ const LIMIT = 10;
 
 export interface TNotificationTransform extends TNotification {
   fromSocket?: boolean;
-}
-
-export interface TNotificationRenderItem {
-  title: string;
-  content: ReactNode;
-  time: string;
-  thumb: string | undefined;
 }
 
 const Notifications: FC = () => {

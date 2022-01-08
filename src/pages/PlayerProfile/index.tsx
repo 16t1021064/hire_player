@@ -92,7 +92,7 @@ const PlayerProfile: FC = () => {
       if (value) {
         getPlayer(value);
       }
-      // history.replace({ ...location, state: undefined });
+      history.replace({ ...location, state: undefined });
     }
   }, [location]);
 
@@ -151,11 +151,7 @@ const PlayerProfile: FC = () => {
 
   const { mutate: createHire, status: createHireStatus } = useMutation(
     createHireRequest,
-    {
-      onSuccess: (data) => {
-        //
-      },
-    }
+    {}
   );
 
   const onSubmit = (event: React.SyntheticEvent) => {

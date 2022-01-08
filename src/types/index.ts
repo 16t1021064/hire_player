@@ -125,6 +125,7 @@ export interface TNotification {
   isRead?: boolean;
   customer?: string | TUser;
   player?: string | TUser;
+  receiver?: string | TUser;
   action: number;
   href?: string;
   createdAt?: string;
