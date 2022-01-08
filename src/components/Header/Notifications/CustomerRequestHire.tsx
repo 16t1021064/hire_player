@@ -1,5 +1,5 @@
 import { FC, MouseEvent, ReactNode, useEffect, useMemo, useState } from "react";
-import { THire, TNotification, TUser } from "types";
+import { THire, TUser } from "types";
 import { Button, Col, message, Modal as AntdModal, Row } from "antd";
 import { useMutation } from "react-query";
 import {
@@ -10,6 +10,7 @@ import { getMessage } from "utils/notifications";
 import Thumb from "assets/images/default-avatar.jpg";
 import TimeAgo from "react-timeago";
 import notify from "utils/notify";
+import { TNotificationTransform } from ".";
 
 interface TData {
   hireId: string;
@@ -17,10 +18,6 @@ interface TData {
   content: ReactNode;
   time: string;
   thumb: string | undefined;
-}
-
-export interface TNotificationTransform extends TNotification {
-  fromSocket?: boolean;
 }
 
 interface CustomerRequestHireProps {

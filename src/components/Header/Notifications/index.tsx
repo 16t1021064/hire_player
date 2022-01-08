@@ -14,9 +14,8 @@ import { useAppSelector } from "hooks/useRedux";
 import { TNotification } from "types";
 import { actionsEnum } from "utils/notifications";
 import clsx from "clsx";
-import CustomerRequestHire, {
-  TNotificationTransform,
-} from "./CustomerRequestHire";
+import CustomerRequestHire from "./CustomerRequestHire";
+import PlayerCancelHire from "./PlayerCancelHire";
 import useSocket from "hooks/useSocket";
 import {
   TEventData_StartOnline,
@@ -26,6 +25,10 @@ import {
 import { SocketEvents, SocketListeners } from "socket";
 
 const LIMIT = 10;
+
+export interface TNotificationTransform extends TNotification {
+  fromSocket?: boolean;
+}
 
 export interface TNotificationRenderItem {
   title: string;
@@ -119,7 +122,7 @@ const Notifications: FC = () => {
       fetch({
         limit: LIMIT,
         page: 1,
-        populate: "customer|payload.hire|payload.conversation",
+        populate: "customer|player|payload.hire|payload.conversation",
         sortBy: "createdAt:desc",
       });
     }
@@ -129,6 +132,8 @@ const Notifications: FC = () => {
     switch (notif.action) {
       case actionsEnum.CUSTOMER_REQUEST_HIRE:
         return <CustomerRequestHire notif={notif} />;
+      case actionsEnum.PLAYER_CANCEL_HIRE:
+        return <PlayerCancelHire notif={notif} />;
       default:
         return <></>;
     }

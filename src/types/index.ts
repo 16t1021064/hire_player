@@ -114,14 +114,14 @@ export interface THire {
   updatedAt?: string;
 }
 
-export interface TNotificationHirePayload {
+export interface TNotificationPayload {
   conversation?: string | TConversation;
   hire?: string | THire;
 }
 
 export interface TNotification {
   id: string;
-  payload?: TNotificationHirePayload;
+  payload?: TNotificationPayload;
   isRead?: boolean;
   customer?: string | TUser;
   player?: string | TUser;
