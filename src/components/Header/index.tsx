@@ -1,26 +1,11 @@
 import { FC, MouseEvent, useEffect, useRef } from "react";
 import IonIcon from "@reacticons/ionicons";
 import { openPopup } from "utils/magnific";
-import useSocket from "hooks/useSocket";
-import { SocketEvents, SocketListeners } from "socket";
-import { useAppSelector } from "hooks/useRedux";
-import {
-  TEventData_StartOnline,
-  TListenerData_OnNotifications,
-  TListenerData_OnStartOnline,
-} from "socket/types";
-import { showNotification } from "utils/notifications";
 import Notifications from "./Notifications";
 import Profile from "./Profile";
 
 const Header: FC = () => {
   const modalRechargeRef = useRef<HTMLDivElement | null>(null);
-  const handleOnNotifsRef = useRef<
-    ((data: TListenerData_OnNotifications) => void) | null
-  >(null);
-  const userInfo = useAppSelector((state) => state.auth.userInfo);
-
-  const { socket, connected } = useSocket();
 
   useEffect(() => {
     // page
@@ -103,41 +88,6 @@ const Header: FC = () => {
       });
     })();
   });
-
-  useEffect(() => {
-    if (connected && userInfo) {
-      const startOnlineData: TEventData_StartOnline = {
-        userId: userInfo.id,
-      };
-      socket?.emit(SocketEvents.startOnline, startOnlineData);
-
-      socket?.on(
-        SocketListeners.onStartOnline,
-        (data: TListenerData_OnStartOnline) => {
-          console.log(SocketListeners.onStartOnline, data.UsersOnline);
-        }
-      );
-    }
-  }, [connected, userInfo]);
-
-  const handleOnNotifs = (data: TListenerData_OnNotifications) => {
-    console.log(SocketListeners.onNotifications, data);
-    showNotification(data);
-  };
-
-  useEffect(() => {
-    if (!connected) {
-      return;
-    }
-    if (handleOnNotifsRef.current) {
-      socket?.removeListener(
-        SocketListeners.onNotifications,
-        handleOnNotifsRef.current
-      );
-    }
-    handleOnNotifsRef.current = handleOnNotifs;
-    socket?.on(SocketListeners.onNotifications, handleOnNotifsRef.current);
-  }, [connected]);
 
   const onRecharge = (event: MouseEvent) => {
     event.preventDefault();

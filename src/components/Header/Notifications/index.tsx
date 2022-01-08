@@ -1,19 +1,31 @@
 import IonIcon from "@reacticons/ionicons";
-import { FC, MouseEvent, ReactNode, useEffect, useRef, useState } from "react";
-import DefaultThumbnail from "assets/images/default-avatar.jpg";
+import {
+  FC,
+  Fragment,
+  MouseEvent,
+  ReactNode,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { useMutation } from "react-query";
 import { getNotificationsRequest } from "api/notifications/request";
 import { useAppSelector } from "hooks/useRedux";
 import { TNotification } from "types";
-import { getRenderData } from "utils/notifications";
+import { actionsEnum } from "utils/notifications";
 import clsx from "clsx";
-import TimeAgo from "react-timeago";
-import { ExclamationCircleOutlined } from "@ant-design/icons";
-import { Modal as AntdModal } from "antd";
+import CustomerRequestHire, {
+  TNotificationTransform,
+} from "./CustomerRequestHire";
+import useSocket from "hooks/useSocket";
+import {
+  TEventData_StartOnline,
+  TListenerData_OnNotifications,
+  TListenerData_OnStartOnline,
+} from "socket/types";
+import { SocketEvents, SocketListeners } from "socket";
 
 const LIMIT = 10;
-
-const { confirm } = AntdModal;
 
 export interface TNotificationRenderItem {
   title: string;
@@ -24,10 +36,14 @@ export interface TNotificationRenderItem {
 
 const Notifications: FC = () => {
   const { userInfo, isLogin } = useAppSelector((state) => state.auth);
-  const [items, setItems] = useState<TNotification[]>([]);
+  const [items, setItems] = useState<TNotificationTransform[]>([]);
   const [total, setTotal] = useState<number>(0);
   const wrapperRef = useRef<HTMLDivElement | null>(null);
   const [visible, setVisible] = useState(false);
+  const handleOnNotifsRef = useRef<
+    ((data: TListenerData_OnNotifications) => void) | null
+  >(null);
+  const { socket, connected } = useSocket();
 
   useEffect(() => {
     const callback = (event: any) => {
@@ -53,9 +69,46 @@ const Notifications: FC = () => {
     setVisible(true);
   };
 
+  useEffect(() => {
+    if (connected && userInfo) {
+      const startOnlineData: TEventData_StartOnline = {
+        userId: userInfo.id,
+      };
+      socket?.emit(SocketEvents.startOnline, startOnlineData);
+
+      socket?.on(
+        SocketListeners.onStartOnline,
+        (data: TListenerData_OnStartOnline) => {
+          console.log(SocketListeners.onStartOnline, data.UsersOnline);
+        }
+      );
+    }
+  }, [connected, userInfo]);
+
+  const handleOnNotifs = (data: TListenerData_OnNotifications) => {
+    console.log(SocketListeners.onNotifications, data);
+    const transfrom: TNotificationTransform = data as TNotificationTransform;
+    transfrom.fromSocket = true;
+    setItems([transfrom].concat(items));
+    setTotal(total + 1);
+  };
+
+  useEffect(() => {
+    if (!connected) {
+      return;
+    }
+    if (handleOnNotifsRef.current) {
+      socket?.removeListener(
+        SocketListeners.onNotifications,
+        handleOnNotifsRef.current
+      );
+    }
+    handleOnNotifsRef.current = handleOnNotifs;
+    socket?.on(SocketListeners.onNotifications, handleOnNotifsRef.current);
+  }, [connected]);
+
   const { mutate: fetch } = useMutation(getNotificationsRequest, {
     onSuccess: (data) => {
-      console.log(data);
       setItems(data.data.results);
       setTotal(data.data.totalResults);
     },
@@ -72,29 +125,12 @@ const Notifications: FC = () => {
     }
   }, [userInfo]);
 
-  const onClickHireRequest = (notif: TNotification) => {
-    confirm({
-      title: "Ready to accept the hire ?",
-      okText: "Accept",
-      cancelText: "Deny",
-      icon: <ExclamationCircleOutlined />,
-      onOk() {
-        return new Promise((resolve, reject) => {}).catch(() => {});
-      },
-      onCancel() {
-        return new Promise((resolve, reject) => {}).catch(() => {});
-      },
-    });
-  };
-
-  const onClick = (event: MouseEvent, notif: TNotification) => {
-    event.preventDefault();
-    switch (notif?.action) {
-      case 1:
-        onClickHireRequest(notif);
-        break;
+  const renderItem: any = (notif: TNotification) => {
+    switch (notif.action) {
+      case actionsEnum.CUSTOMER_REQUEST_HIRE:
+        return <CustomerRequestHire notif={notif} />;
       default:
-        break;
+        return <></>;
     }
   };
 
@@ -117,39 +153,9 @@ const Notifications: FC = () => {
         <div className="notifications">
           <div className="notifications__info h6">Recent Notification</div>
           <div className="notifications__list">
-            {items.map((item, pos) => {
-              const renderData = getRenderData(item);
-              return (
-                <a
-                  key={pos}
-                  className="notifications__item"
-                  onClick={(event) => {
-                    onClick(event, item);
-                  }}
-                >
-                  <div className="notifications__ava">
-                    <img
-                      src={renderData?.thumb || DefaultThumbnail}
-                      alt=""
-                      className="notifications__pic"
-                    />
-                  </div>
-                  <div className="notifications__details">
-                    <div className="notifications__line">
-                      <div className="notifications__user">
-                        {renderData?.title}
-                      </div>
-                      <div className="notifications__time">
-                        <TimeAgo date={renderData?.time || 0} />
-                      </div>
-                    </div>
-                    <div className="notifications__text">
-                      {renderData?.content}
-                    </div>
-                  </div>
-                </a>
-              );
-            })}
+            {items.map((item, pos) => (
+              <Fragment key={pos}>{renderItem(item)}</Fragment>
+            ))}
           </div>
         </div>
       </div>

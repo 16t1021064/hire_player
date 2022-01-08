@@ -19,5 +19,8 @@
   "ERROR_PLAYER_NOT_RECEIVE_HIRE": "Player not reveive hỉe",
   "ERROR_PLAYER_BUSY": "Player busy",
   "ERROR_YOU_HAVE_HIRED_THIS_PLAYER_WAIT_FOR_THE_PLAYER_TO_ACCEPT_IT": "You have hired this player wait for the player to accept it",
-  "ERROR_CUSTOMER_NOT_ENOUGH_MONEY": "Customer not engough money"
+  "ERROR_CUSTOMER_NOT_ENOUGH_MONEY": "Customer not engough money",
+  "ERROR_HIRE_NOT_FOUND": "Hire not found",
+  "ERROR_STATUS_HIRE_INVALID": "Hire status invalid",
+  "ERROR_ONLY_PLAYER_CANCEL_HIRE": "Only player can cancel hire"
 }
