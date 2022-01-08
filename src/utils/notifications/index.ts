@@ -1,7 +1,7 @@
 import { TNotificationRenderItem } from "components/Header/Notifications";
 import { TNotification } from "types";
-import * as hireRequest from "utils/notifications/hireRequest";
-import * as playerCancel from "utils/notifications/playerCancel";
+import * as customerRequestHire from "utils/notifications/customerRequestHire";
+import * as playerCancelHire from "utils/notifications/playerCancelHire";
 
 export enum actionsEnum {
   CUSTOMER_REQUEST_HIRE = 1,
@@ -16,9 +16,9 @@ export enum actionsEnum {
 export const getMessage = (notif: TNotification) => {
   switch (notif.action) {
     case actionsEnum.CUSTOMER_REQUEST_HIRE:
-      return hireRequest.getMessage(notif);
+      return customerRequestHire.getMessage(notif);
     case actionsEnum.PLAYER_CANCEL_HIRE:
-      return playerCancel.getMessage(notif);
+      return playerCancelHire.getMessage(notif);
     default:
       return undefined;
   }
@@ -29,7 +29,7 @@ export const getRenderData = (
 ): TNotificationRenderItem | undefined => {
   switch (notif.action) {
     case actionsEnum.CUSTOMER_REQUEST_HIRE:
-      return hireRequest.getRenderData(notif);
+      return customerRequestHire.getRenderData(notif);
     default:
       return undefined;
   }
@@ -38,7 +38,7 @@ export const getRenderData = (
 export const showNotification = (notif: TNotification) => {
   switch (notif.action) {
     case actionsEnum.CUSTOMER_REQUEST_HIRE:
-      hireRequest.show(notif);
+      customerRequestHire.show(notif);
       break;
     default:
       break;
