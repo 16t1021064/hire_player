@@ -3,6 +3,7 @@ import { TBodyMessage, TConversation, TMessage, TUser } from "types";
 export interface TGetMessagesRequest {
   id: string; // conversation id
   senderId?: string;
+  latestMessageId?: string;
   sortBy?: string;
   limit?: number;
   page?: number;

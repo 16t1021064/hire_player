@@ -1,11 +1,6 @@
 import IonIcon from "@reacticons/ionicons";
-import {
-  createMessageRequest,
-  getMessagesRequest,
-  readMessagesRequest,
-} from "api/messages/request";
-import { useAppSelector } from "hooks/useRedux";
-import { FC, SyntheticEvent, useEffect, useRef, useState } from "react";
+import { getMessagesRequest } from "api/messages/request";
+import { FC, useEffect, useMemo, useRef, useState } from "react";
 import { useMutation } from "react-query";
 import { SocketListeners } from "socket";
 import { Socket } from "socket.io-client";
@@ -14,6 +9,12 @@ import { TPagination } from "types";
 import { generateGroups } from "utils/message";
 import { TConvertedConversation } from "..";
 import MessageGroup, { TMessageGroup } from "../MessageGroup";
+import { LoadingOutlined } from "@ant-design/icons";
+import styles from "./index.module.sass";
+import { Col, Row } from "antd";
+import Footer, { FooterMethods } from "./Footer";
+import clsx from "clsx";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 interface ChatBoxProps {
   conv: TConvertedConversation;
@@ -22,92 +23,71 @@ interface ChatBoxProps {
 }
 
 const ChatBox: FC<ChatBoxProps> = ({ conv, socket, connected }) => {
-  const [messageGroups, setMessageGroups] = useState<TMessageGroup[]>([]);
-  const [messagesPagination, setMessagesPagination] = useState<TPagination>({
+  const [groups, setGroups] = useState<TMessageGroup[]>([]);
+  const [pagination, setPagination] = useState<TPagination>({
     page: 1,
-    limit: 10,
+    limit: 5,
     totalPages: 1,
     totalResults: 0,
   });
-  const messageRef = useRef<HTMLInputElement | null>(null);
-  const chatListRef = useRef<HTMLDivElement | null>(null);
   const handleOnMessagesRef = useRef<
     ((data: TListenerData_OnMessages) => void) | null
   >(null);
-  const userInfo = useAppSelector((state) => state.auth.userInfo);
-  const [focusText, setFocusText] = useState<boolean>(false);
+  const footerRef = useRef<FooterMethods | null>(null);
+  const lockFocusRef = useRef<boolean>(false);
+  const lastestMessageRef = useRef<string | undefined>(undefined);
 
-  const { mutate: fetchMessages } = useMutation(getMessagesRequest, {
-    onSuccess: (data) => {
-      setMessageGroups(messageGroups.concat(generateGroups(data.data.results)));
-      setMessagesPagination({
-        ...messagesPagination,
-        page: data.data.page,
-        limit: data.data.limit,
-        totalPages: data.data.totalPages,
-        totalResults: data.data.totalResults,
-      });
-      fnFocusBox();
-    },
-  });
-
-  const { mutate: readMessages } = useMutation(readMessagesRequest);
-
-  const { mutate: createMessage, status: createMessageStatus } = useMutation(
-    createMessageRequest,
+  const { mutate: fetch, status: fetchStatus } = useMutation(
+    getMessagesRequest,
     {
       onSuccess: (data) => {
-        console.log(data);
+        const len = data.data.results.length;
+        if (len > 0) {
+          lastestMessageRef.current = data.data.results[len - 1].id;
+        }
+        const newGroups = generateGroups(data.data.results);
+        setGroups(groups.concat(newGroups));
+        setPagination({
+          ...pagination,
+          page: data.data.page,
+          limit: data.data.limit,
+          totalPages: data.data.totalPages,
+          totalResults: data.data.totalResults,
+        });
+        if (!lockFocusRef.current) {
+          footerRef.current?.focus();
+          lockFocusRef.current = true;
+        }
       },
     }
   );
 
   useEffect(() => {
-    setMessageGroups([]);
-    setMessagesPagination({
-      ...messagesPagination,
+    lastestMessageRef.current = undefined;
+    setGroups([]);
+    setPagination({
+      ...pagination,
       page: 1,
       limit: 10,
       totalPages: 1,
       totalResults: 0,
     });
     setTimeout(() => {
-      fetchMessages({
+      fetch({
         id: conv.id,
         sortBy: "createdAt:desc",
-        limit: messagesPagination.limit,
-        page: messagesPagination.page,
+        limit: pagination.limit,
+        page: pagination.page,
         populate: "sender",
       });
     });
   }, [conv]);
 
-  const onSubmit = (event: SyntheticEvent) => {
-    event.preventDefault();
-    if (
-      createMessageStatus !== "loading" &&
-      messageRef.current?.value &&
-      userInfo
-    ) {
-      createMessage({
-        id: conv.id,
-        body: {
-          content: messageRef.current.value,
-        },
-        senderId: userInfo.id,
-      });
-      messageRef.current.value = "";
-    }
-  };
-
   const handleOnMessages = (data: TListenerData_OnMessages) => {
     if (data.conversation.id !== conv.id) return;
     const latestMessage = { ...data.latestMessage, sender: data.sender };
-    const newMessageGroups = messageGroups.concat(
-      generateGroups([latestMessage])
-    );
-    setMessageGroups(newMessageGroups);
-    fnFocusBox();
+    const newGroups = generateGroups([latestMessage]);
+    setGroups(newGroups.concat(groups));
   };
 
   useEffect(() => {
@@ -122,21 +102,32 @@ const ChatBox: FC<ChatBoxProps> = ({ conv, socket, connected }) => {
     }
     handleOnMessagesRef.current = handleOnMessages;
     socket?.on(SocketListeners.onMessages, handleOnMessagesRef.current);
-  }, [connected, messageGroups]);
+  }, [connected, groups]);
 
-  const fnFocusBox = () => {
-    setTimeout(() => {
-      if (chatListRef.current) {
-        (chatListRef.current as any).scrollTop =
-          chatListRef.current?.scrollHeight;
-      }
-      messageRef.current?.focus();
-    });
+  const hasMore = useMemo((): boolean => {
+    if (
+      pagination.limit &&
+      pagination.totalResults &&
+      pagination.limit < pagination.totalResults
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  }, [pagination]);
+
+  const fetchMore = () => {
+    if (hasMore && fetchStatus !== "loading") {
+      fetch({
+        id: conv.id,
+        sortBy: "createdAt:desc",
+        limit: pagination.limit,
+        page: 1,
+        populate: "sender",
+        latestMessageId: lastestMessageRef.current,
+      });
+    }
   };
-
-  useEffect(() => {
-    readMessages({ id: conv.id });
-  }, [focusText]);
 
   return (
     <>
@@ -164,31 +155,31 @@ const ChatBox: FC<ChatBoxProps> = ({ conv, socket, connected }) => {
         </div>
       </div>
       <div className="chat_messenger__body">
-        <div className="chat_messenger__list" ref={chatListRef}>
-          {messageGroups.map((messageGroup, num: number) => (
-            <MessageGroup key={num} group={messageGroup} />
-          ))}
+        <div
+          id="chatScroll"
+          className={clsx("chat_messenger__list", styles.list)}
+        >
+          <InfiniteScroll
+            className={styles.scroll}
+            dataLength={groups.length || 0}
+            next={fetchMore}
+            hasMore={hasMore}
+            loader={
+              <Row justify="center">
+                <Col>
+                  <LoadingOutlined className={styles.loading} />
+                </Col>
+              </Row>
+            }
+            inverse
+            scrollableTarget="chatScroll"
+          >
+            {groups.map((group: TMessageGroup, num: number) => (
+              <MessageGroup key={num} group={group} />
+            ))}
+          </InfiniteScroll>
         </div>
-        <form className="chat_messenger__foot" onSubmit={onSubmit}>
-          <input
-            type="text"
-            placeholder="Send a message…"
-            className="chat_messenger__input"
-            ref={messageRef}
-            onFocus={() => {
-              setFocusText(true);
-            }}
-            onBlur={() => {
-              setFocusText(false);
-            }}
-          />
-          <button type="submit" className="chat_messenger__btn btn btn_primary">
-            Send
-          </button>
-          <button type="button" className="chat_messenger__smile">
-            <IonIcon className="icon icon-happy-outline" name="happy-outline" />
-          </button>
-        </form>
+        <Footer conv={conv} ref={footerRef} />
       </div>
     </>
   );

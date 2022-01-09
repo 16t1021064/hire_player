@@ -10,57 +10,49 @@ const MILISECONDS_DIFF = 1000 * 60;
  */
 export const generateGroups = (messages: TMessage[]): TMessageGroup[] => {
   let results: TMessageGroup[] = [];
-  messages.reverse();
-  results = messages.reduce(
-    (prevGroups: TMessageGroup[], message: TMessage) => {
-      const prevPos =
-        prevGroups?.length > 0 ? prevGroups.length - 1 : undefined;
-      const sender = (message?.sender as TUser) || undefined;
+  results = messages.reduce((groups: TMessageGroup[], message: TMessage) => {
+    const prevPos = groups?.length > 0 ? groups.length - 1 : undefined;
+    const sender = (message?.sender as TUser) || undefined;
 
-      // inital array is empty, add new group
-      if (!prevPos) {
-        prevGroups.push({
-          avatar: sender?.avatar?.link,
-          senderId: sender?.id,
-          name: sender?.userName,
-          time: message?.createdAt,
-          messages: [message?.body?.content || ""],
-        });
-        return prevGroups;
-      }
+    // inital array is empty, add new group
+    if (!prevPos) {
+      groups.push({
+        avatar: sender?.avatar?.link,
+        senderId: sender?.id,
+        name: sender?.userName,
+        time: message?.createdAt,
+        messages: [message?.body?.content || ""],
+      });
+      return groups;
+    }
 
-      // check time and grouping messages
-      const createdAt = message?.createdAt;
-      if (!createdAt) {
-        return prevGroups;
-      }
+    // check time and grouping messages
+    const createdAt = message?.createdAt;
+    if (!createdAt) {
+      return groups;
+    }
 
-      const timeMiliseconds = new Date(prevGroups[prevPos].time || 0).getTime();
-      const createdAtMiliseconds = new Date(createdAt).getTime();
-      const diff = createdAtMiliseconds - timeMiliseconds;
+    const timeMiliseconds = new Date(groups[prevPos].time || 0).getTime();
+    const createdAtMiliseconds = new Date(createdAt).getTime();
+    const diff = timeMiliseconds - createdAtMiliseconds;
 
-      if (
-        diff < MILISECONDS_DIFF &&
-        sender?.id === prevGroups[prevPos]?.senderId
-      ) {
-        // within period, add message to group
-        prevGroups[prevPos].time = createdAt;
-        prevGroups[prevPos]?.messages?.push(message?.body?.content || "");
-      } else {
-        // out of period, add new group
-        prevGroups.push({
-          avatar: sender?.avatar?.link,
-          senderId: sender?.id,
-          name: sender?.userName,
-          time: message?.createdAt,
-          messages: [message?.body?.content || ""],
-        });
-      }
+    if (diff < MILISECONDS_DIFF && sender?.id === groups[prevPos]?.senderId) {
+      // within period, add message to group
+      groups[prevPos].time = createdAt;
+      groups[prevPos]?.messages?.push(message?.body?.content || "");
+    } else {
+      // out of period, add new group
+      groups.push({
+        avatar: sender?.avatar?.link,
+        senderId: sender?.id,
+        name: sender?.userName,
+        time: message?.createdAt,
+        messages: [message?.body?.content || ""],
+      });
+    }
 
-      return prevGroups;
-    },
-    []
-  );
+    return groups;
+  }, []);
 
   return results;
 };
