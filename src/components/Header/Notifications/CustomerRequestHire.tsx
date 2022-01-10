@@ -43,6 +43,15 @@ const CustomerRequestHire: FC<CustomerRequestHireProps> = ({ notif }) => {
     };
   }, [notif]);
 
+  const enableClick = useMemo((): boolean => {
+    const hire: THire = notif?.payload?.hire as THire;
+    if (hire?.hireStep === 1) {
+      return true;
+    } else {
+      return false;
+    }
+  }, [notif]);
+
   const { mutate: playerAccept, status: playerAcceptStatus } = useMutation(
     playerAcceptHireRequest,
     {
@@ -80,7 +89,7 @@ const CustomerRequestHire: FC<CustomerRequestHireProps> = ({ notif }) => {
       {
         message: getMessage(notif) as string,
         onRemoval: (id, removedBy) => {
-          if (removedBy === "click") {
+          if (removedBy === "click" && enableClick) {
             showConfirm();
           }
         },
@@ -91,7 +100,9 @@ const CustomerRequestHire: FC<CustomerRequestHireProps> = ({ notif }) => {
 
   const onClick = (event: MouseEvent) => {
     event.preventDefault();
-    showConfirm();
+    if (enableClick) {
+      showConfirm();
+    }
   };
 
   const onCancel = () => {
@@ -124,44 +135,46 @@ const CustomerRequestHire: FC<CustomerRequestHireProps> = ({ notif }) => {
           <div className="notifications__text">{data.content}</div>
         </div>
       </a>
-      <AntdModal
-        visible={visible}
-        title="Ready to accept the hire ?"
-        footer={
-          <Row gutter={[8, 8]} justify="end">
-            <Col>
-              <Button type="default" onClick={onCancel} disabled={freezy}>
-                Cancel
-              </Button>
-            </Col>
-            <Col>
-              <Button
-                type="primary"
-                danger
-                disabled={freezy}
-                onClick={onDeny}
-                loading={playerCancelStatus === "loading"}
-              >
-                Deny
-              </Button>
-            </Col>
-            <Col>
-              <Button
-                type="primary"
-                disabled={freezy}
-                onClick={onAccept}
-                loading={playerAcceptStatus === "loading"}
-              >
-                Apcept
-              </Button>
-            </Col>
-          </Row>
-        }
-        onCancel={onCancel}
-      >
-        When accepting a hire, you will discus on game with customer directly on
-        chatbox, and you can not get hire anymore while you play game
-      </AntdModal>
+      {enableClick && (
+        <AntdModal
+          visible={visible}
+          title="Ready to accept the hire ?"
+          footer={
+            <Row gutter={[8, 8]} justify="end">
+              <Col>
+                <Button type="default" onClick={onCancel} disabled={freezy}>
+                  Cancel
+                </Button>
+              </Col>
+              <Col>
+                <Button
+                  type="primary"
+                  danger
+                  disabled={freezy}
+                  onClick={onDeny}
+                  loading={playerCancelStatus === "loading"}
+                >
+                  Deny
+                </Button>
+              </Col>
+              <Col>
+                <Button
+                  type="primary"
+                  disabled={freezy}
+                  onClick={onAccept}
+                  loading={playerAcceptStatus === "loading"}
+                >
+                  Apcept
+                </Button>
+              </Col>
+            </Row>
+          }
+          onCancel={onCancel}
+        >
+          When accepting a hire, you will discus on game with customer directly
+          on chatbox, and you can not get hire anymore while you play game
+        </AntdModal>
+      )}
     </>
   );
 };

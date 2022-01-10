@@ -92,7 +92,7 @@ const PlayerProfile: FC = () => {
       if (value) {
         getPlayer(value);
       }
-      history.replace({ ...location, state: undefined });
+      // history.replace({ ...location, state: undefined });
     }
   }, [location]);
 

@@ -5,6 +5,6 @@ export const getMessage = (notif: TNotification) => {
   if (player?.playerInfo?.playerName) {
     return `Player ${player.playerInfo.playerName} has accepted your request`;
   } else {
-    return `Player cancel your request`;
+    return `Player has accepted your request`;
   }
 };

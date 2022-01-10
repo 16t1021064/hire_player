@@ -27,6 +27,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { LoadingOutlined } from "@ant-design/icons";
 import { Col, Row } from "antd";
 import styles from "./index.module.sass";
+import PlayerAcceptHire from "./PlayerAcceptHire";
 
 export interface TNotificationTransform extends TNotification {
   fromSocket?: boolean;
@@ -149,6 +150,8 @@ const Notifications: FC = () => {
         return <CustomerRequestHire notif={notif} />;
       case actionsEnum.PLAYER_CANCEL_HIRE:
         return <PlayerCancelHire notif={notif} />;
+      case actionsEnum.PLAYER_ACCEPT_HIRE:
+        return <PlayerAcceptHire notif={notif} />;
       default:
         return <></>;
     }
@@ -179,10 +182,6 @@ const Notifications: FC = () => {
     }
   };
 
-  useEffect(() => {
-    console.log("hasMore", hasMore);
-  }, [hasMore]);
-
   return isLogin ? (
     <div
       className={clsx(
@@ -199,7 +198,7 @@ const Notifications: FC = () => {
         <div className="header__counter">{total}</div>
       </button>
       <div className={"header__body js-header-body"}>
-        <div className="notifications">
+        <div className={clsx("notifications", styles.notifications)}>
           <div className="notifications__info h6">Recent Notification</div>
           <div
             id="notificationsScroll"

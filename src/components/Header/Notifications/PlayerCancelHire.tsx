@@ -13,11 +13,11 @@ interface TData {
   thumb: string | undefined;
 }
 
-interface CustomerRequestHireProps {
+interface PlayerCancelHireProps {
   notif: TNotificationTransform;
 }
 
-const PlayerCancelHire: FC<CustomerRequestHireProps> = ({ notif }) => {
+const PlayerCancelHire: FC<PlayerCancelHireProps> = ({ notif }) => {
   const data: TData = useMemo(() => {
     const content = getMessage(notif);
     const player: TUser = notif?.player as TUser;
