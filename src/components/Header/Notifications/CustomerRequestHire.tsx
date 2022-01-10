@@ -11,6 +11,7 @@ import Thumb from "assets/images/default-avatar.jpg";
 import TimeAgo from "react-timeago";
 import notify from "utils/notify";
 import { TNotificationTransform } from ".";
+import { stepsEnum } from "utils/hires/index";
 
 interface TData {
   hireId: string;
@@ -45,7 +46,7 @@ const CustomerRequestHire: FC<CustomerRequestHireProps> = ({ notif }) => {
 
   const enableClick = useMemo((): boolean => {
     const hire: THire = notif?.payload?.hire as THire;
-    if (hire?.hireStep === 1) {
+    if (hire?.hireStep === stepsEnum.WAITING) {
       return true;
     } else {
       return false;
