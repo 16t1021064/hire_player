@@ -29,7 +29,6 @@ const Profile: FC = () => {
     // sidebar.removeClass("visible");
     // search.slideUp();
     // items.removeClass("active");
-    console.log("inside");
     setVisible(true);
   };
 

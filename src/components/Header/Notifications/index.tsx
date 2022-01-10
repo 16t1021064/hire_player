@@ -1,9 +1,17 @@
 import IonIcon from "@reacticons/ionicons";
-import { FC, Fragment, MouseEvent, useEffect, useRef, useState } from "react";
+import {
+  FC,
+  Fragment,
+  MouseEvent,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { useMutation } from "react-query";
 import { getNotificationsRequest } from "api/notifications/request";
 import { useAppSelector } from "hooks/useRedux";
-import { TNotification } from "types";
+import { TNotification, TPagination } from "types";
 import { actionsEnum } from "utils/notifications";
 import clsx from "clsx";
 import CustomerRequestHire from "./CustomerRequestHire";
@@ -15,8 +23,10 @@ import {
   TListenerData_OnStartOnline,
 } from "socket/types";
 import { SocketEvents, SocketListeners } from "socket";
-
-const LIMIT = 10;
+import InfiniteScroll from "react-infinite-scroll-component";
+import { LoadingOutlined } from "@ant-design/icons";
+import { Col, Row } from "antd";
+import styles from "./index.module.sass";
 
 export interface TNotificationTransform extends TNotification {
   fromSocket?: boolean;
@@ -32,6 +42,13 @@ const Notifications: FC = () => {
     ((data: TListenerData_OnNotifications) => void) | null
   >(null);
   const { socket, connected } = useSocket();
+  const lastestIdRef = useRef<string | undefined>(undefined);
+  const [pagination, setPagination] = useState<TPagination>({
+    page: 1,
+    limit: 10,
+    totalPages: 1,
+    totalResults: 0,
+  });
 
   useEffect(() => {
     const callback = (event: any) => {
@@ -53,7 +70,6 @@ const Notifications: FC = () => {
     // sidebar.removeClass("visible");
     // search.slideUp();
     // items.removeClass("active");
-    console.log("inside");
     setVisible(true);
   };
 
@@ -95,17 +111,31 @@ const Notifications: FC = () => {
     socket?.on(SocketListeners.onNotifications, handleOnNotifsRef.current);
   }, [connected]);
 
-  const { mutate: fetch } = useMutation(getNotificationsRequest, {
-    onSuccess: (data) => {
-      setItems(data.data.results);
-      setTotal(data.data.totalResults);
-    },
-  });
+  const { mutate: fetch, status: fetchStatus } = useMutation(
+    getNotificationsRequest,
+    {
+      onSuccess: (data) => {
+        const len = data.data.results.length;
+        if (len > 0) {
+          lastestIdRef.current = data.data.results[len - 1].id;
+        }
+        setPagination({
+          ...pagination,
+          page: data.data.page,
+          limit: data.data.limit,
+          totalPages: data.data.totalPages,
+          totalResults: data.data.totalResults,
+        });
+        setItems(items.concat(data.data.results));
+        setTotal(data.data.totalResults);
+      },
+    }
+  );
 
   useEffect(() => {
     if (userInfo) {
       fetch({
-        limit: LIMIT,
+        limit: pagination.limit,
         page: 1,
         populate: "customer|player|payload.hire|payload.conversation",
         sortBy: "createdAt:desc",
@@ -123,6 +153,35 @@ const Notifications: FC = () => {
         return <></>;
     }
   };
+
+  const hasMore = useMemo((): boolean => {
+    if (
+      pagination.limit &&
+      pagination.totalResults &&
+      pagination.limit < pagination.totalResults
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  }, [pagination]);
+
+  const fetchMore = () => {
+    console.log("fetchMore");
+    if (hasMore && fetchStatus !== "loading") {
+      fetch({
+        limit: pagination.limit,
+        page: 1,
+        populate: "customer|player|payload.hire|payload.conversation",
+        sortBy: "createdAt:desc",
+        latestId: lastestIdRef.current,
+      });
+    }
+  };
+
+  useEffect(() => {
+    console.log("hasMore", hasMore);
+  }, [hasMore]);
 
   return isLogin ? (
     <div
@@ -142,10 +201,28 @@ const Notifications: FC = () => {
       <div className={"header__body js-header-body"}>
         <div className="notifications">
           <div className="notifications__info h6">Recent Notification</div>
-          <div className="notifications__list">
-            {items.map((item, pos) => (
-              <Fragment key={pos}>{renderItem(item)}</Fragment>
-            ))}
+          <div
+            id="notificationsScroll"
+            className={clsx("notifications__list", styles.list)}
+          >
+            <InfiniteScroll
+              className={styles.scroll}
+              dataLength={items.length || 0}
+              next={fetchMore}
+              hasMore={hasMore}
+              loader={
+                <Row justify="center">
+                  <Col>
+                    <LoadingOutlined className={styles.loading} />
+                  </Col>
+                </Row>
+              }
+              scrollableTarget="notificationsScroll"
+            >
+              {items.map((item, pos: number) => (
+                <Fragment key={pos}>{renderItem(item)}</Fragment>
+              ))}
+            </InfiniteScroll>
           </div>
         </div>
       </div>

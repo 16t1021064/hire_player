@@ -26,7 +26,7 @@ const ChatBox: FC<ChatBoxProps> = ({ conv, socket, connected }) => {
   const [groups, setGroups] = useState<TMessageGroup[]>([]);
   const [pagination, setPagination] = useState<TPagination>({
     page: 1,
-    limit: 5,
+    limit: 10,
     totalPages: 1,
     totalResults: 0,
   });
@@ -76,7 +76,7 @@ const ChatBox: FC<ChatBoxProps> = ({ conv, socket, connected }) => {
       fetch({
         id: conv.id,
         sortBy: "createdAt:desc",
-        limit: pagination.limit,
+        limit: 15,
         page: pagination.page,
         populate: "sender",
       });

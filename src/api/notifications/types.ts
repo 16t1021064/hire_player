@@ -1,6 +1,7 @@
 import { THire, TNotification } from "types";
 
 export interface TGetNotificationsRequest {
+  latestId?: string;
   sortBy?: string;
   limit?: number;
   page?: number;
