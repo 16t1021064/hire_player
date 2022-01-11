@@ -19,6 +19,8 @@ interface TData {
   content: ReactNode;
   time: string;
   thumb: string | undefined;
+  customer: TUser | undefined;
+  hire: THire | undefined;
 }
 
 interface CustomerRequestHireProps {
@@ -45,6 +47,8 @@ const CustomerRequestHire: FC<CustomerRequestHireProps> = ({
       content,
       thumb,
       time: notif.createdAt || "",
+      customer,
+      hire,
     };
   }, [notif]);
 
@@ -147,7 +151,7 @@ const CustomerRequestHire: FC<CustomerRequestHireProps> = ({
       {enableClick && (
         <AntdModal
           visible={visible}
-          title="Ready to accept the hire ?"
+          title={`Accept hire request from ${data.customer?.userName}`}
           footer={
             <Row gutter={[8, 8]} justify="end">
               <Col>
@@ -180,8 +184,7 @@ const CustomerRequestHire: FC<CustomerRequestHireProps> = ({
           }
           onCancel={onCancel}
         >
-          When accepting a hire, you will discus on game with customer directly
-          on chatbox, and you can not get hire anymore while you play game
+          {data?.hire?.customerNote}
         </AntdModal>
       )}
     </>
