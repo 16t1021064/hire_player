@@ -15,7 +15,7 @@ export enum routesEnum {
   logout = "/logout",
   register = "/register",
   chat = "/chat",
-  playerProfile = "/player-profile",
+  playerProfile = "/player/:id",
   following = "/following",
   forgotPassword = "/forgot-password",
   resetPassword = "/password-reset",

@@ -5,7 +5,6 @@ import { TUser } from "types";
 import DefaultImage from "assets/images/default-image.jpg";
 import { useHistory } from "react-router-dom";
 import { routesEnum } from "pages/Routes";
-import { playerStateName } from "pages/PlayerProfile";
 
 interface CardPlayerProps {
   player?: TUser;
@@ -24,9 +23,7 @@ const CardPlayer: FC<CardPlayerProps> = ({ player, classStatus }) => {
   const onClick = (event: React.MouseEvent) => {
     event.preventDefault();
     if (player) {
-      history.push(routesEnum.playerProfile, {
-        [playerStateName]: player.id,
-      });
+      history.push(routesEnum.playerProfile.replace(":id", player.id));
     }
   };
 

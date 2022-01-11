@@ -7,7 +7,7 @@ import React, {
   useState,
 } from "react";
 import IonIcon from "@reacticons/ionicons";
-import { useHistory, useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useMutation } from "react-query";
 import { getPlayerRequest } from "api/players/request";
 import { TReview, TUser } from "types";
@@ -61,11 +61,7 @@ const Rating: FC<RatingProps> = ({ review }) => {
   );
 };
 
-export const playerStateName: string = "playerProfile_player";
-
 const PlayerProfile: FC = () => {
-  const history = useHistory();
-  const location = useLocation();
   const [reviews, setReviews] = useState<TReview[]>([]);
   const modalDonateRef = useRef<HTMLDivElement | null>(null);
   const modalMessageRef = useRef<HTMLDivElement | null>(null);
@@ -73,6 +69,7 @@ const PlayerProfile: FC = () => {
   const hireHoursRef = useRef<HTMLSelectElement | null>(null);
   const hireMessageRef = useRef<HTMLTextAreaElement | null>(null);
   const [visibleHire, setVisibleHire] = useState<boolean>(false);
+  const { id }: any = useParams();
 
   const { mutate: getPlayer } = useMutation(getPlayerRequest, {
     onSuccess: (data) => {
@@ -87,18 +84,10 @@ const PlayerProfile: FC = () => {
   });
 
   useEffect(() => {
-    if (location?.state && (location.state as any)?.[playerStateName]) {
-      const value = (location.state as any)[playerStateName];
-      if (value) {
-        getPlayer(value);
-      }
-      history.replace({ ...location, state: undefined });
+    if (id) {
+      getPlayer(id);
     }
-  }, [location]);
-
-  useEffect(() => {
-    console.log(player);
-  }, [player]);
+  }, [id]);
 
   const photos: TPhoto[] = useMemo(() => {
     return (
