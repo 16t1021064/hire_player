@@ -20,7 +20,6 @@ import useSocket from "hooks/useSocket";
 import {
   TEventData_StartOnline,
   TListenerData_OnNotifications,
-  TListenerData_OnStartOnline,
 } from "socket/types";
 import { SocketEvents, SocketListeners } from "socket";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -30,7 +29,8 @@ import styles from "./index.module.sass";
 import PlayerAcceptHire from "./PlayerAcceptHire";
 
 export interface TNotificationTransform extends TNotification {
-  fromSocket?: boolean;
+  isSocketFrom?: boolean;
+  isSocketChecked?: boolean;
 }
 
 const Notifications: FC = () => {
@@ -80,20 +80,13 @@ const Notifications: FC = () => {
         userId: userInfo.id,
       };
       socket?.emit(SocketEvents.startOnline, startOnlineData);
-
-      socket?.on(
-        SocketListeners.onStartOnline,
-        (data: TListenerData_OnStartOnline) => {
-          console.log(SocketListeners.onStartOnline, data.UsersOnline);
-        }
-      );
     }
   }, [connected, userInfo]);
 
   const handleOnNotifs = (data: TListenerData_OnNotifications) => {
-    console.log(SocketListeners.onNotifications, data);
     const transfrom: TNotificationTransform = data as TNotificationTransform;
-    transfrom.fromSocket = true;
+    transfrom.isSocketFrom = true;
+    transfrom.isSocketChecked = false;
     setItems([transfrom].concat(items));
     setTotal(total + 1);
   };
@@ -144,10 +137,21 @@ const Notifications: FC = () => {
     }
   }, [userInfo]);
 
-  const renderItem: any = (notif: TNotification) => {
+  const renderItem: any = (notif: TNotification, position: number) => {
+    const onSocketChecked = () => {
+      console.log("onSocketChecked", position);
+      items[position].isSocketChecked = true;
+      setItems(items);
+    };
+
     switch (notif.action) {
       case actionsEnum.CUSTOMER_REQUEST_HIRE:
-        return <CustomerRequestHire notif={notif} />;
+        return (
+          <CustomerRequestHire
+            notif={notif}
+            onSocketChecked={onSocketChecked}
+          />
+        );
       case actionsEnum.PLAYER_CANCEL_HIRE:
         return <PlayerCancelHire notif={notif} />;
       case actionsEnum.PLAYER_ACCEPT_HIRE:
@@ -170,7 +174,6 @@ const Notifications: FC = () => {
   }, [pagination]);
 
   const fetchMore = () => {
-    console.log("fetchMore");
     if (hasMore && fetchStatus !== "loading") {
       fetch({
         limit: pagination.limit,
@@ -219,7 +222,7 @@ const Notifications: FC = () => {
               scrollableTarget="notificationsScroll"
             >
               {items.map((item, pos: number) => (
-                <Fragment key={pos}>{renderItem(item)}</Fragment>
+                <Fragment key={pos}>{renderItem(item, pos)}</Fragment>
               ))}
             </InfiniteScroll>
           </div>

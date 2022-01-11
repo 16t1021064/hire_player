@@ -36,7 +36,6 @@ const Layout: FC = ({ children }) => {
         var thisTabs = $(ele),
           nav = thisTabs.find(".js-tabs-link"),
           item = thisTabs.find(".js-tabs-item");
-        console.log(thisTabs);
         nav.on("click", function () {
           // eslint-disable-next-line no-undef
           var thisNav = $(this),

@@ -24,39 +24,6 @@ const Header: FC = () => {
       const openSearch = header.find(".header__item_search");
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       let items = header.find(".header__item");
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      let wrap = header.find(".header__wrap");
-
-      // items.each(function () {
-      //   // eslint-disable-next-line no-undef
-      //   let item = $(this),
-      //     head = item.find(".header__head:not(.js-propagation)"),
-      //     body = item.find(".header__body");
-
-      //   head.on("click", function (e) {
-      //     e.stopPropagation();
-      //     e.preventDefault();
-      //     console.log("click");
-      //     burgerHeader.removeClass("active");
-      //     sidebar.removeClass("visible");
-      //     search.slideUp();
-      //     if (!item.hasClass("active")) {
-      //       items.removeClass("active");
-      //       item.addClass("active");
-      //     } else {
-      //       items.removeClass("active");
-      //     }
-      //   });
-
-      //   body.on("click", function (e) {
-      //     e.stopPropagation();
-      //   });
-
-      //   // eslint-disable-next-line no-undef
-      //   $("body").on("click", function () {
-      //     items.removeClass("active");
-      //   });
-      // });
 
       openSearch.on("click", function (e) {
         e.preventDefault();

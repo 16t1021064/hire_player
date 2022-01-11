@@ -4,12 +4,8 @@ import ChatBox from "./ChatBox";
 import SideBar from "./SideBar";
 import useSocket from "hooks/useSocket";
 import { useAppSelector } from "hooks/useRedux";
-import { SocketEvents, SocketListeners } from "socket";
-import {
-  TEventData_StartOnline,
-  TListenerData_OnConversations,
-  TListenerData_OnStartOnline,
-} from "socket/types";
+import { SocketEvents } from "socket";
+import { TEventData_StartOnline } from "socket/types";
 
 export interface TConvertedConversation extends TConversation {
   target?: TUser;
@@ -28,20 +24,6 @@ const Chat: FC = () => {
         userId: userInfo.id,
       };
       socket?.emit(SocketEvents.startOnline, startOnlineData);
-
-      socket?.on(
-        SocketListeners.onStartOnline,
-        (data: TListenerData_OnStartOnline) => {
-          console.log(SocketListeners.onStartOnline, data.UsersOnline);
-        }
-      );
-
-      socket?.on(
-        SocketListeners.onConversations,
-        (data: TListenerData_OnConversations) => {
-          console.log(SocketListeners.onConversations, data);
-        }
-      );
     }
   }, [connected, userInfo]);
 

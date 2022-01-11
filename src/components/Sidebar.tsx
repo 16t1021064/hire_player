@@ -55,7 +55,6 @@ const Sidebar: FC<SidebarProps> = ({ classSidebar }) => {
   const { isLogin } = useAppSelector((state) => state.auth);
 
   useEffect(() => {
-    console.log(localStorage.getItem("darkMode"));
     if (localStorage.getItem("darkMode") === "on") {
       document.body.classList.add("dark");
       document.addEventListener("DOMContentLoaded", function () {

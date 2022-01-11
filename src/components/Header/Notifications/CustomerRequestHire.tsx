@@ -23,9 +23,13 @@ interface TData {
 
 interface CustomerRequestHireProps {
   notif: TNotificationTransform;
+  onSocketChecked: () => void;
 }
 
-const CustomerRequestHire: FC<CustomerRequestHireProps> = ({ notif }) => {
+const CustomerRequestHire: FC<CustomerRequestHireProps> = ({
+  notif,
+  onSocketChecked,
+}) => {
   const [visible, setVisible] = useState<boolean>(false);
 
   const data: TData = useMemo(() => {
@@ -46,12 +50,14 @@ const CustomerRequestHire: FC<CustomerRequestHireProps> = ({ notif }) => {
 
   const enableClick = useMemo((): boolean => {
     const hire: THire = notif?.payload?.hire as THire;
-    if (hire?.hireStep === stepsEnum.WAITING) {
+    if (hire?.hireStep === stepsEnum.WAITING && !notif?.isSocketChecked) {
+      console.log("true");
       return true;
     } else {
+      console.log("false");
       return false;
     }
-  }, [notif]);
+  }, [notif, notif?.isSocketChecked]);
 
   const { mutate: playerAccept, status: playerAcceptStatus } = useMutation(
     playerAcceptHireRequest,
@@ -59,6 +65,7 @@ const CustomerRequestHire: FC<CustomerRequestHireProps> = ({ notif }) => {
       onSuccess: () => {
         setVisible(false);
         message.success("You have accepted a hire");
+        onSocketChecked();
       },
     }
   );
@@ -69,6 +76,7 @@ const CustomerRequestHire: FC<CustomerRequestHireProps> = ({ notif }) => {
       onSuccess: () => {
         setVisible(false);
         message.info("You have canceled a hire");
+        onSocketChecked();
       },
     }
   );
@@ -83,7 +91,7 @@ const CustomerRequestHire: FC<CustomerRequestHireProps> = ({ notif }) => {
   };
 
   useEffect(() => {
-    if (!notif?.fromSocket) {
+    if (!notif?.isSocketFrom) {
       return;
     }
     notify(

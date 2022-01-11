@@ -32,7 +32,7 @@ const PlayerCancelHire: FC<PlayerCancelHireProps> = ({ notif }) => {
   }, [notif]);
 
   useEffect(() => {
-    if (!notif?.fromSocket) {
+    if (!notif?.isSocketFrom) {
       return;
     }
     notify(
