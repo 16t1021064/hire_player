@@ -4,7 +4,7 @@ import {
   readMessagesRequest,
 } from "api/messages/request";
 import { useAppSelector } from "hooks/useRedux";
-import { TConvertedConversation } from "pages/Chat";
+import { TConvertedConversation } from "types";
 import {
   forwardRef,
   SyntheticEvent,

@@ -95,6 +95,9 @@ export interface TConversation {
   createdAt?: string;
   updatedAt?: string;
 }
+export interface TConvertedConversation extends TConversation {
+  target?: TUser;
+}
 
 export interface THire {
   id: string;

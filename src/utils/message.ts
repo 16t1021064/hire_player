@@ -1,5 +1,5 @@
 import { TMessageGroup } from "pages/Chat/MessageGroup";
-import { TMessage, TUser } from "types";
+import { TConversation, TConvertedConversation, TMessage, TUser } from "types";
 
 const MILISECONDS_DIFF = 1000 * 60;
 
@@ -55,4 +55,19 @@ export const generateGroups = (messages: TMessage[]): TMessageGroup[] => {
   }, []);
 
   return results;
+};
+
+export const fnConvertConversation = (
+  conversation: TConversation,
+  fixedId: string | undefined
+): TConvertedConversation | undefined => {
+  let converted: TConvertedConversation | undefined = undefined;
+  const player = conversation?.player as TUser;
+  const user = conversation?.customer as TUser;
+  if (fixedId !== player.id && player) {
+    converted = { ...conversation, target: player };
+  } else if (fixedId !== user.id && user) {
+    converted = { ...conversation, target: user };
+  }
+  return converted;
 };

@@ -1,5 +1,10 @@
 import axiosInstance from "../axios";
-import { TGetConversationsRequest, TGetConversationsResponse } from "./types";
+import {
+  TGetConversationRequest,
+  TGetConversationResponse,
+  TGetConversationsRequest,
+  TGetConversationsResponse,
+} from "./types";
 
 export const getConversationsRequest = async (
   request: TGetConversationsRequest
@@ -7,5 +12,12 @@ export const getConversationsRequest = async (
   const { data } = await axiosInstance.get(`/conversations`, {
     params: request,
   });
+  return data;
+};
+
+export const getConversationRequest = async (
+  request: TGetConversationRequest
+): Promise<TGetConversationResponse> => {
+  const { data } = await axiosInstance.get(`/conversations/${request.id}`);
   return data;
 };

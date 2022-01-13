@@ -1,10 +1,10 @@
 import { FC, MouseEvent, useEffect, useMemo, useRef, useState } from "react";
 import DefaultAvatar from "assets/images/default-avatar.jpg";
-import { TConversation, TUser } from "types";
+import { TConversation } from "types";
 import { useAppSelector } from "hooks/useRedux";
 import { useMutation } from "react-query";
 import { getConversationsRequest } from "api/conversations/request";
-import { TConvertedConversation } from "..";
+import { TConvertedConversation } from "types";
 import ReactTimeago from "react-timeago";
 import clsx from "clsx";
 import styles from "./index.module.sass";
@@ -14,23 +14,9 @@ import {
   TListenerData_OnMessages,
 } from "socket/types";
 import { SocketListeners } from "socket";
+import { fnConvertConversation } from "utils/message";
 
 const LIMIT: number = 8;
-
-const fnConvertConversation = (
-  conversation: TConversation,
-  fixedId: string | undefined
-): TConvertedConversation | undefined => {
-  let converted: TConvertedConversation | undefined = undefined;
-  const player = conversation?.player as TUser;
-  const user = conversation?.customer as TUser;
-  if (fixedId !== player.id && player) {
-    converted = { ...conversation, target: player };
-  } else if (fixedId !== user.id && user) {
-    converted = { ...conversation, target: user };
-  }
-  return converted;
-};
 
 interface SideBarProps {
   activeConv: TConvertedConversation | undefined;

@@ -139,7 +139,6 @@ const Notifications: FC = () => {
 
   const renderItem: any = (notif: TNotification, position: number) => {
     const onSocketChecked = () => {
-      console.log("onSocketChecked", position);
       items[position].isSocketChecked = true;
       setItems(items);
     };
@@ -153,9 +152,13 @@ const Notifications: FC = () => {
           />
         );
       case actionsEnum.PLAYER_CANCEL_HIRE:
-        return <PlayerCancelHire notif={notif} />;
+        return (
+          <PlayerCancelHire notif={notif} onSocketChecked={onSocketChecked} />
+        );
       case actionsEnum.PLAYER_ACCEPT_HIRE:
-        return <PlayerAcceptHire notif={notif} />;
+        return (
+          <PlayerAcceptHire notif={notif} onSocketChecked={onSocketChecked} />
+        );
       default:
         return <></>;
     }

@@ -1,15 +1,17 @@
 import { FC, useEffect, useState } from "react";
-import { TConversation, TUser } from "types";
+import { TConvertedConversation } from "types";
 import ChatBox from "./ChatBox";
 import SideBar from "./SideBar";
 import useSocket from "hooks/useSocket";
 import { useAppSelector } from "hooks/useRedux";
 import { SocketEvents } from "socket";
 import { TEventData_StartOnline } from "socket/types";
+import { useHistory, useLocation } from "react-router-dom";
+import { useMutation } from "react-query";
+import { getConversationRequest } from "api/conversations/request";
+import { fnConvertConversation } from "utils/message";
 
-export interface TConvertedConversation extends TConversation {
-  target?: TUser;
-}
+export const chatDefaultState: string = "chat_chatDefaultState";
 
 const Chat: FC = () => {
   const [activeConv, setActiveConv] = useState<
@@ -17,6 +19,26 @@ const Chat: FC = () => {
   >(undefined);
   const { socket, connected } = useSocket();
   const userInfo = useAppSelector((state) => state.auth.userInfo);
+  const history = useHistory();
+  const location = useLocation();
+
+  const { mutate: getConversation } = useMutation(getConversationRequest, {
+    onSuccess: (data) => {
+      const converted: TConvertedConversation | undefined =
+        fnConvertConversation(data.data, userInfo?.id);
+      if (converted) {
+        setActiveConv({ ...converted });
+      }
+    },
+  });
+
+  useEffect(() => {
+    if (location?.state && (location.state as any)?.[chatDefaultState]) {
+      const value = (location.state as any)[chatDefaultState];
+      history.replace({ ...location, state: undefined });
+      getConversation({ id: value });
+    }
+  }, [location]);
 
   useEffect(() => {
     if (connected && userInfo) {

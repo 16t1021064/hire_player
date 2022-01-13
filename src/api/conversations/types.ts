@@ -22,3 +22,12 @@ export interface TGetConversationsResponse {
   };
   message: "GET_CONVERSATIONS_SUCCESS";
 }
+
+export interface TGetConversationRequest {
+  id?: string;
+}
+
+export interface TGetConversationResponse {
+  data: TConversation;
+  message: "GET_DETAIL_CONVERSATION_SUCCESS";
+}

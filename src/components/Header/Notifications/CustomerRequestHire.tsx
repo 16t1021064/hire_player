@@ -1,5 +1,5 @@
 import { FC, MouseEvent, ReactNode, useEffect, useMemo, useState } from "react";
-import { THire, TUser } from "types";
+import { TConversation, THire, TUser } from "types";
 import { Button, Col, message, Modal as AntdModal, Row } from "antd";
 import { useMutation } from "react-query";
 import {
@@ -12,6 +12,9 @@ import TimeAgo from "react-timeago";
 import notify from "utils/notify";
 import { TNotificationTransform } from ".";
 import { stepsEnum } from "utils/hires/index";
+import { useHistory } from "react-router-dom";
+import { routesEnum } from "pages/Routes";
+import { chatDefaultState } from "pages/Chat";
 
 interface TData {
   hireId: string;
@@ -21,6 +24,7 @@ interface TData {
   thumb: string | undefined;
   customer: TUser | undefined;
   hire: THire | undefined;
+  conv: string | TConversation | undefined;
 }
 
 interface CustomerRequestHireProps {
@@ -33,6 +37,7 @@ const CustomerRequestHire: FC<CustomerRequestHireProps> = ({
   onSocketChecked,
 }) => {
   const [visible, setVisible] = useState<boolean>(false);
+  const history = useHistory();
 
   const data: TData = useMemo(() => {
     const content = getMessage(notif);
@@ -41,6 +46,8 @@ const CustomerRequestHire: FC<CustomerRequestHireProps> = ({
     const thumb = customer?.avatar?.link || Thumb;
     const title = customer?.userName || "";
     const hireId = hire?.id || "";
+    const conv: string | TConversation | undefined =
+      notif?.payload?.conversation;
     return {
       hireId,
       title,
@@ -49,16 +56,15 @@ const CustomerRequestHire: FC<CustomerRequestHireProps> = ({
       time: notif.createdAt || "",
       customer,
       hire,
+      conv,
     };
   }, [notif]);
 
   const enableClick = useMemo((): boolean => {
     const hire: THire = notif?.payload?.hire as THire;
     if (hire?.hireStep === stepsEnum.WAITING && !notif?.isSocketChecked) {
-      console.log("true");
       return true;
     } else {
-      console.log("false");
       return false;
     }
   }, [notif, notif?.isSocketChecked]);
@@ -68,8 +74,19 @@ const CustomerRequestHire: FC<CustomerRequestHireProps> = ({
     {
       onSuccess: () => {
         setVisible(false);
-        message.success("You have accepted a hire");
         onSocketChecked();
+        message.success("You have accepted a hire");
+        let id = undefined;
+        if (!data.conv) {
+          return;
+        } else if (typeof data.conv === "string") {
+          id = data.conv;
+        } else {
+          id = data.conv.id;
+        }
+        history.push(routesEnum.chat, {
+          [chatDefaultState]: id,
+        });
       },
     }
   );

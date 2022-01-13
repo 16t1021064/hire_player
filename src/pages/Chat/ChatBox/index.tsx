@@ -7,7 +7,7 @@ import { Socket } from "socket.io-client";
 import { TListenerData_OnMessages } from "socket/types";
 import { TPagination } from "types";
 import { generateGroups } from "utils/message";
-import { TConvertedConversation } from "..";
+import { TConvertedConversation } from "types";
 import MessageGroup, { TMessageGroup } from "../MessageGroup";
 import { LoadingOutlined } from "@ant-design/icons";
 import styles from "./index.module.sass";
