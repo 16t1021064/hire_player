@@ -1,14 +1,14 @@
-import { FC, MouseEvent, ReactNode, useEffect, useMemo } from "react";
+import { FC, MouseEvent, ReactNode, useEffect, useMemo, useState } from "react";
 import TimeAgo from "react-timeago";
 import { TConversation, THire, TUser } from "types";
 import { TNotificationTransform } from ".";
 import Thumb from "assets/images/default-avatar.jpg";
 import { getMessage } from "utils/notifications";
-import notify from "utils/notify";
 import { useHistory } from "react-router-dom";
 import { routesEnum } from "pages/Routes";
 import { chatDefaultState } from "pages/Chat";
 import { stepsEnum } from "utils/hires";
+import ConfirmModal from "components/ConfirmModal";
 
 interface TData {
   title: string;
@@ -16,6 +16,10 @@ interface TData {
   time: string;
   thumb: string | undefined;
   conv: string | TConversation | undefined;
+}
+
+interface TDataConfirm {
+  content: ReactNode | string;
 }
 
 interface PlayerAcceptHireProps {
@@ -27,6 +31,10 @@ const PlayerAcceptHire: FC<PlayerAcceptHireProps> = ({
   notif,
   onSocketChecked,
 }) => {
+  const [visibleConfirm, setVisibleConfirm] = useState<boolean>(false);
+  const [dataConfirm, setDataConfirm] = useState<TDataConfirm | undefined>(
+    undefined
+  );
   const data: TData = useMemo(() => {
     const content = getMessage(notif);
     const player: TUser = notif?.player as TUser;
@@ -72,17 +80,10 @@ const PlayerAcceptHire: FC<PlayerAcceptHireProps> = ({
     if (!notif?.isSocketFrom) {
       return;
     }
-    notify(
-      {
-        message: getMessage(notif) as string,
-        onRemoval: (id, removedBy) => {
-          if (removedBy === "click" && enableClick) {
-            onAction();
-          }
-        },
-      },
-      "info"
-    );
+    setDataConfirm({
+      content: getMessage(notif) as string,
+    });
+    setVisibleConfirm(true);
   }, [notif]);
 
   const onClick = (event: MouseEvent) => {
@@ -92,21 +93,41 @@ const PlayerAcceptHire: FC<PlayerAcceptHireProps> = ({
     }
   };
 
+  const onCancel = () => {
+    setVisibleConfirm(false);
+    onSocketChecked();
+  };
+
+  const onYes = () => {
+    setVisibleConfirm(false);
+    onAction();
+  };
+
   return (
-    <a className="notifications__item" onClick={onClick}>
-      <div className="notifications__ava">
-        <img src={data.thumb} alt="" className="notifications__pic" />
-      </div>
-      <div className="notifications__details">
-        <div className="notifications__line">
-          <div className="notifications__user">{data.title}</div>
-          <div className="notifications__time">
-            <TimeAgo date={data.time || 0} />
-          </div>
+    <>
+      <a className="notifications__item" onClick={onClick}>
+        <div className="notifications__ava">
+          <img src={data.thumb} alt="" className="notifications__pic" />
         </div>
-        <div className="notifications__text">{data.content}</div>
-      </div>
-    </a>
+        <div className="notifications__details">
+          <div className="notifications__line">
+            <div className="notifications__user">{data.title}</div>
+            <div className="notifications__time">
+              <TimeAgo date={data.time || 0} />
+            </div>
+          </div>
+          <div className="notifications__text">{data.content}</div>
+        </div>
+      </a>
+      <ConfirmModal
+        visible={visibleConfirm}
+        onCancel={onCancel}
+        textYes={`Chat with player`}
+        onYes={onYes}
+      >
+        {dataConfirm?.content}
+      </ConfirmModal>
+    </>
   );
 };
 

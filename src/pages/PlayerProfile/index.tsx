@@ -20,6 +20,7 @@ import DefaultAvatar from "assets/images/default-avatar.jpg";
 import { openPopup } from "utils/magnific";
 import { createHireRequest } from "api/hires/request";
 import Modal from "components/Modal";
+import { message } from "antd";
 
 interface RatingProps {
   review: TReview;
@@ -140,7 +141,12 @@ const PlayerProfile: FC = () => {
 
   const { mutate: createHire, status: createHireStatus } = useMutation(
     createHireRequest,
-    {}
+    {
+      onSuccess: () => {
+        message.success("Your request sent success");
+        setVisibleHire(false);
+      },
+    }
   );
 
   const onSubmit = (event: React.SyntheticEvent) => {

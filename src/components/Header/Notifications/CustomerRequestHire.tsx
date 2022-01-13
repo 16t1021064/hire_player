@@ -1,6 +1,6 @@
 import { FC, MouseEvent, ReactNode, useEffect, useMemo, useState } from "react";
 import { TConversation, THire, TUser } from "types";
-import { Button, Col, message, Modal as AntdModal, Row } from "antd";
+import { message } from "antd";
 import { useMutation } from "react-query";
 import {
   playerAcceptHireRequest,
@@ -15,6 +15,7 @@ import { stepsEnum } from "utils/hires/index";
 import { useHistory } from "react-router-dom";
 import { routesEnum } from "pages/Routes";
 import { chatDefaultState } from "pages/Chat";
+import ConfirmModal from "components/ConfirmModal";
 
 interface TData {
   hireId: string;
@@ -166,43 +167,21 @@ const CustomerRequestHire: FC<CustomerRequestHireProps> = ({
         </div>
       </a>
       {enableClick && (
-        <AntdModal
+        <ConfirmModal
           visible={visible}
           title={`Accept hire request from ${data.customer?.userName}`}
-          footer={
-            <Row gutter={[8, 8]} justify="end">
-              <Col>
-                <Button type="default" onClick={onCancel} disabled={freezy}>
-                  Cancel
-                </Button>
-              </Col>
-              <Col>
-                <Button
-                  type="primary"
-                  danger
-                  disabled={freezy}
-                  onClick={onDeny}
-                  loading={playerCancelStatus === "loading"}
-                >
-                  Deny
-                </Button>
-              </Col>
-              <Col>
-                <Button
-                  type="primary"
-                  disabled={freezy}
-                  onClick={onAccept}
-                  loading={playerAcceptStatus === "loading"}
-                >
-                  Apcept
-                </Button>
-              </Col>
-            </Row>
-          }
+          freezy={freezy}
           onCancel={onCancel}
+          enableNo={true}
+          onNo={onDeny}
+          loadingNo={playerCancelStatus === "loading"}
+          textNo={"Deny"}
+          onYes={onAccept}
+          loadingYes={playerAcceptStatus === "loading"}
+          textYes={"Apcept"}
         >
           {data?.hire?.customerNote}
-        </AntdModal>
+        </ConfirmModal>
       )}
     </>
   );
