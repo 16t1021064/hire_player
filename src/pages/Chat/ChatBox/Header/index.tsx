@@ -4,7 +4,7 @@ import { userFinishRequest } from "api/hires/request";
 import { useAppSelector } from "hooks/useRedux";
 import { FC, useMemo } from "react";
 import { useMutation } from "react-query";
-import { TConvertedConversation, THire, TUser } from "types";
+import { HireStepsEnum, TConvertedConversation, THire, TUser } from "types";
 import styles from "./index.module.sass";
 
 interface HeaderProps {
@@ -33,7 +33,11 @@ const Header: FC<HeaderProps> = ({ conv, hire, onChangeHire }) => {
       hireUserId = (hire?.customer as TUser).id;
     }
 
-    if (hire && hireUserId === userInfo?.id) {
+    if (
+      hire &&
+      hireUserId === userInfo?.id &&
+      hire.hireStep === HireStepsEnum.PLAYER_ACCEPT
+    ) {
       return true;
     } else {
       return false;
