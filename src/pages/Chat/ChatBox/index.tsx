@@ -1,11 +1,10 @@
-import IonIcon from "@reacticons/ionicons";
 import { getMessagesRequest } from "api/messages/request";
 import { FC, useEffect, useMemo, useRef, useState } from "react";
 import { useMutation } from "react-query";
 import { SocketListeners } from "socket";
 import { Socket } from "socket.io-client";
 import { TListenerData_OnMessages } from "socket/types";
-import { TPagination } from "types";
+import { THire, TPagination } from "types";
 import { generateGroups } from "utils/message";
 import { TConvertedConversation } from "types";
 import MessageGroup, { TMessageGroup } from "../MessageGroup";
@@ -15,14 +14,23 @@ import { Col, Row } from "antd";
 import Footer, { FooterMethods } from "./Footer";
 import clsx from "clsx";
 import InfiniteScroll from "react-infinite-scroll-component";
+import Header from "./Header";
 
 interface ChatBoxProps {
   conv: TConvertedConversation;
   socket: Socket | undefined;
   connected: boolean;
+  hire?: THire | undefined;
+  onChangeHire?: (hire: THire) => void;
 }
 
-const ChatBox: FC<ChatBoxProps> = ({ conv, socket, connected }) => {
+const ChatBox: FC<ChatBoxProps> = ({
+  conv,
+  socket,
+  connected,
+  hire,
+  onChangeHire,
+}) => {
   const [groups, setGroups] = useState<TMessageGroup[]>([]);
   const [pagination, setPagination] = useState<TPagination>({
     page: 1,
@@ -131,29 +139,7 @@ const ChatBox: FC<ChatBoxProps> = ({ conv, socket, connected }) => {
 
   return (
     <>
-      <div className="chat_messenger__head">
-        <div className="chat_messenger__title h6 mr-auto">
-          {`${conv?.target?.userName}${
-            conv?.target?.playerInfo?.playerName
-              ? " - " + conv.target.playerInfo.playerName
-              : ""
-          }`}
-        </div>
-        <div className="chat__actions">
-          <button className="chat__action chat__action__btn__back__chat">
-            <IonIcon
-              className="icon icon-arrow-back-outline"
-              name="arrow-back-outline"
-            />
-          </button>
-          <button className="chat__action">
-            <IonIcon
-              className="icon icon-settings-outline"
-              name="settings-outline"
-            />
-          </button>
-        </div>
-      </div>
+      <Header conv={conv} hire={hire} onChangeHire={onChangeHire} />
       <div className="chat_messenger__body">
         <div
           id="chatScroll"

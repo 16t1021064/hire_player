@@ -14,7 +14,7 @@ import { TNotificationTransform } from ".";
 import { stepsEnum } from "utils/hires/index";
 import { useHistory } from "react-router-dom";
 import { routesEnum } from "pages/Routes";
-import { chatDefaultState } from "pages/Chat";
+import { chatDefaultState, hireState } from "pages/Chat";
 import ConfirmModal from "components/ConfirmModal";
 
 interface TData {
@@ -87,6 +87,7 @@ const CustomerRequestHire: FC<CustomerRequestHireProps> = ({
         }
         history.push(routesEnum.chat, {
           [chatDefaultState]: id,
+          [hireState]: data.hire?.id,
         });
       },
     }

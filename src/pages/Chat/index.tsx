@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from "react";
-import { TConvertedConversation } from "types";
+import { TConvertedConversation, THire } from "types";
 import ChatBox from "./ChatBox";
 import SideBar from "./SideBar";
 import useSocket from "hooks/useSocket";
@@ -10,8 +10,10 @@ import { useHistory, useLocation } from "react-router-dom";
 import { useMutation } from "react-query";
 import { getConversationRequest } from "api/conversations/request";
 import { fnConvertConversation } from "utils/message";
+import { getHireRequest } from "api/hires/request";
 
 export const chatDefaultState: string = "chat_chatDefaultState";
+export const hireState: string = "chat_HireState";
 
 const Chat: FC = () => {
   const [activeConv, setActiveConv] = useState<
@@ -21,6 +23,7 @@ const Chat: FC = () => {
   const userInfo = useAppSelector((state) => state.auth.userInfo);
   const history = useHistory();
   const location = useLocation();
+  const [hire, setHire] = useState<THire | undefined>(undefined);
 
   const { mutate: getConversation } = useMutation(getConversationRequest, {
     onSuccess: (data) => {
@@ -32,11 +35,26 @@ const Chat: FC = () => {
     },
   });
 
+  const { mutate: getHire } = useMutation(getHireRequest, {
+    onSuccess: (data) => {
+      setHire(data.data);
+    },
+  });
+
   useEffect(() => {
+    let clearState = false;
     if (location?.state && (location.state as any)?.[chatDefaultState]) {
       const value = (location.state as any)[chatDefaultState];
-      history.replace({ ...location, state: undefined });
+      clearState = true;
       getConversation({ id: value });
+    }
+    if (location?.state && (location.state as any)?.[hireState]) {
+      const value = (location.state as any)[hireState];
+      clearState = true;
+      getHire({ id: value });
+    }
+    if (clearState) {
+      history.replace({ ...location, state: undefined });
     }
   }, [location]);
 
@@ -49,19 +67,30 @@ const Chat: FC = () => {
     }
   }, [connected, userInfo]);
 
+  const onChangeConv = (conv: TConvertedConversation) => {
+    setHire(undefined);
+    setActiveConv(conv);
+  };
+
   return (
     <div className="chat">
       <div className="chat__sidebar">
         <SideBar
           activeConv={activeConv}
-          onChangeConv={setActiveConv}
+          onChangeConv={onChangeConv}
           socket={socket}
           connected={connected}
         />
       </div>
       <div className="chat_messenger">
         {activeConv && (
-          <ChatBox conv={activeConv} socket={socket} connected={connected} />
+          <ChatBox
+            conv={activeConv}
+            socket={socket}
+            connected={connected}
+            hire={hire}
+            onChangeHire={setHire}
+          />
         )}
       </div>
     </div>
