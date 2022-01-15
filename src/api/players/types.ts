@@ -1,9 +1,9 @@
-import { TPlayerStatus, TPlayerType, TUser } from "types";
+import { TPlayerStatuses, TPlayerTypes, TUser } from "types";
 
 export interface TGetPlayersRequest {
   userId?: string;
-  status?: TPlayerStatus;
-  typePlayer?: TPlayerType;
+  status?: TPlayerStatuses;
+  typePlayer?: TPlayerTypes;
   sortBy?: string;
   limit?: number;
   page?: number;

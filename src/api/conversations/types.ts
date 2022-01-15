@@ -1,9 +1,9 @@
-import { TConversation, TConversationStatus } from "types";
+import { TConversation, TConversationStatuses } from "types";
 
 export interface TGetConversationsRequest {
   playerId?: string;
   customerId?: string;
-  status?: TConversationStatus;
+  status?: TConversationStatuses;
   ignoreIds?: string; // separates by comma
   searchText?: string;
   sortBy?: string;

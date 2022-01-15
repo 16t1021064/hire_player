@@ -21,8 +21,17 @@ export interface TUser {
   playerInfo?: TPlayer;
 }
 
-export type TPlayerType = 1 | 2 | 3; // 1: Vip, 2: Hot, 3: New
-export type TPlayerStatus = 1 | 2 | 3; // 1: Active, 2: Inactive
+export enum PlayerTypesEnum {
+  VIP = 1,
+  HOT = 2,
+  NEW = 3,
+}
+export type TPlayerTypes = 1 | 2 | 3;
+export enum PlayerStatusesEnum {
+  ACTIVE = 1,
+  INACTIVE = 2,
+}
+export type TPlayerStatuses = 1 | 2;
 export interface TPlayer {
   costPerHour?: number;
   totalTimeHired?: number;
@@ -35,8 +44,8 @@ export interface TPlayer {
   statusHire?: number;
   playerVerified?: boolean;
   deletedAt?: string | null;
-  status?: TPlayerStatus;
-  typePlayer?: TPlayerType;
+  status?: TPlayerStatuses;
+  typePlayer?: TPlayerTypes;
   isOnline?: boolean;
   gameName?: string;
   rank?: string;
@@ -55,11 +64,15 @@ export interface TImage {
   size?: number;
 }
 
-export type TReviewStatus = 1 | 2; // 1: Active, 2: Inactive
+export enum ReviewStatusesEnum {
+  ACTIVE = 1,
+  INACTIVE = 2,
+}
+export type TReviewStatuses = 1 | 2;
 export interface TReview {
   id: string;
   starPoint?: number;
-  status?: TReviewStatus;
+  status?: TReviewStatuses;
   content?: string;
   reviewer?: string | TUser;
   receiver?: string | TUser;
@@ -83,14 +96,18 @@ export interface TMessage {
   unreadStatus?: any;
 }
 
-export type TConversationStatus = 1 | 2; // 1: Active, 2: Inactive
+export enum ConversationStatusesEnum {
+  ACTIVE = 1,
+  INACTIVE = 2,
+}
+export type TConversationStatuses = 1 | 2;
 export interface TConversation {
   id: string;
   members?: string[] | TUser[];
   latestMessage?: TMessage;
   customer?: string | TUser;
   player?: string | TUser;
-  status?: TConversationStatus;
+  status?: TConversationStatuses;
   deletedAt?: string | null;
   createdAt?: string;
   updatedAt?: string;
@@ -99,13 +116,22 @@ export interface TConvertedConversation extends TConversation {
   target?: TUser;
 }
 
+export enum HireStepsEnum {
+  WAITING = 1,
+  PLAYER_ACCEPT = 2,
+  PLAYER_CANCEL = 3,
+  CUSTOMER_CANCEL = 4,
+  COMPLETE = 5,
+  COMPLAIN = 6,
+}
+export type THireSteps = 1 | 2 | 3 | 4 | 5 | 6;
 export interface THire {
   id: string;
   acceptedAt?: string | null;
   deletedAt?: string | null;
   canceledAt?: string | null;
   seenAt?: string | null;
-  hireStep?: number;
+  hireStep?: THireSteps;
   isCompleteSoon?: boolean;
   timeRent?: number;
   cost?: number;
@@ -121,7 +147,16 @@ export interface TNotificationPayload {
   conversation?: string | TConversation;
   hire?: string | THire;
 }
-
+export enum NotificationActionsEnum {
+  CUSTOMER_REQUEST_HIRE = 1,
+  PLAYER_ACCEPT_HIRE = 2,
+  PLAYER_CANCEL_HIRE = 3,
+  CUSTOMER_CANCEL_HIRE = 4,
+  CUSTOMER_FINISH_SOON = 5,
+  CUSTOMER_REQUEST_COMPLAIN = 6,
+  COMPLETE = 7,
+}
+export type TNotificationActions = 1 | 2 | 3 | 4 | 5 | 6 | 7;
 export interface TNotification {
   id: string;
   payload?: TNotificationPayload;
@@ -129,7 +164,7 @@ export interface TNotification {
   customer?: string | TUser;
   player?: string | TUser;
   receiver?: string | TUser;
-  action: number;
+  action: TNotificationActions;
   href?: string;
   createdAt?: string;
   updatedAt?: string;

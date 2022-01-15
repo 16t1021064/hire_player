@@ -1,11 +1,10 @@
 import { FC, MouseEvent, ReactNode, useEffect, useMemo } from "react";
-import { TConversation, THire, TUser } from "types";
+import { HireStepsEnum, TConversation, THire, TUser } from "types";
 import { getMessage } from "utils/notifications";
 import { TNotificationTransform } from ".";
 import Thumb from "assets/images/default-avatar.jpg";
 import TimeAgo from "react-timeago";
 import notify from "utils/notify";
-import { stepsEnum } from "utils/hires";
 import { useHistory } from "react-router-dom";
 import { routesEnum } from "pages/Routes";
 import { chatDefaultState } from "pages/Chat";
@@ -61,7 +60,10 @@ const PlayerCancelHire: FC<PlayerCancelHireProps> = ({
 
   const enableClick = useMemo((): boolean => {
     const hire: THire = notif?.payload?.hire as THire;
-    if (hire?.hireStep === stepsEnum.PLAYER_CANCEL && !notif?.isSocketChecked) {
+    if (
+      hire?.hireStep === HireStepsEnum.PLAYER_CANCEL &&
+      !notif?.isSocketChecked
+    ) {
       return true;
     } else {
       return false;

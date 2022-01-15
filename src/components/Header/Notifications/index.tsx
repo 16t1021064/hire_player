@@ -11,8 +11,7 @@ import {
 import { useMutation } from "react-query";
 import { getNotificationsRequest } from "api/notifications/request";
 import { useAppSelector } from "hooks/useRedux";
-import { TNotification, TPagination } from "types";
-import { actionsEnum } from "utils/notifications";
+import { NotificationActionsEnum, TNotification, TPagination } from "types";
 import clsx from "clsx";
 import CustomerRequestHire from "./CustomerRequestHire";
 import PlayerCancelHire from "./PlayerCancelHire";
@@ -144,18 +143,18 @@ const Notifications: FC = () => {
     };
 
     switch (notif.action) {
-      case actionsEnum.CUSTOMER_REQUEST_HIRE:
+      case NotificationActionsEnum.CUSTOMER_REQUEST_HIRE:
         return (
           <CustomerRequestHire
             notif={notif}
             onSocketChecked={onSocketChecked}
           />
         );
-      case actionsEnum.PLAYER_CANCEL_HIRE:
+      case NotificationActionsEnum.PLAYER_CANCEL_HIRE:
         return (
           <PlayerCancelHire notif={notif} onSocketChecked={onSocketChecked} />
         );
-      case actionsEnum.PLAYER_ACCEPT_HIRE:
+      case NotificationActionsEnum.PLAYER_ACCEPT_HIRE:
         return (
           <PlayerAcceptHire notif={notif} onSocketChecked={onSocketChecked} />
         );

@@ -1,5 +1,5 @@
 import { FC, MouseEvent, ReactNode, useEffect, useMemo, useState } from "react";
-import { TConversation, THire, TUser } from "types";
+import { HireStepsEnum, TConversation, THire, TUser } from "types";
 import { message } from "antd";
 import { useMutation } from "react-query";
 import {
@@ -11,7 +11,6 @@ import Thumb from "assets/images/default-avatar.jpg";
 import TimeAgo from "react-timeago";
 import notify from "utils/notify";
 import { TNotificationTransform } from ".";
-import { stepsEnum } from "utils/hires/index";
 import { useHistory } from "react-router-dom";
 import { routesEnum } from "pages/Routes";
 import { chatDefaultState, hireState } from "pages/Chat";
@@ -63,7 +62,7 @@ const CustomerRequestHire: FC<CustomerRequestHireProps> = ({
 
   const enableClick = useMemo((): boolean => {
     const hire: THire = notif?.payload?.hire as THire;
-    if (hire?.hireStep === stepsEnum.WAITING && !notif?.isSocketChecked) {
+    if (hire?.hireStep === HireStepsEnum.WAITING && !notif?.isSocketChecked) {
       return true;
     } else {
       return false;

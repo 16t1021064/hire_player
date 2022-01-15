@@ -1,13 +1,12 @@
 import { FC, MouseEvent, ReactNode, useEffect, useMemo, useState } from "react";
 import TimeAgo from "react-timeago";
-import { TConversation, THire, TUser } from "types";
+import { HireStepsEnum, TConversation, THire, TUser } from "types";
 import { TNotificationTransform } from ".";
 import Thumb from "assets/images/default-avatar.jpg";
 import { getMessage } from "utils/notifications";
 import { useHistory } from "react-router-dom";
 import { routesEnum } from "pages/Routes";
 import { chatDefaultState, hireState } from "pages/Chat";
-import { stepsEnum } from "utils/hires";
 import ConfirmModal from "components/ConfirmModal";
 
 interface TData {
@@ -73,7 +72,10 @@ const PlayerAcceptHire: FC<PlayerAcceptHireProps> = ({
 
   const enableClick = useMemo((): boolean => {
     const hire: THire = notif?.payload?.hire as THire;
-    if (hire?.hireStep === stepsEnum.PLAYER_ACCEPT && !notif?.isSocketChecked) {
+    if (
+      hire?.hireStep === HireStepsEnum.PLAYER_ACCEPT &&
+      !notif?.isSocketChecked
+    ) {
       return true;
     } else {
       return false;

@@ -1,9 +1,9 @@
-import { TReview, TReviewStatus } from "types";
+import { TReview, TReviewStatuses } from "types";
 
 export interface TGetReviewsRequest {
   reviewerId?: string;
   receiverId?: string;
-  status?: TReviewStatus;
+  status?: TReviewStatuses;
   starPoint?: number;
   sortBy?: string;
   limit?: number;

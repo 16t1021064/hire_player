@@ -2,7 +2,7 @@ import CardPlayer from "components/CardPlayer";
 import React, { FC, useEffect, useRef, useState } from "react";
 import { useMutation } from "react-query";
 import { getPlayersRequest } from "api/players/request";
-import { TUser, TPlayerType } from "types";
+import { TUser, TPlayerTypes } from "types";
 
 const LIMIT: number = 8;
 
@@ -22,7 +22,7 @@ const Home: FC = () => {
     event.preventDefault();
     let type = undefined;
     if (typesRef.current?.value) {
-      type = parseInt(typesRef.current.value) as TPlayerType;
+      type = parseInt(typesRef.current.value) as TPlayerTypes;
     }
     fetch({
       ...(type && { typePlayer: type }),
