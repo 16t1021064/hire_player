@@ -1,11 +1,11 @@
-import { FC, useEffect, useState } from "react";
-import { TConvertedConversation, THire } from "types";
+import { FC, useEffect, useRef, useState } from "react";
+import { TConversation, TConvertedConversation, THire } from "types";
 import ChatBox from "./ChatBox";
 import SideBar from "./SideBar";
 import useSocket from "hooks/useSocket";
 import { useAppSelector } from "hooks/useRedux";
-import { SocketEvents } from "socket";
-import { TEventData_StartOnline } from "socket/types";
+import { SocketEvents, SocketListeners } from "socket";
+import { TEventData_StartOnline, TListenerData_OnHires } from "socket/types";
 import { useHistory, useLocation } from "react-router-dom";
 import { useMutation } from "react-query";
 import { getConversationRequest } from "api/conversations/request";
@@ -23,6 +23,9 @@ const Chat: FC = () => {
   const history = useHistory();
   const location = useLocation();
   const [hire, setHire] = useState<THire | undefined>(undefined);
+  const handleOnHiresRef = useRef<
+    ((data: TListenerData_OnHires) => void) | null
+  >(null);
 
   const { mutate: getConversation } = useMutation(getConversationRequest, {
     onSuccess: (data) => {
@@ -78,6 +81,27 @@ const Chat: FC = () => {
     setHire(undefined);
     setActiveConv(conv);
   };
+
+  const handleOnHires = (data: TListenerData_OnHires) => {
+    let convId = data.conversation;
+    if (typeof convId !== "string") {
+      convId = (data.conversation as TConversation).id;
+    }
+    if (activeConv?.id === convId) {
+      setHire(data);
+    }
+  };
+
+  useEffect(() => {
+    if (!connected) {
+      return;
+    }
+    if (handleOnHiresRef.current) {
+      socket?.removeListener(SocketListeners.onHires, handleOnHiresRef.current);
+    }
+    handleOnHiresRef.current = handleOnHires;
+    socket?.on(SocketListeners.onHires, handleOnHiresRef.current);
+  }, [connected, activeConv]);
 
   return (
     <div className="chat">

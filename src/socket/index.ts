@@ -7,4 +7,5 @@ export enum SocketListeners {
   onMessages = "onMessages",
   onConversations = "onConversations",
   onNotifications = "onNotifications",
+  onHires = "onHires",
 }

@@ -1,4 +1,4 @@
-import { TBodyMessage, TConversation, TMessage, TUser } from "types";
+import { TBodyMessage, TConversation, THire, TMessage, TUser } from "types";
 import { TNotification } from "types/notifications";
 
 export interface TEventData_StartOnline {
@@ -15,6 +15,8 @@ export interface TListenerData_OnMessages {
   sender: TUser;
   latestMessage: TMessage;
 }
+
+export type TListenerData_OnHires = THire;
 
 export type TListenerData_OnConversations = TConversation;
 
