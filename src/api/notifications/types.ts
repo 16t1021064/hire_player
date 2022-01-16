@@ -1,4 +1,4 @@
-import { TNotification } from "types";
+import { TNotification } from "types/notifications";
 
 export interface TGetNotificationsRequest {
   latestId?: string;

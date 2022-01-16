@@ -1,7 +1,7 @@
-import { NotificationActionsEnum, TNotification } from "types";
 import * as customerRequestHire from "utils/notifications/customerRequestHire";
 import * as playerCancelHire from "utils/notifications/playerCancelHire";
 import * as playerAcceptHire from "utils/notifications/playerAcceptHire";
+import { NotificationActionsEnum, TNotification } from "types/notifications";
 
 export const getMessage = (notif: TNotification) => {
   switch (notif.action) {

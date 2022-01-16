@@ -1,4 +1,5 @@
-import { TNotification, TUser } from "types";
+import { TUser } from "types";
+import { TNotification } from "types/notifications";
 
 export const getMessage = (notif: TNotification) => {
   const player: TUser = notif?.player as TUser;

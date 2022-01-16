@@ -14,7 +14,7 @@ import {
   readNotificationsRequest,
 } from "api/notifications/request";
 import { useAppSelector } from "hooks/useRedux";
-import { NotificationActionsEnum, TNotification, TPagination } from "types";
+import { TPagination } from "types";
 import clsx from "clsx";
 import CustomerRequestHire from "./CustomerRequestHire";
 import PlayerCancelHire from "./PlayerCancelHire";
@@ -29,6 +29,7 @@ import { LoadingOutlined } from "@ant-design/icons";
 import { Col, Row } from "antd";
 import styles from "./index.module.sass";
 import PlayerAcceptHire from "./PlayerAcceptHire";
+import { NotificationActionsEnum, TNotification } from "types/notifications";
 
 export interface TNotificationTransform extends TNotification {
   isSocketFrom?: boolean;

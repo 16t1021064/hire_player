@@ -1,10 +1,5 @@
-import {
-  TBodyMessage,
-  TConversation,
-  TMessage,
-  TNotification,
-  TUser,
-} from "types";
+import { TBodyMessage, TConversation, TMessage, TUser } from "types";
+import { TNotification } from "types/notifications";
 
 export interface TEventData_StartOnline {
   userId: string;

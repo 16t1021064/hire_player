@@ -1,4 +1,5 @@
-import { THire, TNotification, TNotificationPayload, TUser } from "types";
+import { THire, TUser } from "types";
+import { TNotification, TNotificationPayload } from "types/notifications";
 
 export const getMessage = (notif: TNotification) => {
   const payload = notif.payload as TNotificationPayload;
