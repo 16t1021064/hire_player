@@ -1,5 +1,4 @@
 import { FC, MouseEvent, ReactNode, useEffect, useMemo } from "react";
-import { HireStepsEnum, TConversation, THire, TUser } from "types";
 import { getMessage } from "utils/notifications";
 import { TNotificationTransform } from ".";
 import Thumb from "assets/images/default-avatar.jpg";
@@ -8,67 +7,40 @@ import notify from "utils/notify";
 import { useHistory } from "react-router-dom";
 import { routesEnum } from "pages/Routes";
 import { chatDefaultState } from "pages/Chat";
+import { TPlayerCancelHirePayload } from "types/notifications";
 
 interface TData {
   title: string;
   content: ReactNode;
   time: string;
   thumb: string | undefined;
-  conv: string | TConversation | undefined;
+  convId: string | undefined;
+  hireId: string | undefined;
 }
 
 interface PlayerCancelHireProps {
   notif: TNotificationTransform;
-  onSocketChecked: () => void;
 }
 
-const PlayerCancelHire: FC<PlayerCancelHireProps> = ({
-  notif,
-  onSocketChecked,
-}) => {
+const PlayerCancelHire: FC<PlayerCancelHireProps> = ({ notif }) => {
   const data: TData = useMemo(() => {
-    const content = getMessage(notif);
-    const player: TUser = notif?.player as TUser;
-    const conv: string | TConversation | undefined =
-      notif?.payload?.conversation;
-    const thumb = player?.playerInfo?.playerAvatar?.link || Thumb;
-    const title = player?.playerInfo?.playerName || "";
+    const payload = notif.payload as TPlayerCancelHirePayload;
     return {
-      title,
-      content,
-      thumb,
+      title: notif.player?.playerInfo?.playerName || "",
+      content: getMessage(notif),
+      thumb: notif.player?.playerInfo?.playerAvatar?.link || Thumb,
       time: notif.createdAt || "",
-      conv,
+      convId: payload.conversationId,
+      hireId: payload.hireId,
     };
   }, [notif]);
   const history = useHistory();
 
-  const onAction = () => {
-    onSocketChecked();
-    let id = undefined;
-    if (!data.conv) {
-      return;
-    } else if (typeof data.conv === "string") {
-      id = data.conv;
-    } else {
-      id = data.conv.id;
-    }
+  const gotoConv = () => {
     history.push(routesEnum.chat, {
-      [chatDefaultState]: id,
+      [chatDefaultState]: data.convId,
     });
   };
-
-  const enableClick = useMemo((): boolean => {
-    const hire: THire = notif?.payload?.hire as THire;
-    if (
-      hire?.hireStep === HireStepsEnum.PLAYER_CANCEL &&
-      !notif?.isSocketChecked
-    ) {
-      return true;
-    } else {
-      return false;
-    }
-  }, [notif, notif?.isSocketChecked]);
 
   useEffect(() => {
     if (!notif?.isSocketFrom) {
@@ -78,8 +50,8 @@ const PlayerCancelHire: FC<PlayerCancelHireProps> = ({
       {
         message: getMessage(notif) as string,
         onRemoval: (id, removedBy) => {
-          if (removedBy === "click" && enableClick) {
-            onAction();
+          if (removedBy === "click") {
+            gotoConv();
           }
         },
       },
@@ -89,9 +61,7 @@ const PlayerCancelHire: FC<PlayerCancelHireProps> = ({
 
   const onClick = (event: MouseEvent) => {
     event.preventDefault();
-    if (enableClick) {
-      onAction();
-    }
+    gotoConv();
   };
 
   return (

@@ -1,6 +1,5 @@
 import { FC, MouseEvent, ReactNode, useEffect, useMemo, useState } from "react";
 import TimeAgo from "react-timeago";
-import { HireStepsEnum, TConversation, THire, TUser } from "types";
 import { TNotificationTransform } from ".";
 import Thumb from "assets/images/default-avatar.jpg";
 import { getMessage } from "utils/notifications";
@@ -8,13 +7,15 @@ import { useHistory } from "react-router-dom";
 import { routesEnum } from "pages/Routes";
 import { chatDefaultState } from "pages/Chat";
 import ConfirmModal from "components/ConfirmModal";
+import { TPlayerAcceptHirePayload } from "types/notifications";
 
 interface TData {
   title: string;
   content: ReactNode;
   time: string;
   thumb: string | undefined;
-  conv: string | TConversation | undefined;
+  convId: string | undefined;
+  hireId: string | undefined;
 }
 
 interface TDataConfirm {
@@ -23,60 +24,32 @@ interface TDataConfirm {
 
 interface PlayerAcceptHireProps {
   notif: TNotificationTransform;
-  onSocketChecked: () => void;
 }
 
-const PlayerAcceptHire: FC<PlayerAcceptHireProps> = ({
-  notif,
-  onSocketChecked,
-}) => {
+const PlayerAcceptHire: FC<PlayerAcceptHireProps> = ({ notif }) => {
   const [visibleConfirm, setVisibleConfirm] = useState<boolean>(false);
   const [dataConfirm, setDataConfirm] = useState<TDataConfirm | undefined>(
     undefined
   );
-  const data: TData = useMemo(() => {
-    const content = getMessage(notif);
-    const player: TUser = notif?.player as TUser;
-    const thumb = player?.playerInfo?.playerAvatar?.link || Thumb;
-    const title = player?.playerInfo?.playerName || "";
-    const conv: string | TConversation | undefined =
-      notif?.payload?.conversation;
-    return {
-      title,
-      content,
-      thumb,
-      time: notif.createdAt || "",
-      conv,
-    };
-  }, [notif]);
   const history = useHistory();
 
-  const onAction = () => {
-    onSocketChecked();
-    let id = undefined;
-    if (!data.conv) {
-      return;
-    } else if (typeof data.conv === "string") {
-      id = data.conv;
-    } else {
-      id = data.conv.id;
-    }
+  const data: TData = useMemo(() => {
+    const payload = notif.payload as TPlayerAcceptHirePayload;
+    return {
+      title: notif.player?.playerInfo?.playerName || "",
+      content: getMessage(notif),
+      thumb: notif.player?.playerInfo?.playerAvatar?.link || Thumb,
+      time: notif.createdAt || "",
+      convId: payload.conversationId,
+      hireId: payload.hireId,
+    };
+  }, [notif]);
+
+  const gotoConv = () => {
     history.push(routesEnum.chat, {
-      [chatDefaultState]: id,
+      [chatDefaultState]: data.convId,
     });
   };
-
-  const enableClick = useMemo((): boolean => {
-    const hire: THire = notif?.payload?.hire as THire;
-    if (
-      hire?.hireStep === HireStepsEnum.PLAYER_ACCEPT &&
-      !notif?.isSocketChecked
-    ) {
-      return true;
-    } else {
-      return false;
-    }
-  }, [notif, notif?.isSocketChecked]);
 
   useEffect(() => {
     if (!notif?.isSocketFrom) {
@@ -90,19 +63,17 @@ const PlayerAcceptHire: FC<PlayerAcceptHireProps> = ({
 
   const onClick = (event: MouseEvent) => {
     event.preventDefault();
-    if (enableClick) {
-      onAction();
-    }
+    if (visibleConfirm) return;
+    gotoConv();
   };
 
   const onCancel = () => {
     setVisibleConfirm(false);
-    onSocketChecked();
   };
 
   const onYes = () => {
     setVisibleConfirm(false);
-    onAction();
+    gotoConv();
   };
 
   return (

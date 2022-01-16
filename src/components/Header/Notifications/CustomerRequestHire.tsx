@@ -1,5 +1,5 @@
 import { FC, MouseEvent, ReactNode, useEffect, useMemo, useState } from "react";
-import { HireStepsEnum, TConversation, THire, TUser } from "types";
+import { HireStepsEnum } from "types";
 import { message } from "antd";
 import { useMutation } from "react-query";
 import { getMessage } from "utils/notifications";
@@ -12,81 +12,56 @@ import { routesEnum } from "pages/Routes";
 import { chatDefaultState } from "pages/Chat";
 import ConfirmModal from "components/ConfirmModal";
 import {
+  getHireRequest,
   playerAcceptHireRequest,
   playerCancelHireRequest,
 } from "api/hires/request";
+import { TCustomerRequestHirePayload } from "types/notifications";
 
 interface TData {
-  hireId: string;
   title: string;
   content: ReactNode;
   time: string;
   thumb: string | undefined;
-  customer: TUser | undefined;
-  hire: THire | undefined;
-  conv: string | TConversation | undefined;
+  hireId: string | undefined;
+  convId: string | undefined;
+  customerName: string;
+  note: string;
 }
 
 interface CustomerRequestHireProps {
   notif: TNotificationTransform;
-  onSocketChecked: () => void;
 }
 
-const CustomerRequestHire: FC<CustomerRequestHireProps> = ({
-  notif,
-  onSocketChecked,
-}) => {
+const CustomerRequestHire: FC<CustomerRequestHireProps> = ({ notif }) => {
   const [visible, setVisible] = useState<boolean>(false);
   const history = useHistory();
 
   const data: TData = useMemo(() => {
-    const content = getMessage(notif);
-    const customer: TUser = notif?.customer as TUser;
-    const hire: THire = notif?.payload?.hire as THire;
-    const thumb = customer?.avatar?.link || Thumb;
-    const title = customer?.userName || "";
-    const hireId = hire?.id || "";
-    const conv: string | TConversation | undefined =
-      notif?.payload?.conversation;
+    const payload = notif.payload as TCustomerRequestHirePayload;
     return {
-      hireId,
-      title,
-      content,
-      thumb,
+      title: notif.customer?.userName || "",
+      content: getMessage(notif),
+      thumb: notif.customer?.avatar?.link || Thumb,
       time: notif.createdAt || "",
-      customer,
-      hire,
-      conv,
+      hireId: payload.hireId,
+      convId: payload.conversationId,
+      customerName: notif.customer?.userName || "",
+      note: payload.customerNote || "",
     };
   }, [notif]);
-
-  const enableClick = useMemo((): boolean => {
-    const hire: THire = notif?.payload?.hire as THire;
-    if (hire?.hireStep === HireStepsEnum.WAITING && !notif?.isSocketChecked) {
-      return true;
-    } else {
-      return false;
-    }
-  }, [notif, notif?.isSocketChecked]);
 
   const { mutate: playerAccept, status: playerAcceptStatus } = useMutation(
     playerAcceptHireRequest,
     {
       onSuccess: () => {
         setVisible(false);
-        onSocketChecked();
         message.success("You have accepted a hire");
-        let id = undefined;
-        if (!data.conv) {
-          return;
-        } else if (typeof data.conv === "string") {
-          id = data.conv;
-        } else {
-          id = data.conv.id;
+        if (data.convId) {
+          history.push(routesEnum.chat, {
+            [chatDefaultState]: data.convId,
+          });
         }
-        history.push(routesEnum.chat, {
-          [chatDefaultState]: id,
-        });
       },
     }
   );
@@ -97,18 +72,34 @@ const CustomerRequestHire: FC<CustomerRequestHireProps> = ({
       onSuccess: () => {
         setVisible(false);
         message.info("You have canceled a hire");
-        onSocketChecked();
+      },
+    }
+  );
+
+  const { mutate: getHire, status: getHireStatus } = useMutation(
+    getHireRequest,
+    {
+      onSuccess: (data) => {
+        if (data.data.hireStep === HireStepsEnum.WAITING) {
+          setVisible(true);
+        }
       },
     }
   );
 
   const freezy = useMemo(
-    () => playerAcceptStatus === "loading" || playerCancelStatus === "loading",
-    [playerAcceptStatus, playerCancelStatus]
+    () =>
+      playerAcceptStatus === "loading" ||
+      playerCancelStatus === "loading" ||
+      getHireStatus === "loading",
+    [playerAcceptStatus, playerCancelStatus, getHireStatus]
   );
 
-  const showConfirm = () => {
-    setVisible(true);
+  const onAction = () => {
+    if (!data.hireId || freezy) return;
+    getHire({
+      id: data.hireId,
+    });
   };
 
   useEffect(() => {
@@ -119,8 +110,8 @@ const CustomerRequestHire: FC<CustomerRequestHireProps> = ({
       {
         message: getMessage(notif) as string,
         onRemoval: (id, removedBy) => {
-          if (removedBy === "click" && enableClick) {
-            showConfirm();
+          if (removedBy === "click") {
+            onAction();
           }
         },
       },
@@ -130,9 +121,7 @@ const CustomerRequestHire: FC<CustomerRequestHireProps> = ({
 
   const onClick = (event: MouseEvent) => {
     event.preventDefault();
-    if (enableClick) {
-      showConfirm();
-    }
+    onAction();
   };
 
   const onCancel = () => {
@@ -142,10 +131,12 @@ const CustomerRequestHire: FC<CustomerRequestHireProps> = ({
   };
 
   const onDeny = () => {
+    if (!data.hireId) return;
     playerCancel({ id: data.hireId, cancelReason: "busy" });
   };
 
   const onAccept = () => {
+    if (!data.hireId) return;
     playerAccept({ id: data.hireId });
   };
 
@@ -165,23 +156,21 @@ const CustomerRequestHire: FC<CustomerRequestHireProps> = ({
           <div className="notifications__text">{data.content}</div>
         </div>
       </a>
-      {enableClick && (
-        <ConfirmModal
-          visible={visible}
-          title={`Accept hire request from ${data.customer?.userName}`}
-          freezy={freezy}
-          onCancel={onCancel}
-          enableNo={true}
-          onNo={onDeny}
-          loadingNo={playerCancelStatus === "loading"}
-          textNo={"Deny"}
-          onYes={onAccept}
-          loadingYes={playerAcceptStatus === "loading"}
-          textYes={"Apcept"}
-        >
-          {data?.hire?.customerNote}
-        </ConfirmModal>
-      )}
+      <ConfirmModal
+        visible={visible}
+        title={`Accept hire request from ${data.customerName}`}
+        freezy={freezy}
+        onCancel={onCancel}
+        enableNo={true}
+        onNo={onDeny}
+        loadingNo={playerCancelStatus === "loading"}
+        textNo={"Deny"}
+        onYes={onAccept}
+        loadingYes={playerAcceptStatus === "loading"}
+        textYes={"Apcept"}
+      >
+        {data.note}
+      </ConfirmModal>
     </>
   );
 };

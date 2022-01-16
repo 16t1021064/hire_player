@@ -134,34 +134,19 @@ const Notifications: FC = () => {
       fetch({
         limit: pagination.limit,
         page: 1,
-        populate: "customer|player|payload.hire|payload.conversation",
         sortBy: "createdAt:desc",
       });
     }
   }, [userInfo]);
 
-  const renderItem: any = (notif: TNotification, position: number) => {
-    const onSocketChecked = () => {
-      items[position].isSocketChecked = true;
-      setItems(items);
-    };
-
+  const renderItem: any = (notif: TNotification) => {
     switch (notif.action) {
       case NotificationActionsEnum.CUSTOMER_REQUEST_HIRE:
-        return (
-          <CustomerRequestHire
-            notif={notif}
-            onSocketChecked={onSocketChecked}
-          />
-        );
+        return <CustomerRequestHire notif={notif} />;
       case NotificationActionsEnum.PLAYER_CANCEL_HIRE:
-        return (
-          <PlayerCancelHire notif={notif} onSocketChecked={onSocketChecked} />
-        );
+        return <PlayerCancelHire notif={notif} />;
       case NotificationActionsEnum.PLAYER_ACCEPT_HIRE:
-        return (
-          <PlayerAcceptHire notif={notif} onSocketChecked={onSocketChecked} />
-        );
+        return <PlayerAcceptHire notif={notif} />;
       default:
         return <></>;
     }
@@ -184,7 +169,6 @@ const Notifications: FC = () => {
       fetch({
         limit: pagination.limit,
         page: 1,
-        populate: "customer|player|payload.hire|payload.conversation",
         sortBy: "createdAt:desc",
         latestId: lastestIdRef.current,
       });
