@@ -4,6 +4,10 @@ import {
   TCreateHireResponse,
   TGetHireRequest,
   TGetHireResponse,
+  TPlayerAcceptHireRequest,
+  TPlayerAcceptHireResponse,
+  TPlayerCancelHireRequest,
+  TPlayerCancelHireResponse,
   TUserFinishRequest,
   TUserFinishResponse,
 } from "./types";
@@ -26,5 +30,22 @@ export const userFinishRequest = async (
   request: TUserFinishRequest
 ): Promise<TUserFinishResponse> => {
   const { data } = await axiosInstance.put(`/hires/${request.id}/finish-soon`);
+  return data;
+};
+
+export const playerAcceptHireRequest = async (
+  request: TPlayerAcceptHireRequest
+): Promise<TPlayerAcceptHireResponse> => {
+  const { data } = await axiosInstance.put(`/hires/${request.id}/accept`);
+  return data;
+};
+
+export const playerCancelHireRequest = async (
+  request: TPlayerCancelHireRequest
+): Promise<TPlayerCancelHireResponse> => {
+  const { data } = await axiosInstance.put(
+    `/hires/${request.id}/player-cancel`,
+    request
+  );
   return data;
 };

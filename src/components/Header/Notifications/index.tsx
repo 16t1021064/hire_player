@@ -9,7 +9,10 @@ import {
   useState,
 } from "react";
 import { useMutation } from "react-query";
-import { getNotificationsRequest } from "api/notifications/request";
+import {
+  getNotificationsRequest,
+  readNotificationsRequest,
+} from "api/notifications/request";
 import { useAppSelector } from "hooks/useRedux";
 import { NotificationActionsEnum, TNotification, TPagination } from "types";
 import clsx from "clsx";
@@ -186,6 +189,14 @@ const Notifications: FC = () => {
       });
     }
   };
+
+  const { mutate: readNotifications } = useMutation(readNotificationsRequest);
+
+  useEffect(() => {
+    if (visible) {
+      readNotifications();
+    }
+  }, [visible]);
 
   return isLogin ? (
     <div

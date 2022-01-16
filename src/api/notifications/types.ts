@@ -1,4 +1,4 @@
-import { THire, TNotification } from "types";
+import { TNotification } from "types";
 
 export interface TGetNotificationsRequest {
   latestId?: string;
@@ -19,21 +19,6 @@ export interface TGetNotificationsResponse {
   message: "GET_NOTIFICATIONS_SUCCESS";
 }
 
-export interface TPlayerAcceptHireRequest {
-  id: string; // hire id
-}
-
-export interface TPlayerAcceptHireResponse {
-  data: THire;
-  message: "ACCEPT_HIRE_SUCCESS";
-}
-
-export interface TPlayerCancelHireRequest {
-  id: string; // hire id
-  cancelReason: string;
-}
-
-export interface TPlayerCancelHireResponse {
-  data: THire;
-  message: "CANCEL_HIRE_SUCCESS";
+export interface TReadNotificationsResponse {
+  message: "READERS_NOTIFICATIONS_SUCCESS";
 }

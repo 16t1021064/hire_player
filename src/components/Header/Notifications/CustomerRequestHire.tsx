@@ -2,10 +2,6 @@ import { FC, MouseEvent, ReactNode, useEffect, useMemo, useState } from "react";
 import { HireStepsEnum, TConversation, THire, TUser } from "types";
 import { message } from "antd";
 import { useMutation } from "react-query";
-import {
-  playerAcceptHireRequest,
-  playerCancelHireRequest,
-} from "api/notifications/request";
 import { getMessage } from "utils/notifications";
 import Thumb from "assets/images/default-avatar.jpg";
 import TimeAgo from "react-timeago";
@@ -15,6 +11,10 @@ import { useHistory } from "react-router-dom";
 import { routesEnum } from "pages/Routes";
 import { chatDefaultState, hireState } from "pages/Chat";
 import ConfirmModal from "components/ConfirmModal";
+import {
+  playerAcceptHireRequest,
+  playerCancelHireRequest,
+} from "api/hires/request";
 
 interface TData {
   hireId: string;

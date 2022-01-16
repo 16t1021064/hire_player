@@ -4,14 +4,32 @@ export interface TPagination {
   totalPages?: number;
   totalResults?: number;
 }
+export enum UserStatusesEnum {
+  ACTIVE = 1,
+  INACTIVE = 2,
+  VERIFIED = 3,
+}
+export type TUserStatuses = 1 | 2 | 3;
+export enum UserRolesEnum {
+  ROOT = 1,
+  ADMIN = 2,
+  USER = 3,
+}
+export type TUserRoles = 1 | 2 | 3;
+export enum GendersEnum {
+  MALE = 1,
+  FEMALE = 2,
+}
+export type TGenders = 1 | 2;
 export interface TUser {
   id: string;
   money?: number;
+  gender?: TGenders;
   isOnline?: boolean;
   isPlayer?: boolean;
-  status?: number;
+  status?: TUserStatuses;
   deletedBy?: string | null;
-  roles?: number[];
+  roles?: TUserRoles[];
   userName?: string;
   email?: string;
   emailVerifiedAt?: string | null;
@@ -104,6 +122,7 @@ export type TConversationStatuses = 1 | 2;
 export interface TConversation {
   id: string;
   members?: string[] | TUser[];
+  latestHire?: string | THire;
   latestMessage?: TMessage;
   customer?: string | TUser;
   player?: string | TUser;
@@ -129,11 +148,13 @@ export interface THire {
   id: string;
   acceptedAt?: string | null;
   deletedAt?: string | null;
+  cancelReason?: string;
   canceledAt?: string | null;
   seenAt?: string | null;
   hireStep?: THireSteps;
   isCompleteSoon?: boolean;
   timeRent?: number;
+  rate?: number;
   cost?: number;
   customerNote?: string;
   customer?: string | TUser;
@@ -146,6 +167,7 @@ export interface THire {
 export interface TNotificationPayload {
   conversation?: string | TConversation;
   hire?: string | THire;
+  review?: string | TReview;
 }
 export enum NotificationActionsEnum {
   CUSTOMER_REQUEST_HIRE = 1,
@@ -154,9 +176,10 @@ export enum NotificationActionsEnum {
   CUSTOMER_CANCEL_HIRE = 4,
   CUSTOMER_FINISH_SOON = 5,
   CUSTOMER_REQUEST_COMPLAIN = 6,
-  COMPLETE = 7,
+  HIRE_COMPLETE = 7,
+  USER_REVIEW_HIRE = 8,
 }
-export type TNotificationActions = 1 | 2 | 3 | 4 | 5 | 6 | 7;
+export type TNotificationActions = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
 export interface TNotification {
   id: string;
   payload?: TNotificationPayload;

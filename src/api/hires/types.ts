@@ -31,3 +31,22 @@ export interface TUserFinishResponse {
   data: THire;
   message: "FINISH_SOON_HIRE_SUCCESS";
 }
+
+export interface TPlayerAcceptHireRequest {
+  id: string; // hire id
+}
+
+export interface TPlayerAcceptHireResponse {
+  data: THire;
+  message: "ACCEPT_HIRE_SUCCESS";
+}
+
+export interface TPlayerCancelHireRequest {
+  id: string; // hire id
+  cancelReason: string;
+}
+
+export interface TPlayerCancelHireResponse {
+  data: THire;
+  message: "CANCEL_HIRE_SUCCESS";
+}
