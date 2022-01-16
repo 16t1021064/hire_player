@@ -9,7 +9,7 @@ import notify from "utils/notify";
 import { TNotificationTransform } from ".";
 import { useHistory } from "react-router-dom";
 import { routesEnum } from "pages/Routes";
-import { chatDefaultState, hireState } from "pages/Chat";
+import { chatDefaultState } from "pages/Chat";
 import ConfirmModal from "components/ConfirmModal";
 import {
   playerAcceptHireRequest,
@@ -86,7 +86,6 @@ const CustomerRequestHire: FC<CustomerRequestHireProps> = ({
         }
         history.push(routesEnum.chat, {
           [chatDefaultState]: id,
-          [hireState]: data.hire?.id,
         });
       },
     }

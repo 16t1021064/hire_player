@@ -13,7 +13,6 @@ import { fnConvertConversation } from "utils/message";
 import { getHireRequest } from "api/hires/request";
 
 export const chatDefaultState: string = "chat_chatDefaultState";
-export const hireState: string = "chat_HireState";
 
 const Chat: FC = () => {
   const [activeConv, setActiveConv] = useState<
@@ -48,11 +47,6 @@ const Chat: FC = () => {
       clearState = true;
       getConversation({ id: value });
     }
-    if (location?.state && (location.state as any)?.[hireState]) {
-      const value = (location.state as any)[hireState];
-      clearState = true;
-      getHire({ id: value });
-    }
     if (clearState) {
       history.replace({ ...location, state: undefined });
     }
@@ -66,6 +60,19 @@ const Chat: FC = () => {
       socket?.emit(SocketEvents.startOnline, startOnlineData);
     }
   }, [connected, userInfo]);
+
+  useEffect(() => {
+    if (!activeConv || !activeConv.latestHire) return;
+    let hireId = "";
+    if (typeof activeConv.latestHire === "string") {
+      hireId = activeConv.latestHire;
+    } else {
+      hireId = activeConv.latestHire.id;
+    }
+    if (activeConv?.latestHire) {
+      getHire({ id: hireId });
+    }
+  }, [activeConv]);
 
   const onChangeConv = (conv: TConvertedConversation) => {
     setHire(undefined);

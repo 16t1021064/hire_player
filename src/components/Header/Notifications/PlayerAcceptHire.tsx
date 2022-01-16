@@ -6,7 +6,7 @@ import Thumb from "assets/images/default-avatar.jpg";
 import { getMessage } from "utils/notifications";
 import { useHistory } from "react-router-dom";
 import { routesEnum } from "pages/Routes";
-import { chatDefaultState, hireState } from "pages/Chat";
+import { chatDefaultState } from "pages/Chat";
 import ConfirmModal from "components/ConfirmModal";
 
 interface TData {
@@ -15,7 +15,6 @@ interface TData {
   time: string;
   thumb: string | undefined;
   conv: string | TConversation | undefined;
-  hire: THire | undefined;
 }
 
 interface TDataConfirm {
@@ -38,7 +37,6 @@ const PlayerAcceptHire: FC<PlayerAcceptHireProps> = ({
   const data: TData = useMemo(() => {
     const content = getMessage(notif);
     const player: TUser = notif?.player as TUser;
-    const hire: THire = notif?.payload?.hire as THire;
     const thumb = player?.playerInfo?.playerAvatar?.link || Thumb;
     const title = player?.playerInfo?.playerName || "";
     const conv: string | TConversation | undefined =
@@ -49,7 +47,6 @@ const PlayerAcceptHire: FC<PlayerAcceptHireProps> = ({
       thumb,
       time: notif.createdAt || "",
       conv,
-      hire,
     };
   }, [notif]);
   const history = useHistory();
@@ -66,7 +63,6 @@ const PlayerAcceptHire: FC<PlayerAcceptHireProps> = ({
     }
     history.push(routesEnum.chat, {
       [chatDefaultState]: id,
-      [hireState]: data.hire?.id,
     });
   };
 
