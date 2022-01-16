@@ -3,9 +3,11 @@ import IonIcon from "@reacticons/ionicons";
 import { openPopup } from "utils/magnific";
 import Notifications from "./Notifications";
 import Profile from "./Profile";
+import { useAppSelector } from "hooks/useRedux";
 
 const Header: FC = () => {
   const modalRechargeRef = useRef<HTMLDivElement | null>(null);
+  const { userInfo, isLogin } = useAppSelector((state) => state.auth);
 
   useEffect(() => {
     // page
@@ -78,26 +80,32 @@ const Header: FC = () => {
             />
           </button>
         </form>
-        <div className="header__control">
-          <a className="header__item header__item_search">
-            <IonIcon
-              className="icon icon-search-outline"
-              name="search-outline"
-            />
-          </a>
-          <Notifications />
-        </div>
-        <div className="header__item header__item__money">
-          <a
-            href=""
-            className="header__head js-propagation"
-            onClick={onRecharge}
-          >
-            <IonIcon className="icon icon-add-outline" name="add-outline" />
-            $50,00
-          </a>
-        </div>
-        <Profile />
+        {isLogin ? (
+          <>
+            <div className="header__control">
+              <a className="header__item header__item_search">
+                <IonIcon
+                  className="icon icon-search-outline"
+                  name="search-outline"
+                />
+              </a>
+              <Notifications />
+            </div>
+            <div className="header__item header__item__money">
+              <a
+                href=""
+                className="header__head js-propagation"
+                onClick={onRecharge}
+              >
+                <IonIcon className="icon icon-add-outline" name="add-outline" />
+                ${(userInfo?.money || 0).toFixed(2)}
+              </a>
+            </div>
+            <Profile />
+          </>
+        ) : (
+          <></>
+        )}
       </div>
       <div className="popup popup_normal mfp-hide" ref={modalRechargeRef}>
         <form className="popup__form">
