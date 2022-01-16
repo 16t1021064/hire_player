@@ -1,4 +1,4 @@
-import CardPlayer from "components/CardPlayer";
+import PlayerCard from "components/PlayerCard";
 import { FC } from "react";
 
 const Following: FC = () => {
@@ -9,14 +9,14 @@ const Following: FC = () => {
           <div className="collection__title h5">From Player You Follow</div>
         </div>
         <div className="collection__list">
-          <CardPlayer />
-          <CardPlayer />
-          <CardPlayer />
-          <CardPlayer />
-          <CardPlayer />
-          <CardPlayer />
-          <CardPlayer />
-          <CardPlayer />
+          <PlayerCard />
+          <PlayerCard />
+          <PlayerCard />
+          <PlayerCard />
+          <PlayerCard />
+          <PlayerCard />
+          <PlayerCard />
+          <PlayerCard />
         </div>
       </div>
     </div>

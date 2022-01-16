@@ -1,4 +1,4 @@
-import CardPlayer from "components/CardPlayer";
+import PlayerCard from "components/PlayerCard";
 import React, { FC, useEffect, useRef, useState } from "react";
 import { useMutation } from "react-query";
 import { getPlayersRequest } from "api/players/request";
@@ -60,7 +60,7 @@ const Home: FC = () => {
         </div>
         <div className="collection__list">
           {players.map((player: TUser) => (
-            <CardPlayer player={player} key={player.id} />
+            <PlayerCard player={player} key={player.id} />
           ))}
         </div>
       </div>

@@ -1,6 +1,6 @@
 import { FC } from "react";
 import IonIcon from "@reacticons/ionicons";
-import SidebarSettings from "components/SidebarSettings";
+import SidebarSettings from "components/Layout/SidebarSettings";
 import SettingPlayerAlbumsImage from "img/setting_player_albums.png";
 
 const SettingPlayerAlbums: FC = () => {

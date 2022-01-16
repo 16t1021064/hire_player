@@ -6,7 +6,7 @@ import DefaultImage from "assets/images/default-image.jpg";
 import { useHistory } from "react-router-dom";
 import { routesEnum } from "pages/Routes";
 
-interface CardPlayerProps {
+interface PlayerCardProps {
   player?: TUser;
   ava?: string;
   name?: string;
@@ -17,7 +17,7 @@ interface CardPlayerProps {
   start?: string;
 }
 
-const CardPlayer: FC<CardPlayerProps> = ({ player, classStatus }) => {
+const PlayerCard: FC<PlayerCardProps> = ({ player, classStatus }) => {
   const history = useHistory();
 
   const onClick = (event: React.MouseEvent) => {
@@ -70,4 +70,4 @@ const CardPlayer: FC<CardPlayerProps> = ({ player, classStatus }) => {
   );
 };
 
-export default CardPlayer;
+export default PlayerCard;
