@@ -42,7 +42,7 @@ const CustomerRequestHire: FC<CustomerRequestHireProps> = ({ notif }) => {
     return {
       title: notif.customer?.userName || "",
       content: getMessage(notif),
-      thumb: notif.customer?.avatar?.link || Thumb,
+      thumb: notif.image?.link || Thumb,
       time: notif.createdAt || "",
       hireId: payload.hireId,
       convId: payload.conversationId,

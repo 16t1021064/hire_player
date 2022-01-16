@@ -28,7 +28,7 @@ const PlayerCancelHire: FC<PlayerCancelHireProps> = ({ notif }) => {
     return {
       title: notif.player?.playerInfo?.playerName || "",
       content: getMessage(notif),
-      thumb: notif.player?.playerInfo?.playerAvatar?.link || Thumb,
+      thumb: notif.image?.link || Thumb,
       time: notif.createdAt || "",
       convId: payload.conversationId,
       hireId: payload.hireId,

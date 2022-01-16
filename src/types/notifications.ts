@@ -96,4 +96,5 @@ export interface TNotification {
   href?: string;
   createdAt?: string;
   updatedAt?: string;
+  image?: TImage;
 }
