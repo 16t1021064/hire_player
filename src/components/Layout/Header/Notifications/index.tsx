@@ -31,6 +31,7 @@ import { Col, Row } from "antd";
 import styles from "./index.module.sass";
 import PlayerAcceptHire from "./PlayerAcceptHire";
 import { NotificationActionsEnum, TNotification } from "types/notifications";
+import CustomerFinishSoon from "./CustomerFinishSoon";
 
 export interface TNotificationTransform extends TNotification {
   isSocketFrom?: boolean;
@@ -158,6 +159,8 @@ const Notifications: FC = () => {
         return <PlayerCancelHire notif={notif} fnClose={fnClose} />;
       case NotificationActionsEnum.PLAYER_ACCEPT_HIRE:
         return <PlayerAcceptHire notif={notif} fnClose={fnClose} />;
+      case NotificationActionsEnum.CUSTOMER_FINISH_SOON:
+        return <CustomerFinishSoon notif={notif} fnClose={fnClose} />;
       default:
         return <></>;
     }

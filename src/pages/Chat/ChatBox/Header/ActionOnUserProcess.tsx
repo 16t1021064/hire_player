@@ -1,5 +1,5 @@
 import { Button } from "antd";
-import { userFinishRequest } from "api/hires/request";
+import { userComplainRequest, userFinishRequest } from "api/hires/request";
 import { useAppSelector } from "hooks/useRedux";
 import { FC, useMemo } from "react";
 import { useMutation } from "react-query";
@@ -19,6 +19,17 @@ const ActionOnUserProcess: FC<ActionOnUserProcessProps> = ({
 
   const { mutate: userFinish, status: userFinishLoading } = useMutation(
     userFinishRequest,
+    {
+      onSuccess: (data) => {
+        if (onChangeHire) {
+          onChangeHire(data.data);
+        }
+      },
+    }
+  );
+
+  const { mutate: userComplain, status: userComplainLoading } = useMutation(
+    userComplainRequest,
     {
       onSuccess: (data) => {
         if (onChangeHire) {
@@ -51,6 +62,13 @@ const ActionOnUserProcess: FC<ActionOnUserProcessProps> = ({
     userFinish({ id: hire.id });
   };
 
+  const onUserComplain = () => {
+    if (userComplainLoading === "loading" || !hire?.id) {
+      return;
+    }
+    // userComplain({ id: hire.id });
+  };
+
   return enable ? (
     <>
       <Button
@@ -60,6 +78,14 @@ const ActionOnUserProcess: FC<ActionOnUserProcessProps> = ({
         onClick={onUserFinish}
       >
         Finish
+      </Button>
+      <Button
+        className={styles.button}
+        type="primary"
+        loading={userComplainLoading === "loading"}
+        onClick={onUserComplain}
+      >
+        Complain
       </Button>
     </>
   ) : (

@@ -50,3 +50,12 @@ export interface TPlayerCancelHireResponse {
   data: THire;
   message: "CANCEL_HIRE_SUCCESS";
 }
+
+export interface TUserComplainRequest {
+  id: string;
+}
+
+export interface TUserComplainResponse {
+  data: THire;
+  message: "REQUEST_COMPLAIN_SUCCESS";
+}

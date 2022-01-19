@@ -1,6 +1,7 @@
 import * as customerRequestHire from "utils/notifications/customerRequestHire";
 import * as playerCancelHire from "utils/notifications/playerCancelHire";
 import * as playerAcceptHire from "utils/notifications/playerAcceptHire";
+import * as customerFinishSoon from "utils/notifications/customerFinishSoon";
 import { NotificationActionsEnum, TNotification } from "types/notifications";
 
 export const getMessage = (notif: TNotification) => {
@@ -11,6 +12,8 @@ export const getMessage = (notif: TNotification) => {
       return playerAcceptHire.getMessage(notif);
     case NotificationActionsEnum.PLAYER_CANCEL_HIRE:
       return playerCancelHire.getMessage(notif);
+    case NotificationActionsEnum.CUSTOMER_FINISH_SOON:
+      return customerFinishSoon.getMessage(notif);
     default:
       return undefined;
   }

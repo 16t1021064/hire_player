@@ -17,12 +17,15 @@ interface TData {
   convId: string | undefined;
 }
 
-interface PlayerCancelHireProps {
+interface CustomerFinishSoonProps {
   notif: TNotificationTransform;
   fnClose: () => void;
 }
 
-const PlayerCancelHire: FC<PlayerCancelHireProps> = ({ notif, fnClose }) => {
+const CustomerFinishSoon: FC<CustomerFinishSoonProps> = ({
+  notif,
+  fnClose,
+}) => {
   const data: TData = useMemo(() => {
     const payload = notif.payload as TPlayerCancelHirePayload;
     return {
@@ -82,4 +85,4 @@ const PlayerCancelHire: FC<PlayerCancelHireProps> = ({ notif, fnClose }) => {
   );
 };
 
-export default PlayerCancelHire;
+export default CustomerFinishSoon;

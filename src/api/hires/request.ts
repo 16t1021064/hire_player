@@ -8,6 +8,7 @@ import {
   TPlayerAcceptHireResponse,
   TPlayerCancelHireRequest,
   TPlayerCancelHireResponse,
+  TUserComplainRequest,
   TUserFinishRequest,
   TUserFinishResponse,
 } from "./types";
@@ -30,6 +31,13 @@ export const userFinishRequest = async (
   request: TUserFinishRequest
 ): Promise<TUserFinishResponse> => {
   const { data } = await axiosInstance.put(`/hires/${request.id}/finish-soon`);
+  return data;
+};
+
+export const userComplainRequest = async (
+  request: TUserComplainRequest
+): Promise<TUserFinishResponse> => {
+  const { data } = await axiosInstance.put(`/hires/${request.id}/complain`);
   return data;
 };
 
