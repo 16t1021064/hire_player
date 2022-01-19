@@ -6,12 +6,12 @@ import { useMutation } from "react-query";
 import { HireStepsEnum, THire, TUser } from "types";
 import styles from "./styles.module.sass";
 
-interface ActionOnUserProcessProps {
+interface ActionUserOnProcessProps {
   hire?: THire;
   onChangeHire?: (hire: THire) => void;
 }
 
-const ActionOnUserProcess: FC<ActionOnUserProcessProps> = ({
+const ActionUserOnProcess: FC<ActionUserOnProcessProps> = ({
   hire,
   onChangeHire,
 }) => {
@@ -93,4 +93,4 @@ const ActionOnUserProcess: FC<ActionOnUserProcessProps> = ({
   );
 };
 
-export default ActionOnUserProcess;
+export default ActionUserOnProcess;

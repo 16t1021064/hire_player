@@ -9,12 +9,15 @@ import { useMutation } from "react-query";
 import { HireStepsEnum, THire, TUser } from "types";
 import styles from "./styles.module.sass";
 
-interface ActionOnRequestProps {
+interface ActionPlayerOnRequestProps {
   hire?: THire;
   onChangeHire?: (hire: THire) => void;
 }
 
-const ActionOnRequest: FC<ActionOnRequestProps> = ({ hire, onChangeHire }) => {
+const ActionPlayerOnRequest: FC<ActionPlayerOnRequestProps> = ({
+  hire,
+  onChangeHire,
+}) => {
   const userInfo = useAppSelector((state) => state.auth.userInfo);
 
   const { mutate: accept, status: acceptStatus } = useMutation(
@@ -98,4 +101,4 @@ const ActionOnRequest: FC<ActionOnRequestProps> = ({ hire, onChangeHire }) => {
   );
 };
 
-export default ActionOnRequest;
+export default ActionPlayerOnRequest;

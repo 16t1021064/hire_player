@@ -1,8 +1,9 @@
 import IonIcon from "@reacticons/ionicons";
 import { FC } from "react";
 import { TConvertedConversation, THire } from "types";
-import ActionOnRequest from "./ActionOnRequest";
-import ActionOnUserProcess from "./ActionOnUserProcess";
+import ActionPlayerOnRequest from "./ActionPlayerOnRequest";
+import ActionUserOnProcess from "./ActionUserOnProcess";
+import ActionUserOnRequest from "./ActionUserOnRequest";
 
 interface HeaderProps {
   conv: TConvertedConversation;
@@ -21,8 +22,9 @@ const Header: FC<HeaderProps> = ({ conv, hire, onChangeHire }) => {
         }`}
       </div>
       <div className="chat__actions">
-        <ActionOnUserProcess hire={hire} onChangeHire={onChangeHire} />
-        <ActionOnRequest hire={hire} onChangeHire={onChangeHire} />
+        <ActionUserOnRequest hire={hire} onChangeHire={onChangeHire} />
+        <ActionPlayerOnRequest hire={hire} onChangeHire={onChangeHire} />
+        <ActionUserOnProcess hire={hire} onChangeHire={onChangeHire} />
         <button className="chat__action chat__action__btn__back__chat">
           <IonIcon
             className="icon icon-arrow-back-outline"

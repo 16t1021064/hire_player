@@ -59,3 +59,12 @@ export interface TUserComplainResponse {
   data: THire;
   message: "REQUEST_COMPLAIN_SUCCESS";
 }
+
+export interface TUserCancelRequest {
+  id: string;
+}
+
+export interface TUserCancelResponse {
+  data: THire;
+  message: "CANCEL_HIRE_SUCCESS";
+}

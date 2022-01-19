@@ -23,5 +23,7 @@
   "ERROR_HIRE_NOT_FOUND": "Hire not found",
   "ERROR_STATUS_HIRE_INVALID": "Hire status invalid",
   "ERROR_ONLY_PLAYER_CANCEL_HIRE": "Only player can cancel hire",
-  "ERROR_ONLY_CUSTOMER_FINISH_SOON": "Only customer finish soon"
+  "ERROR_ONLY_CUSTOMER_FINISH_SOON": "Only customer finish soon",
+  "ERROR_ONLY_CUSTOMER_REQUEST_COMPLAIN": "Only customer request complain",
+  "ERROR_ONLY_CUSTOMER_CANCEL_HIRE": "Only customer cancel hire"
 }
