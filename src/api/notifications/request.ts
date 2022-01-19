@@ -2,6 +2,7 @@ import axiosInstance from "../axios";
 import {
   TGetNotificationsRequest,
   TGetNotificationsResponse,
+  TGetTotalUnreadResponse,
   TReadNotificationsResponse,
 } from "./types";
 
@@ -17,5 +18,11 @@ export const getNotificationsRequest = async (
 export const readNotificationsRequest =
   async (): Promise<TReadNotificationsResponse> => {
     const { data } = await axiosInstance.post(`/notifications/readers`);
+    return data;
+  };
+
+export const getTotalUnreadRequest =
+  async (): Promise<TGetTotalUnreadResponse> => {
+    const { data } = await axiosInstance.get(`/notifications/count-unread`);
     return data;
   };

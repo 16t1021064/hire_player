@@ -31,9 +31,13 @@ interface TData {
 
 interface CustomerRequestHireProps {
   notif: TNotificationTransform;
+  fnClose: () => void;
 }
 
-const CustomerRequestHire: FC<CustomerRequestHireProps> = ({ notif }) => {
+const CustomerRequestHire: FC<CustomerRequestHireProps> = ({
+  notif,
+  fnClose,
+}) => {
   const [visible, setVisible] = useState<boolean>(false);
   const history = useHistory();
 
@@ -97,6 +101,7 @@ const CustomerRequestHire: FC<CustomerRequestHireProps> = ({ notif }) => {
 
   const onAction = () => {
     if (!data.hireId || freezy) return;
+    fnClose();
     getHire({
       id: data.hireId,
     });

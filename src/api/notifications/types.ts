@@ -22,3 +22,10 @@ export interface TGetNotificationsResponse {
 export interface TReadNotificationsResponse {
   message: "READERS_NOTIFICATIONS_SUCCESS";
 }
+
+export interface TGetTotalUnreadResponse {
+  data: {
+    count: number;
+  };
+  message: "COUNT_UNREAD_NOTIFICATIONS_SUCCESS";
+}

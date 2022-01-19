@@ -11,6 +11,7 @@ import {
 import { useMutation } from "react-query";
 import {
   getNotificationsRequest,
+  getTotalUnreadRequest,
   readNotificationsRequest,
 } from "api/notifications/request";
 import { useAppSelector } from "hooks/useRedux";
@@ -124,10 +125,15 @@ const Notifications: FC = () => {
           totalResults: data.data.totalResults,
         });
         setItems(items.concat(data.data.results));
-        setTotal(data.data.totalResults);
       },
     }
   );
+
+  const { mutate: getTotalUnread } = useMutation(getTotalUnreadRequest, {
+    onSuccess: (data) => {
+      setTotal(data.data.count);
+    },
+  });
 
   useEffect(() => {
     if (userInfo) {
@@ -136,17 +142,22 @@ const Notifications: FC = () => {
         page: 1,
         sortBy: "createdAt:desc",
       });
+      getTotalUnread();
     }
   }, [userInfo]);
+
+  const fnClose = () => {
+    setVisible(false);
+  };
 
   const renderItem: any = (notif: TNotification) => {
     switch (notif.action) {
       case NotificationActionsEnum.CUSTOMER_REQUEST_HIRE:
-        return <CustomerRequestHire notif={notif} />;
+        return <CustomerRequestHire notif={notif} fnClose={fnClose} />;
       case NotificationActionsEnum.PLAYER_CANCEL_HIRE:
-        return <PlayerCancelHire notif={notif} />;
+        return <PlayerCancelHire notif={notif} fnClose={fnClose} />;
       case NotificationActionsEnum.PLAYER_ACCEPT_HIRE:
-        return <PlayerAcceptHire notif={notif} />;
+        return <PlayerAcceptHire notif={notif} fnClose={fnClose} />;
       default:
         return <></>;
     }
@@ -175,7 +186,11 @@ const Notifications: FC = () => {
     }
   };
 
-  const { mutate: readNotifications } = useMutation(readNotificationsRequest);
+  const { mutate: readNotifications } = useMutation(readNotificationsRequest, {
+    onSuccess: () => {
+      setTotal(0);
+    },
+  });
 
   useEffect(() => {
     if (visible) {

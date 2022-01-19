@@ -24,9 +24,10 @@ interface TDataConfirm {
 
 interface PlayerAcceptHireProps {
   notif: TNotificationTransform;
+  fnClose: () => void;
 }
 
-const PlayerAcceptHire: FC<PlayerAcceptHireProps> = ({ notif }) => {
+const PlayerAcceptHire: FC<PlayerAcceptHireProps> = ({ notif, fnClose }) => {
   const [visibleConfirm, setVisibleConfirm] = useState<boolean>(false);
   const [dataConfirm, setDataConfirm] = useState<TDataConfirm | undefined>(
     undefined
@@ -64,6 +65,7 @@ const PlayerAcceptHire: FC<PlayerAcceptHireProps> = ({ notif }) => {
   const onClick = (event: MouseEvent) => {
     event.preventDefault();
     if (visibleConfirm) return;
+    fnClose();
     gotoConv();
   };
 

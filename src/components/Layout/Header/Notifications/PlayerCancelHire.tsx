@@ -20,9 +20,10 @@ interface TData {
 
 interface PlayerCancelHireProps {
   notif: TNotificationTransform;
+  fnClose: () => void;
 }
 
-const PlayerCancelHire: FC<PlayerCancelHireProps> = ({ notif }) => {
+const PlayerCancelHire: FC<PlayerCancelHireProps> = ({ notif, fnClose }) => {
   const data: TData = useMemo(() => {
     const payload = notif.payload as TPlayerCancelHirePayload;
     return {
@@ -61,6 +62,7 @@ const PlayerCancelHire: FC<PlayerCancelHireProps> = ({ notif }) => {
 
   const onClick = (event: MouseEvent) => {
     event.preventDefault();
+    fnClose();
     gotoConv();
   };
 
