@@ -1,78 +1,78 @@
 import { TImage, TUser } from "types";
 
 export enum NotificationActionsEnum {
-  CUSTOMER_REQUEST_HIRE = 1,
-  PLAYER_ACCEPT_HIRE = 2,
-  PLAYER_CANCEL_HIRE = 3,
-  CUSTOMER_CANCEL_HIRE = 4,
-  CUSTOMER_FINISH_SOON = 5,
-  CUSTOMER_REQUEST_COMPLAIN = 6,
-  HIRE_COMPLETE = 7,
-  USER_REVIEW_HIRE = 8,
-  ADMIN_JOIN_CHAT = 9,
+  HIRE_USER_CREATED = 1,
+  HIRE_PLAYER_ACCEPTED = 2,
+  HIRE_PLAYER_DENIED = 3,
+  HIRE_USER_CANCELED = 4,
+  HIRE_USER_FINISHED = 5,
+  HIRE_USER_COMPLAIN = 6,
+  HIRE_PLAYER_COMPLETED = 7,
+  REVIEW_USER_RATED = 8,
+  CHAT_ADMIN_JOINED = 9,
 }
 
 export type TNotificationActions = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
 
-export interface TCustomerRequestHirePayload {
+export interface THireUserCreatedPayload {
   hireId?: string;
   conversationId?: string;
   timeRent?: number;
   customerNote?: string;
 }
 
-export interface TPlayerAcceptHirePayload {
+export interface THirePlayerAcceptedPayload {
   hireId?: string;
   conversationId?: string;
 }
 
-export interface TPlayerCancelHirePayload {
+export interface THirePlayerDeniedPayload {
   hireId?: string;
   conversationId?: string;
 }
 
-export interface TCustomerCancelHirePayload {
+export interface THireUserCanceledPayload {
   hireId?: string;
   conversationId?: string;
 }
 
-export interface TCustomerFinishSoonPayload {
+export interface THireUserFinishedPayload {
   hireId?: string;
   conversationId?: string;
 }
 
-export interface TCustomerRequestComplainPayload {
+export interface THireUserComplainPayload {
   hireId?: string;
   conversationId?: string;
 }
 
-export interface THireCompletePayload {
+export interface THirePlayerCompletedPayload {
   hireId?: string;
   conversationId?: string;
 }
 
-export interface TUserReviewHirePayload {
+export interface TReviewUserRatedPayload {
   hireId?: string;
   conversationId?: string;
   starPoint?: number;
   reviewId?: string;
 }
 
-export interface TAdminJoinChatPayload {
+export interface TChatAdminJoinedPayload {
   hireId?: string;
   conversationId?: string;
 }
 
 export type TNotificationPayload =
-  | TCustomerRequestHirePayload
-  | TPlayerAcceptHirePayload
-  | TPlayerCancelHirePayload
-  | TCustomerCancelHirePayload
-  | TCustomerFinishSoonPayload
-  | TCustomerRequestComplainPayload
-  | THireCompletePayload
-  | TUserReviewHirePayload
-  | TAdminJoinChatPayload;
+  | THireUserCreatedPayload
+  | THirePlayerAcceptedPayload
+  | THirePlayerDeniedPayload
+  | THireUserCanceledPayload
+  | THireUserFinishedPayload
+  | THireUserComplainPayload
+  | THirePlayerCompletedPayload
+  | TReviewUserRatedPayload
+  | TChatAdminJoinedPayload;
 
 export interface TNotification {
   id: string;

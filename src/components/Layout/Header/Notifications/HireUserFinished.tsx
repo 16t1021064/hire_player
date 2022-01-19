@@ -7,7 +7,7 @@ import notify from "utils/notify";
 import { useHistory } from "react-router-dom";
 import { routesEnum } from "pages/Routes";
 import { chatDefaultState } from "pages/Chat";
-import { TPlayerCancelHirePayload } from "types/notifications";
+import { THireUserFinishedPayload } from "types/notifications";
 
 interface TData {
   title: string;
@@ -17,17 +17,14 @@ interface TData {
   convId: string | undefined;
 }
 
-interface CustomerCancelHireProps {
+interface HireUserFinishedProps {
   notif: TNotificationTransform;
   fnClose: () => void;
 }
 
-const CustomerCancelHire: FC<CustomerCancelHireProps> = ({
-  notif,
-  fnClose,
-}) => {
+const HireUserFinished: FC<HireUserFinishedProps> = ({ notif, fnClose }) => {
   const data: TData = useMemo(() => {
-    const payload = notif.payload as TPlayerCancelHirePayload;
+    const payload = notif.payload as THireUserFinishedPayload;
     return {
       title: notif.player?.playerInfo?.playerName || "",
       content: getMessage(notif),
@@ -85,4 +82,4 @@ const CustomerCancelHire: FC<CustomerCancelHireProps> = ({
   );
 };
 
-export default CustomerCancelHire;
+export default HireUserFinished;

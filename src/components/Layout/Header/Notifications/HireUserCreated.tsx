@@ -16,7 +16,7 @@ import {
   playerAcceptHireRequest,
   playerCancelHireRequest,
 } from "api/hires/request";
-import { TCustomerRequestHirePayload } from "types/notifications";
+import { THireUserCreatedPayload } from "types/notifications";
 
 interface TData {
   title: string;
@@ -29,20 +29,17 @@ interface TData {
   note: string;
 }
 
-interface CustomerRequestHireProps {
+interface HireUserCreatedProps {
   notif: TNotificationTransform;
   fnClose: () => void;
 }
 
-const CustomerRequestHire: FC<CustomerRequestHireProps> = ({
-  notif,
-  fnClose,
-}) => {
+const HireUserCreated: FC<HireUserCreatedProps> = ({ notif, fnClose }) => {
   const [visible, setVisible] = useState<boolean>(false);
   const history = useHistory();
 
   const data: TData = useMemo(() => {
-    const payload = notif.payload as TCustomerRequestHirePayload;
+    const payload = notif.payload as THireUserCreatedPayload;
     return {
       title: notif.customer?.userName || "",
       content: getMessage(notif),
@@ -180,4 +177,4 @@ const CustomerRequestHire: FC<CustomerRequestHireProps> = ({
   );
 };
 
-export default CustomerRequestHire;
+export default HireUserCreated;

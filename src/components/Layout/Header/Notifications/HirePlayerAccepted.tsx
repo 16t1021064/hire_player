@@ -7,7 +7,7 @@ import { useHistory } from "react-router-dom";
 import { routesEnum } from "pages/Routes";
 import { chatDefaultState } from "pages/Chat";
 import ConfirmModal from "components/ConfirmModal";
-import { TPlayerAcceptHirePayload } from "types/notifications";
+import { THirePlayerAcceptedPayload } from "types/notifications";
 
 interface TData {
   title: string;
@@ -22,12 +22,15 @@ interface TDataConfirm {
   content: ReactNode | string;
 }
 
-interface PlayerAcceptHireProps {
+interface HirePlayerAcceptedProps {
   notif: TNotificationTransform;
   fnClose: () => void;
 }
 
-const PlayerAcceptHire: FC<PlayerAcceptHireProps> = ({ notif, fnClose }) => {
+const HirePlayerAccepted: FC<HirePlayerAcceptedProps> = ({
+  notif,
+  fnClose,
+}) => {
   const [visibleConfirm, setVisibleConfirm] = useState<boolean>(false);
   const [dataConfirm, setDataConfirm] = useState<TDataConfirm | undefined>(
     undefined
@@ -35,7 +38,7 @@ const PlayerAcceptHire: FC<PlayerAcceptHireProps> = ({ notif, fnClose }) => {
   const history = useHistory();
 
   const data: TData = useMemo(() => {
-    const payload = notif.payload as TPlayerAcceptHirePayload;
+    const payload = notif.payload as THirePlayerAcceptedPayload;
     return {
       title: notif.player?.playerInfo?.playerName || "",
       content: getMessage(notif),
@@ -106,4 +109,4 @@ const PlayerAcceptHire: FC<PlayerAcceptHireProps> = ({ notif, fnClose }) => {
   );
 };
 
-export default PlayerAcceptHire;
+export default HirePlayerAccepted;

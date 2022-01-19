@@ -17,8 +17,8 @@ import {
 import { useAppSelector } from "hooks/useRedux";
 import { TPagination } from "types";
 import clsx from "clsx";
-import CustomerRequestHire from "./CustomerRequestHire";
-import PlayerCancelHire from "./PlayerCancelHire";
+import HireUserCreated from "./HireUserCreated";
+import HirePlayerDenied from "./HirePlayerDenied";
 import useSocket from "hooks/useSocket";
 import {
   TEventData_StartOnline,
@@ -29,10 +29,10 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { LoadingOutlined } from "@ant-design/icons";
 import { Col, Row } from "antd";
 import styles from "./index.module.sass";
-import PlayerAcceptHire from "./PlayerAcceptHire";
+import HirePlayerAccepted from "./HirePlayerAccepted";
 import { NotificationActionsEnum, TNotification } from "types/notifications";
-import CustomerFinishSoon from "./CustomerFinishSoon";
-import CustomerCancelHire from "./CustomerCancelHire";
+import HireUserFinished from "./HireUserFinished";
+import HireUserCanceled from "./HireUserCanceled";
 
 export interface TNotificationTransform extends TNotification {
   isSocketFrom?: boolean;
@@ -154,16 +154,16 @@ const Notifications: FC = () => {
 
   const renderItem: any = (notif: TNotification) => {
     switch (notif.action) {
-      case NotificationActionsEnum.CUSTOMER_REQUEST_HIRE:
-        return <CustomerRequestHire notif={notif} fnClose={fnClose} />;
-      case NotificationActionsEnum.PLAYER_CANCEL_HIRE:
-        return <PlayerCancelHire notif={notif} fnClose={fnClose} />;
-      case NotificationActionsEnum.PLAYER_ACCEPT_HIRE:
-        return <PlayerAcceptHire notif={notif} fnClose={fnClose} />;
-      case NotificationActionsEnum.CUSTOMER_FINISH_SOON:
-        return <CustomerFinishSoon notif={notif} fnClose={fnClose} />;
-      case NotificationActionsEnum.CUSTOMER_CANCEL_HIRE:
-        return <CustomerCancelHire notif={notif} fnClose={fnClose} />;
+      case NotificationActionsEnum.HIRE_USER_CREATED:
+        return <HireUserCreated notif={notif} fnClose={fnClose} />;
+      case NotificationActionsEnum.HIRE_PLAYER_DENIED:
+        return <HirePlayerDenied notif={notif} fnClose={fnClose} />;
+      case NotificationActionsEnum.HIRE_PLAYER_ACCEPTED:
+        return <HirePlayerAccepted notif={notif} fnClose={fnClose} />;
+      case NotificationActionsEnum.HIRE_USER_FINISHED:
+        return <HireUserFinished notif={notif} fnClose={fnClose} />;
+      case NotificationActionsEnum.HIRE_USER_CANCELED:
+        return <HireUserCanceled notif={notif} fnClose={fnClose} />;
       default:
         return <></>;
     }
