@@ -77,7 +77,7 @@ const Chat: FC = () => {
     }
   }, [activeConv]);
 
-  const onChangeConv = (conv: TConvertedConversation) => {
+  const onChangeConv = (conv: TConvertedConversation | undefined) => {
     setHire(undefined);
     setActiveConv(conv);
   };
@@ -121,6 +121,7 @@ const Chat: FC = () => {
             connected={connected}
             hire={hire}
             onChangeHire={setHire}
+            onChangeConv={onChangeConv}
           />
         )}
       </div>

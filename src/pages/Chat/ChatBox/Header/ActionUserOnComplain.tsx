@@ -1,17 +1,17 @@
 import { Button } from "antd";
-import { userComplainRequest, userFinishRequest } from "api/hires/request";
+import { userFinishRequest } from "api/hires/request";
 import { useAppSelector } from "hooks/useRedux";
 import { FC, useMemo } from "react";
 import { useMutation } from "react-query";
 import { HireStepsEnum, THire, TUser } from "types";
 import styles from "./styles.module.sass";
 
-interface ActionUserOnProcessProps {
+interface ActionUserOnComplainProps {
   hire?: THire;
   onChangeHire?: (hire: THire) => void;
 }
 
-const ActionUserOnProcess: FC<ActionUserOnProcessProps> = ({
+const ActionUserOnComplain: FC<ActionUserOnComplainProps> = ({
   hire,
   onChangeHire,
 }) => {
@@ -28,26 +28,15 @@ const ActionUserOnProcess: FC<ActionUserOnProcessProps> = ({
     }
   );
 
-  const { mutate: userComplain, status: userComplainLoading } = useMutation(
-    userComplainRequest,
-    {
-      onSuccess: (data) => {
-        if (onChangeHire) {
-          onChangeHire(data.data);
-        }
-      },
-    }
-  );
-
   const enable = useMemo((): boolean => {
-    let hireUserId = hire?.customer;
-    if (hireUserId && typeof hireUserId !== "string") {
-      hireUserId = (hire?.customer as TUser).id;
+    let userId = hire?.customer;
+    if (userId && typeof userId !== "string") {
+      userId = (hire?.customer as TUser).id;
     }
     if (
       hire &&
-      hireUserId === userInfo?.id &&
-      hire.hireStep === HireStepsEnum.PLAYER_ACCEPT
+      userId === userInfo?.id &&
+      hire.hireStep === HireStepsEnum.COMPLAIN
     ) {
       return true;
     } else {
@@ -62,13 +51,6 @@ const ActionUserOnProcess: FC<ActionUserOnProcessProps> = ({
     userFinish({ id: hire.id });
   };
 
-  const onUserComplain = () => {
-    if (userComplainLoading === "loading" || !hire?.id) {
-      return;
-    }
-    userComplain({ id: hire.id });
-  };
-
   return enable ? (
     <>
       <Button
@@ -79,18 +61,10 @@ const ActionUserOnProcess: FC<ActionUserOnProcessProps> = ({
       >
         Finish
       </Button>
-      <Button
-        className={styles.button}
-        type="primary"
-        loading={userComplainLoading === "loading"}
-        onClick={onUserComplain}
-      >
-        Complain
-      </Button>
     </>
   ) : (
     <></>
   );
 };
 
-export default ActionUserOnProcess;
+export default ActionUserOnComplain;

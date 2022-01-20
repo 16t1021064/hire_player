@@ -9,7 +9,7 @@ export enum NotificationActionsEnum {
   HIRE_USER_COMPLAIN = 6,
   HIRE_PLAYER_COMPLETED = 7,
   REVIEW_USER_RATED = 8,
-  CHAT_ADMIN_JOINED = 9,
+  CONVERSATION_ADMIN_JOINED = 9,
 }
 
 export type TNotificationActions = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
@@ -58,9 +58,9 @@ export interface TReviewUserRatedPayload {
   reviewId?: string;
 }
 
-export interface TChatAdminJoinedPayload {
-  hireId?: string;
-  conversationId?: string;
+export interface TConversationAdminJoinedPayload {
+  hire?: string;
+  conversation?: string;
 }
 
 export type TNotificationPayload =
@@ -72,7 +72,7 @@ export type TNotificationPayload =
   | THireUserComplainPayload
   | THirePlayerCompletedPayload
   | TReviewUserRatedPayload
-  | TChatAdminJoinedPayload;
+  | TConversationAdminJoinedPayload;
 
 export interface TNotification {
   id: string;

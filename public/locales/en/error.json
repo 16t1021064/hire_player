@@ -25,5 +25,6 @@
   "ERROR_ONLY_PLAYER_CANCEL_HIRE": "Only player can cancel hire",
   "ERROR_ONLY_CUSTOMER_FINISH_SOON": "Only customer finish soon",
   "ERROR_ONLY_CUSTOMER_REQUEST_COMPLAIN": "Only customer request complain",
-  "ERROR_ONLY_CUSTOMER_CANCEL_HIRE": "Only customer cancel hire"
+  "ERROR_ONLY_CUSTOMER_CANCEL_HIRE": "Only customer cancel hire",
+  "ERROR_HIRE_NOT_COMPLAIN": "Hire not complain"
 }

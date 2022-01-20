@@ -24,10 +24,28 @@ export interface TGetConversationsResponse {
 }
 
 export interface TGetConversationRequest {
-  id?: string;
+  id: string;
 }
 
 export interface TGetConversationResponse {
   data: TConversation;
   message: "GET_DETAIL_CONVERSATION_SUCCESS";
+}
+
+export interface TAdminJoinRequest {
+  conversationId: string;
+}
+
+export interface TAdminJoinResponse {
+  data: TConversation;
+  message: "JOIN_CHAT_SUCCESS";
+}
+
+export interface TAdminLeaveRequest {
+  conversationId: string;
+}
+
+export interface TAdminLeaveResponse {
+  data: TConversation;
+  message: "LEAVE_CHAT_SUCCESS";
 }

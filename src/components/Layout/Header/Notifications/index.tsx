@@ -33,6 +33,8 @@ import HirePlayerAccepted from "./HirePlayerAccepted";
 import { NotificationActionsEnum, TNotification } from "types/notifications";
 import HireUserFinished from "./HireUserFinished";
 import HireUserCanceled from "./HireUserCanceled";
+import HireUserComplain from "./HireUserComplain";
+import ConversationAdminJoined from "./ConversationAdminJoined";
 
 export interface TNotificationTransform extends TNotification {
   isSocketFrom?: boolean;
@@ -164,6 +166,10 @@ const Notifications: FC = () => {
         return <HireUserFinished notif={notif} fnClose={fnClose} />;
       case NotificationActionsEnum.HIRE_USER_CANCELED:
         return <HireUserCanceled notif={notif} fnClose={fnClose} />;
+      case NotificationActionsEnum.HIRE_USER_COMPLAIN:
+        return <HireUserComplain notif={notif} fnClose={fnClose} />;
+      case NotificationActionsEnum.CONVERSATION_ADMIN_JOINED:
+        return <ConversationAdminJoined notif={notif} fnClose={fnClose} />;
       default:
         return <></>;
     }
