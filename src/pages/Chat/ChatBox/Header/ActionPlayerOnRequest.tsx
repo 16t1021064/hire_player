@@ -52,7 +52,7 @@ const ActionPlayerOnRequest: FC<ActionPlayerOnRequestProps> = ({
     if (
       hire &&
       hirePlayerId === userInfo?.id &&
-      hire.hireStep === HireStepsEnum.WAITING
+      hire.hireStep === HireStepsEnum.USER_CREATED
     ) {
       return true;
     } else {

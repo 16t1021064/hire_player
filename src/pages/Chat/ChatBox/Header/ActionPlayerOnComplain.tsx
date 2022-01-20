@@ -1,24 +1,24 @@
 import { Button } from "antd";
-import { userFinishRequest } from "api/hires/request";
+import { playerCompleteRequest } from "api/hires/request";
 import { useAppSelector } from "hooks/useRedux";
 import { FC, useMemo } from "react";
 import { useMutation } from "react-query";
 import { HireStepsEnum, THire, TUser } from "types";
 import styles from "./styles.module.sass";
 
-interface ActionUserOnComplainProps {
+interface ActionPlayerOnComplainProps {
   hire?: THire;
   onChangeHire?: (hire: THire) => void;
 }
 
-const ActionUserOnComplain: FC<ActionUserOnComplainProps> = ({
+const ActionPlayerOnComplain: FC<ActionPlayerOnComplainProps> = ({
   hire,
   onChangeHire,
 }) => {
   const userInfo = useAppSelector((state) => state.auth.userInfo);
 
-  const { mutate: userFinish, status: userFinishStatus } = useMutation(
-    userFinishRequest,
+  const { mutate: playerComplete, status: playerCompleteStatus } = useMutation(
+    playerCompleteRequest,
     {
       onSuccess: (data) => {
         if (onChangeHire) {
@@ -29,13 +29,13 @@ const ActionUserOnComplain: FC<ActionUserOnComplainProps> = ({
   );
 
   const enable = useMemo((): boolean => {
-    let userId = hire?.customer;
-    if (userId && typeof userId !== "string") {
-      userId = (hire?.customer as TUser).id;
+    let playerId = hire?.player;
+    if (playerId && typeof playerId !== "string") {
+      playerId = (hire?.player as TUser).id;
     }
     if (
       hire &&
-      userId === userInfo?.id &&
+      playerId === userInfo?.id &&
       hire.hireStep === HireStepsEnum.USER_COMPLAIN
     ) {
       return true;
@@ -44,11 +44,11 @@ const ActionUserOnComplain: FC<ActionUserOnComplainProps> = ({
     }
   }, [hire]);
 
-  const onUserFinish = () => {
-    if (userFinishStatus === "loading" || !hire?.id) {
+  const onPlayerComplete = () => {
+    if (playerCompleteStatus === "loading" || !hire?.id) {
       return;
     }
-    userFinish({ id: hire.id });
+    playerComplete({ id: hire.id });
   };
 
   return enable ? (
@@ -56,10 +56,10 @@ const ActionUserOnComplain: FC<ActionUserOnComplainProps> = ({
       <Button
         className={styles.button}
         type="primary"
-        loading={userFinishStatus === "loading"}
-        onClick={onUserFinish}
+        loading={playerCompleteStatus === "loading"}
+        onClick={onPlayerComplete}
       >
-        Finish
+        Complete
       </Button>
     </>
   ) : (
@@ -67,4 +67,4 @@ const ActionUserOnComplain: FC<ActionUserOnComplainProps> = ({
   );
 };
 
-export default ActionUserOnComplain;
+export default ActionPlayerOnComplain;

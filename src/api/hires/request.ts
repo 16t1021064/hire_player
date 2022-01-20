@@ -8,6 +8,8 @@ import {
   TPlayerAcceptHireResponse,
   TPlayerCancelHireRequest,
   TPlayerCancelHireResponse,
+  TPlayerCompleteRequest,
+  TPlayerCompleteResponse,
   TUserCancelRequest,
   TUserCancelResponse,
   TUserComplainRequest,
@@ -66,5 +68,12 @@ export const userCancelRequest = async (
   const { data } = await axiosInstance.put(
     `/hires/${request.id}/customer-cancel`
   );
+  return data;
+};
+
+export const playerCompleteRequest = async (
+  request: TPlayerCompleteRequest
+): Promise<TPlayerCompleteResponse> => {
+  const { data } = await axiosInstance.put(`/hires/${request.id}/complete`);
   return data;
 };

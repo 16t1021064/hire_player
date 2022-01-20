@@ -37,7 +37,7 @@ const ActionUserOnRequest: FC<ActionUserOnRequestProps> = ({
     if (
       hire &&
       hireCustomerId === userInfo?.id &&
-      hire.hireStep === HireStepsEnum.WAITING
+      hire.hireStep === HireStepsEnum.USER_CREATED
     ) {
       return true;
     } else {

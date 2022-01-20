@@ -6,6 +6,8 @@ import ActionPlayerOnRequest from "./ActionPlayerOnRequest";
 import ActionUserOnComplain from "./ActionUserOnComplain";
 import ActionUserOnProcess from "./ActionUserOnProcess";
 import ActionUserOnRequest from "./ActionUserOnRequest";
+import ActionPlayerOnProcess from "./ActionPlayerOnProcess";
+import ActionPlayerOnComplain from "./ActionPlayerOnComplain";
 
 interface HeaderProps {
   conv: TConvertedConversation;
@@ -34,6 +36,8 @@ const Header: FC<HeaderProps> = ({
         <ActionPlayerOnRequest hire={hire} onChangeHire={onChangeHire} />
         <ActionUserOnProcess hire={hire} onChangeHire={onChangeHire} />
         <ActionUserOnComplain hire={hire} onChangeHire={onChangeHire} />
+        <ActionPlayerOnProcess hire={hire} onChangeHire={onChangeHire} />
+        <ActionPlayerOnComplain hire={hire} onChangeHire={onChangeHire} />
         {hire && (
           <ActionAdminOnComplain
             conv={conv}

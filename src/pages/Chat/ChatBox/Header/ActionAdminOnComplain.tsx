@@ -35,7 +35,7 @@ const ActionAdminOnComplain: FC<ActionAdminOnComplainProps> = ({
       conv &&
       userInfo &&
       isAdmin(userInfo) &&
-      hire.hireStep === HireStepsEnum.COMPLAIN
+      hire.hireStep === HireStepsEnum.USER_COMPLAIN
     ) {
       return true;
     } else {

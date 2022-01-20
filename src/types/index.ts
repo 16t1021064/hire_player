@@ -136,12 +136,12 @@ export interface TConvertedConversation extends TConversation {
 }
 
 export enum HireStepsEnum {
-  WAITING = 1,
-  PLAYER_ACCEPT = 2,
-  PLAYER_CANCEL = 3,
-  CUSTOMER_CANCEL = 4,
-  COMPLETE = 5,
-  COMPLAIN = 6,
+  USER_CREATED = 1,
+  PLAYER_ACCEPTED = 2,
+  PLAYER_DENIED = 3,
+  USER_CANCELED = 4,
+  HIRE_COMPLETE = 5,
+  USER_COMPLAIN = 6,
 }
 export type THireSteps = 1 | 2 | 3 | 4 | 5 | 6;
 export interface THire {

@@ -68,3 +68,12 @@ export interface TUserCancelResponse {
   data: THire;
   message: "CANCEL_HIRE_SUCCESS";
 }
+
+export interface TPlayerCompleteRequest {
+  id: string;
+}
+
+export interface TPlayerCompleteResponse {
+  data: THire;
+  message: "COMPLETE_HIRE_SUCCESS";
+}

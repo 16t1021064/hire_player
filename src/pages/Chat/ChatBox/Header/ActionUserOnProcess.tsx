@@ -47,7 +47,7 @@ const ActionUserOnProcess: FC<ActionUserOnProcessProps> = ({
     if (
       hire &&
       hireUserId === userInfo?.id &&
-      hire.hireStep === HireStepsEnum.PLAYER_ACCEPT
+      hire.hireStep === HireStepsEnum.PLAYER_ACCEPTED
     ) {
       return true;
     } else {

@@ -81,7 +81,7 @@ const HireUserCreated: FC<HireUserCreatedProps> = ({ notif, fnClose }) => {
     getHireRequest,
     {
       onSuccess: (data) => {
-        if (data.data.hireStep === HireStepsEnum.WAITING) {
+        if (data.data.hireStep === HireStepsEnum.USER_CREATED) {
           setVisible(true);
         }
       },
