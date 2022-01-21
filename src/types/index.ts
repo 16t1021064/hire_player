@@ -157,6 +157,7 @@ export interface THire {
   timeRent?: number;
   rate?: number;
   cost?: number;
+  realCost?: number;
   customerNote?: string;
   customer?: string | TUser;
   player?: string | TUser;
