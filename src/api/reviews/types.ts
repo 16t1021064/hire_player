@@ -21,3 +21,14 @@ export interface TGetReviewsResponse {
   };
   message: "GET_REVIEWS_SUCCESS";
 }
+
+export interface TCreateReviewRequest {
+  id: string;
+  starPoint: number;
+  body?: string;
+}
+
+export interface TCreateReviewResponse {
+  data: TReview;
+  message: "CREATE_REVIEW_SUCCESS";
+}

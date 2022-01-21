@@ -19,12 +19,8 @@ import { TPagination } from "types";
 import clsx from "clsx";
 import HireUserCreated from "./HireUserCreated";
 import HirePlayerDenied from "./HirePlayerDenied";
-import useSocket from "hooks/useSocket";
-import {
-  TEventData_StartOnline,
-  TListenerData_OnNotifications,
-} from "socket/types";
-import { SocketEvents, SocketListeners } from "socket";
+import { TListenerData_OnNotifications } from "socket/types";
+import { SocketListeners } from "socket";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { LoadingOutlined } from "@ant-design/icons";
 import { Col, Row } from "antd";
@@ -36,13 +32,22 @@ import HireUserCanceled from "./HireUserCanceled";
 import HireUserComplain from "./HireUserComplain";
 import ConversationAdminJoined from "./ConversationAdminJoined";
 import HireAdminRefunded from "./HireAdminRefunded";
+import { Socket } from "socket.io-client";
 
 export interface TNotificationTransform extends TNotification {
   isSocketFrom?: boolean;
   isSocketChecked?: boolean;
 }
 
-const Notifications: FC = () => {
+interface NotificationsProps {
+  socketInstance: Socket | undefined;
+  socketConnected: boolean;
+}
+
+const Notifications: FC<NotificationsProps> = ({
+  socketInstance,
+  socketConnected,
+}) => {
   const { userInfo, isLogin } = useAppSelector((state) => state.auth);
   const [items, setItems] = useState<TNotificationTransform[]>([]);
   const [total, setTotal] = useState<number>(0);
@@ -51,7 +56,6 @@ const Notifications: FC = () => {
   const handleOnNotifsRef = useRef<
     ((data: TListenerData_OnNotifications) => void) | null
   >(null);
-  const { socket, connected } = useSocket();
   const lastestIdRef = useRef<string | undefined>(undefined);
   const [pagination, setPagination] = useState<TPagination>({
     page: 1,
@@ -83,15 +87,6 @@ const Notifications: FC = () => {
     setVisible(true);
   };
 
-  useEffect(() => {
-    if (connected && userInfo) {
-      const startOnlineData: TEventData_StartOnline = {
-        userId: userInfo.id,
-      };
-      socket?.emit(SocketEvents.startOnline, startOnlineData);
-    }
-  }, [connected, userInfo]);
-
   const handleOnNotifs = (data: TListenerData_OnNotifications) => {
     const transfrom: TNotificationTransform = data as TNotificationTransform;
     transfrom.isSocketFrom = true;
@@ -101,18 +96,21 @@ const Notifications: FC = () => {
   };
 
   useEffect(() => {
-    if (!connected) {
+    if (!socketConnected) {
       return;
     }
     if (handleOnNotifsRef.current) {
-      socket?.removeListener(
+      socketInstance?.removeListener(
         SocketListeners.onNotifications,
         handleOnNotifsRef.current
       );
     }
     handleOnNotifsRef.current = handleOnNotifs;
-    socket?.on(SocketListeners.onNotifications, handleOnNotifsRef.current);
-  }, [connected]);
+    socketInstance?.on(
+      SocketListeners.onNotifications,
+      handleOnNotifsRef.current
+    );
+  }, [socketConnected]);
 
   const { mutate: fetch, status: fetchStatus } = useMutation(
     getNotificationsRequest,

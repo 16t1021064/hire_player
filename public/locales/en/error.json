@@ -28,5 +28,8 @@
   "ERROR_ONLY_CUSTOMER_CANCEL_HIRE": "Only customer cancel hire",
   "ERROR_HIRE_NOT_COMPLAIN": "Hire not complain",
   "ERROR_ONLY_PLAYER_COMPLETE_HIRE": "Only player complete hire",
-  "ERROR_PLAYER_NOT_COMPLETE_HIRE": "Player not complete hire"
+  "ERROR_PLAYER_NOT_COMPLETE_HIRE": "Player not complete hire",
+  "ERROR_ONLY_CUSTOMER_CREATE_REVIEW": "Only customer create review",
+  "ERROR_CUSTOMER_ALREADY_REVIEW_THIS_HIRE": "Customer already review this hire",
+  "ERROR_HIRE_NOT_COMPLETE": "Hire not complete"
 }

@@ -4,8 +4,14 @@ import { openPopup } from "utils/magnific";
 import Notifications from "./Notifications";
 import Profile from "./Profile";
 import { useAppSelector } from "hooks/useRedux";
+import { Socket } from "socket.io-client";
 
-const Header: FC = () => {
+interface HeaderProps {
+  socketInstance: Socket | undefined;
+  socketConnected: boolean;
+}
+
+const Header: FC<HeaderProps> = ({ socketInstance, socketConnected }) => {
   const modalRechargeRef = useRef<HTMLDivElement | null>(null);
   const { userInfo, isLogin } = useAppSelector((state) => state.auth);
 
@@ -89,7 +95,10 @@ const Header: FC = () => {
                   name="search-outline"
                 />
               </a>
-              <Notifications />
+              <Notifications
+                socketInstance={socketInstance}
+                socketConnected={socketConnected}
+              />
             </div>
             <div className="header__item header__item__money">
               <a

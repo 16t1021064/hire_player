@@ -4,8 +4,25 @@ import "react-notifications-component/dist/theme.css";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 import { ConfigProvider } from "antd";
+import useSocket from "hooks/useSocket";
+import RatingModal from "components/RatingModal";
+import { useAppSelector } from "hooks/useRedux";
+import { TEventData_StartOnline } from "socket/types";
+import { SocketEvents } from "socket";
 
 const Layout: FC = ({ children }) => {
+  const { userInfo } = useAppSelector((state) => state.auth);
+  const { socket, connected } = useSocket();
+
+  useEffect(() => {
+    if (connected && userInfo) {
+      const startOnlineData: TEventData_StartOnline = {
+        userId: userInfo.id,
+      };
+      socket?.emit(SocketEvents.startOnline, startOnlineData);
+    }
+  }, [connected, userInfo]);
+
   useEffect(() => {
     // tabs
     (function () {
@@ -49,6 +66,7 @@ const Layout: FC = ({ children }) => {
       });
     })();
   });
+
   return (
     <ConfigProvider>
       <ReactNotification />
@@ -56,10 +74,12 @@ const Layout: FC = ({ children }) => {
       <div className="page">
         <Sidebar />
         <div className="page__wrapper">
-          <Header />
+          <Header socketInstance={socket} socketConnected={connected} />
           {children}
         </div>
       </div>
+
+      <RatingModal socketInstance={socket} socketConnected={connected} />
     </ConfigProvider>
   );
 };
