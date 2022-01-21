@@ -7,7 +7,7 @@ import notify from "utils/notify";
 import { useHistory } from "react-router-dom";
 import { routesEnum } from "pages/Routes";
 import { chatDefaultState } from "pages/Chat";
-import { TConversationAdminJoinedPayload } from "types/notifications";
+import { THireAdminRefundedPayload } from "types/notifications";
 
 interface TData {
   title: string;
@@ -17,19 +17,16 @@ interface TData {
   convId: string | undefined;
 }
 
-interface ConversationAdminJoinedProps {
+interface HireAdminRefundedProps {
   notif: TNotificationTransform;
   fnClose: () => void;
 }
 
-const ConversationAdminJoined: FC<ConversationAdminJoinedProps> = ({
-  notif,
-  fnClose,
-}) => {
+const HireAdminRefunded: FC<HireAdminRefundedProps> = ({ notif, fnClose }) => {
   const data: TData = useMemo(() => {
-    const payload = notif.payload as TConversationAdminJoinedPayload;
+    const payload = notif.payload as THireAdminRefundedPayload;
     return {
-      title: "Admin joined",
+      title: "Hire refunded",
       content: getMessage(notif),
       thumb: notif.image?.link || Thumb,
       time: notif.createdAt || "",
@@ -85,4 +82,4 @@ const ConversationAdminJoined: FC<ConversationAdminJoinedProps> = ({
   );
 };
 
-export default ConversationAdminJoined;
+export default HireAdminRefunded;

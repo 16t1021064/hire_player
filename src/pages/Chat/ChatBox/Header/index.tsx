@@ -43,6 +43,7 @@ const Header: FC<HeaderProps> = ({
             conv={conv}
             hire={hire}
             onChangeConv={onChangeConv}
+            onChangeHire={onChangeHire}
           />
         )}
         <button className="chat__action chat__action__btn__back__chat">

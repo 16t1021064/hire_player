@@ -142,8 +142,9 @@ export enum HireStepsEnum {
   USER_CANCELED = 4,
   HIRE_COMPLETE = 5,
   USER_COMPLAIN = 6,
+  ADMIN_REFUNDED = 7,
 }
-export type THireSteps = 1 | 2 | 3 | 4 | 5 | 6;
+export type THireSteps = 1 | 2 | 3 | 4 | 5 | 6 | 7;
 export interface THire {
   id: string;
   acceptedAt?: string | null;

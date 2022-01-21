@@ -77,3 +77,12 @@ export interface TPlayerCompleteResponse {
   data: THire;
   message: "COMPLETE_HIRE_SUCCESS";
 }
+
+export interface TAdminRefundRequest {
+  id: string;
+}
+
+export interface TAdminRefundResponse {
+  data: THire;
+  message: "ADMIN_CANCEL_HIRE_SUCCESS";
+}

@@ -1,5 +1,6 @@
 import { Button } from "antd";
 import { adminLeaveRequest } from "api/conversations/request";
+import { adminRefundRequest } from "api/hires/request";
 import { useAppSelector } from "hooks/useRedux";
 import { FC, useMemo } from "react";
 import { useMutation } from "react-query";
@@ -11,12 +12,14 @@ interface ActionAdminOnComplainProps {
   conv: TConvertedConversation;
   hire: THire;
   onChangeConv: (conv: TConvertedConversation | undefined) => void;
+  onChangeHire?: (hire: THire) => void;
 }
 
 const ActionAdminOnComplain: FC<ActionAdminOnComplainProps> = ({
   conv,
   hire,
   onChangeConv,
+  onChangeHire,
 }) => {
   const userInfo = useAppSelector((state) => state.auth.userInfo);
 
@@ -25,6 +28,17 @@ const ActionAdminOnComplain: FC<ActionAdminOnComplainProps> = ({
     {
       onSuccess: () => {
         onChangeConv(undefined);
+      },
+    }
+  );
+
+  const { mutate: adminRefund, status: adminRefundStatus } = useMutation(
+    adminRefundRequest,
+    {
+      onSuccess: (data) => {
+        if (onChangeHire) {
+          onChangeHire(data.data);
+        }
       },
     }
   );
@@ -44,14 +58,39 @@ const ActionAdminOnComplain: FC<ActionAdminOnComplainProps> = ({
   }, [conv]);
 
   const onAdminLeave = () => {
-    if (adminLeaveStatus === "loading" || !hire?.id) {
+    if (
+      adminLeaveStatus === "loading" ||
+      adminRefundStatus === "loading" ||
+      !hire?.id
+    ) {
       return;
     }
     adminLeave({ conversationId: conv.id });
   };
 
+  const onAdminRefund = () => {
+    if (
+      adminLeaveStatus === "loading" ||
+      adminRefundStatus === "loading" ||
+      !hire?.id
+    ) {
+      return;
+    }
+    adminRefund({
+      id: hire.id,
+    });
+  };
+
   return enable ? (
     <>
+      <Button
+        className={styles.button}
+        type="primary"
+        loading={adminRefundStatus === "loading"}
+        onClick={onAdminRefund}
+      >
+        Refund
+      </Button>
       <Button
         className={styles.button}
         type="primary"

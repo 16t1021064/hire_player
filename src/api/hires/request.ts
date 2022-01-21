@@ -1,5 +1,7 @@
 import axiosInstance from "../axios";
 import {
+  TAdminRefundRequest,
+  TAdminRefundResponse,
   TCreateHireRequest,
   TCreateHireResponse,
   TGetHireRequest,
@@ -75,5 +77,12 @@ export const playerCompleteRequest = async (
   request: TPlayerCompleteRequest
 ): Promise<TPlayerCompleteResponse> => {
   const { data } = await axiosInstance.put(`/hires/${request.id}/complete`);
+  return data;
+};
+
+export const adminRefundRequest = async (
+  request: TAdminRefundRequest
+): Promise<TAdminRefundResponse> => {
+  const { data } = await axiosInstance.put(`/hires/${request.id}/refund`);
   return data;
 };
