@@ -18,7 +18,7 @@ export const getReviewsRequest = async (
 export const createReviewRequest = async (
   request: TCreateReviewRequest
 ): Promise<TCreateReviewResponse> => {
-  const { data } = await axiosInstance.put(
+  const { data } = await axiosInstance.post(
     `/hires/${request.id}/reviews`,
     request
   );
