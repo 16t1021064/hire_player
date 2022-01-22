@@ -78,7 +78,11 @@ const Layout: FC = ({ children }) => {
   });
 
   const handleOnMessages = (data: TListenerData_OnMessages) => {
-    if (location.pathname === routesEnum.chat) return;
+    if (
+      location.pathname === routesEnum.chat ||
+      data.sender.id === userInfo?.id
+    )
+      return;
     let name: string | undefined = "Administrator";
     if (data.sender.id === (data.conversation.customer as TUser).id) {
       name = data.sender.userName;

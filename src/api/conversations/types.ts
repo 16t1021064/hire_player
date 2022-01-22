@@ -49,3 +49,24 @@ export interface TAdminLeaveResponse {
   data: TConversation;
   message: "LEAVE_CHAT_SUCCESS";
 }
+
+export interface TCheckExistRequest {
+  userId: string;
+}
+
+export interface TCheckExistResponse {
+  data: {
+    conversationId?: string;
+    isExist: boolean;
+  };
+  message: "CHECK_EXIST_CONVERSATION_SUCCESS";
+}
+
+export interface TCreateConversationRequest {
+  userId: string;
+}
+
+export interface TCreateConversationResponse {
+  data: TConversation;
+  message: "CREATE_CONVERSATION_SUCCESS";
+}

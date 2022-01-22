@@ -1,11 +1,4 @@
-import React, {
-  FC,
-  MouseEvent,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import React, { FC, MouseEvent, useEffect, useMemo, useState } from "react";
 import IonIcon from "@reacticons/ionicons";
 import { useParams } from "react-router-dom";
 import { useMutation } from "react-query";
@@ -15,20 +8,17 @@ import DefaultThumbnail from "assets/images/default-avatar.jpg";
 import clsx from "clsx";
 import Gallery, { TPhoto } from "components/Gallery";
 import { getReviewsRequest } from "api/reviews/request";
-import { openPopup } from "utils/magnific";
-import { createHireRequest } from "api/hires/request";
-import Modal from "components/Modal";
-import { message } from "antd";
 import ReviewPanel from "components/ReviewPanel";
+import HireModal from "components/HireModal";
+import DonateModal from "components/DonateModal";
+import MessageModal from "components/MessageModal";
 
 const PlayerProfile: FC = () => {
   const [reviews, setReviews] = useState<TReview[]>([]);
-  const modalDonateRef = useRef<HTMLDivElement | null>(null);
-  const modalMessageRef = useRef<HTMLDivElement | null>(null);
   const [player, setPlayer] = useState<TUser | undefined>(undefined);
-  const hireHoursRef = useRef<HTMLSelectElement | null>(null);
-  const hireMessageRef = useRef<HTMLTextAreaElement | null>(null);
   const [visibleHire, setVisibleHire] = useState<boolean>(false);
+  const [visibleDonate, setVisibleDonate] = useState<boolean>(false);
+  const [visibleMessage, setVisibleMessage] = useState<boolean>(false);
   const { id }: any = useParams();
 
   const { mutate: getPlayer } = useMutation(getPlayerRequest, {
@@ -91,35 +81,20 @@ const PlayerProfile: FC = () => {
 
   const onDonate = (event: MouseEvent) => {
     event.preventDefault();
-    openPopup(modalDonateRef.current);
+    setVisibleDonate(true);
+  };
+
+  const onCloseDonate = () => {
+    setVisibleDonate(false);
   };
 
   const onMessage = (event: MouseEvent) => {
     event.preventDefault();
-    openPopup(modalMessageRef.current);
+    setVisibleMessage(true);
   };
 
-  const { mutate: createHire, status: createHireStatus } = useMutation(
-    createHireRequest,
-    {
-      onSuccess: () => {
-        message.success("Your request sent success");
-        setVisibleHire(false);
-      },
-    }
-  );
-
-  const onSubmit = (event: React.SyntheticEvent) => {
-    event.preventDefault();
-    const hours = parseInt(`${hireHoursRef.current?.value}`) || 0;
-    const message = hireMessageRef.current?.value;
-    if (createHireStatus !== "loading" && hours && message) {
-      createHire({
-        playerId: player?.id || "",
-        timeRent: hours,
-        customerNote: message,
-      });
-    }
+  const onCloseMessage = () => {
+    setVisibleMessage(false);
   };
 
   return player ? (
@@ -215,119 +190,17 @@ const PlayerProfile: FC = () => {
         </div>
       </div>
 
-      <Modal visible={visibleHire} title={"Hire Player"} onCancel={onCloseHire}>
-        <form onSubmit={onSubmit}>
-          <div className="popup__fieldset">
-            <div className="popup__row">
-              <div className="popup__field field">
-                <div className="field__label">Player</div>
-                <div className="field__wrap"></div>
-                <span>{player.playerInfo?.playerName}</span>
-              </div>
-              <div className="popup__field field">
-                <div className="field__label">Time to rent</div>
-                <div className="field__wrap">
-                  <select id="" className="field__select" ref={hireHoursRef}>
-                    {Array.from(
-                      Array(player?.playerInfo?.timeMaxHire || 0).keys()
-                    ).map((num) => (
-                      <option key={num} value={num + 1}>
-                        {num + 1} hour
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div className="popup__row">
-              <div className="popup__field field">
-                <div className="field__label">Cost</div>
-                <div className="field__wrap">
-                  <span>${player.playerInfo?.costPerHour || 0}</span>
-                </div>
-              </div>
-              <div className="popup__field field">
-                <div className="field__label">Current balance</div>
-                <div className="field__wrap">
-                  <span>${player.money?.toFixed(2)}</span>
-                </div>
-              </div>
-            </div>
-            <div className="popup__field field">
-              <div className="field__label">Message</div>
-              <div className="field__wrap">
-                <textarea
-                  cols={30}
-                  rows={10}
-                  className="field__textarea"
-                  ref={hireMessageRef}
-                ></textarea>
-              </div>
-            </div>
-          </div>
-          <button type="submit" className="popup__btn btn btn_primary">
-            Hire now
-          </button>
-        </form>
-      </Modal>
-
-      {/* popup donate */}
-      <div className="popup popup_normal mfp-hide" ref={modalDonateRef}>
-        <form action="" className="popup__form">
-          <div className="popup__title h5">Donate Player</div>
-          <div className="popup__fieldset">
-            <div className="popup__row">
-              <div className="popup__field field">
-                <div className="field__label">Receiver</div>
-                <div className="field__wrap">
-                  <span>Tuong Nguyen</span>
-                </div>
-              </div>
-              <div className="popup__field field">
-                <div className="field__label">The amount</div>
-                <div className="field__wrap">
-                  <input type="text" className="field__input" />
-                </div>
-              </div>
-            </div>
-            <div className="popup__field field">
-              <div className="field__label">Message</div>
-              <div className="field__wrap">
-                <textarea
-                  name=""
-                  id=""
-                  cols={30}
-                  rows={10}
-                  className="field__textarea"
-                ></textarea>
-              </div>
-            </div>
-          </div>
-          <button className="popup__btn btn btn_primary">Donate now</button>
-        </form>
-      </div>
-
-      {/* popup message */}
-      <div className="popup popup_normal mfp-hide" ref={modalMessageRef}>
-        <form action="" className="popup__form">
-          <div className="popup__title h5">Send a message</div>
-          <div className="popup__fieldset">
-            <div className="popup__field field">
-              <div className="field__label">Message</div>
-              <div className="field__wrap">
-                <textarea
-                  name=""
-                  id=""
-                  cols={30}
-                  rows={10}
-                  className="field__textarea"
-                ></textarea>
-              </div>
-            </div>
-          </div>
-          <button className="popup__btn btn btn_primary">Send now</button>
-        </form>
-      </div>
+      <HireModal player={player} visible={visibleHire} onClose={onCloseHire} />
+      <DonateModal
+        player={player}
+        visible={visibleDonate}
+        onClose={onCloseDonate}
+      />
+      <MessageModal
+        player={player}
+        visible={visibleMessage}
+        onClose={onCloseMessage}
+      />
     </>
   ) : (
     <div>404 Not Found</div>
