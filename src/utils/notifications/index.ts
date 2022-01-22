@@ -6,6 +6,7 @@ import * as hireUserCanceled from "utils/notifications/hireUserCanceled";
 import * as hireUserComplain from "utils/notifications/hireUserComplain";
 import * as hireAdminRefunded from "utils/notifications/hireAdminRefunded";
 import * as conversationAdminJoined from "utils/notifications/conversationAdminJoined";
+import * as reviewUserRated from "utils/notifications/reviewUserRated";
 import { NotificationActionsEnum, TNotification } from "types/notifications";
 
 export const getMessage = (notif: TNotification) => {
@@ -26,6 +27,8 @@ export const getMessage = (notif: TNotification) => {
       return hireAdminRefunded.getMessage(notif);
     case NotificationActionsEnum.CONVERSATION_ADMIN_JOINED:
       return conversationAdminJoined.getMessage(notif);
+    case NotificationActionsEnum.REVIEW_USER_RATED:
+      return reviewUserRated.getMessage(notif);
     default:
       return undefined;
   }
