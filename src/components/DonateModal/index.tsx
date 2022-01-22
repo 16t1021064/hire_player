@@ -1,5 +1,8 @@
+import { message } from "antd";
+import { createDonateRequest } from "api/donates/requests";
 import Modal from "components/Modal";
-import { FC, SyntheticEvent } from "react";
+import { FC, SyntheticEvent, useRef } from "react";
+import { useMutation } from "react-query";
 import { TUser } from "types";
 
 interface DonateModalProps {
@@ -9,25 +12,63 @@ interface DonateModalProps {
 }
 
 const DonateModal: FC<DonateModalProps> = ({ player, visible, onClose }) => {
+  const messageRef = useRef<HTMLTextAreaElement | null>(null);
+  const amountRef = useRef<HTMLInputElement | null>(null);
+
+  const fnClose = () => {
+    if (messageRef.current?.value) {
+      messageRef.current.value = "";
+    }
+    if (amountRef.current?.value) {
+      amountRef.current.value = "";
+    }
+    onClose();
+  };
+
+  const { mutate: donate, status: donateStatus } = useMutation(
+    createDonateRequest,
+    {
+      onSuccess: () => {
+        message.success("Your donate sent");
+        fnClose();
+      },
+    }
+  );
+
   const onSubmit = (event: SyntheticEvent) => {
     event.preventDefault();
+    const message = messageRef.current?.value;
+    const amount = parseFloat(amountRef.current?.value || "0");
+    if (message && amount > 0 && donateStatus !== "loading") {
+      donate({
+        amount: amount,
+        message: message,
+        toUser: player.id,
+      });
+    }
   };
 
   return (
-    <Modal visible={visible} title={"Donate Player"} onCancel={onClose}>
+    <Modal visible={visible} title={"Donate Player"} onCancel={fnClose}>
       <form onSubmit={onSubmit}>
         <div className="popup__fieldset">
           <div className="popup__row">
             <div className="popup__field field">
               <div className="field__label">Receiver</div>
               <div className="field__wrap">
-                <span>Tuong Nguyen</span>
+                <span>{player.playerInfo?.playerName}</span>
               </div>
             </div>
             <div className="popup__field field">
               <div className="field__label">The amount</div>
               <div className="field__wrap">
-                <input type="text" className="field__input" />
+                <input
+                  type="number"
+                  min={0}
+                  step={1}
+                  className="field__input"
+                  ref={amountRef}
+                />
               </div>
             </div>
           </div>
@@ -40,6 +81,7 @@ const DonateModal: FC<DonateModalProps> = ({ player, visible, onClose }) => {
                 cols={30}
                 rows={10}
                 className="field__textarea"
+                ref={messageRef}
               ></textarea>
             </div>
           </div>

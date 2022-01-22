@@ -13,7 +13,7 @@ interface HireModalProps {
 
 const HireModal: FC<HireModalProps> = ({ player, visible, onClose }) => {
   const hireHoursRef = useRef<HTMLSelectElement | null>(null);
-  const hireMessageRef = useRef<HTMLTextAreaElement | null>(null);
+  const messageRef = useRef<HTMLTextAreaElement | null>(null);
 
   const { mutate: createHire, status: createHireStatus } = useMutation(
     createHireRequest,
@@ -28,7 +28,7 @@ const HireModal: FC<HireModalProps> = ({ player, visible, onClose }) => {
   const onSubmit = (event: SyntheticEvent) => {
     event.preventDefault();
     const hours = parseInt(`${hireHoursRef.current?.value}`) || 0;
-    const message = hireMessageRef.current?.value;
+    const message = messageRef.current?.value;
     if (createHireStatus !== "loading" && hours && message) {
       createHire({
         playerId: player?.id || "",
@@ -84,7 +84,7 @@ const HireModal: FC<HireModalProps> = ({ player, visible, onClose }) => {
                 cols={30}
                 rows={10}
                 className="field__textarea"
-                ref={hireMessageRef}
+                ref={messageRef}
               ></textarea>
             </div>
           </div>

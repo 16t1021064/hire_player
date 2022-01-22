@@ -17,12 +17,12 @@ interface MessageModalProps {
 }
 
 const MessageModal: FC<MessageModalProps> = ({ player, visible, onClose }) => {
-  const hireMessageRef = useRef<HTMLTextAreaElement | null>(null);
+  const messageRef = useRef<HTMLTextAreaElement | null>(null);
   const userInfo = useAppSelector((state) => state.auth.userInfo);
 
   const fnClose = () => {
-    if (hireMessageRef.current?.value) {
-      hireMessageRef.current.value = "";
+    if (messageRef.current?.value) {
+      messageRef.current.value = "";
     }
     onClose();
   };
@@ -38,7 +38,7 @@ const MessageModal: FC<MessageModalProps> = ({ player, visible, onClose }) => {
   );
 
   const sendMessage = (convId: string | undefined) => {
-    const message = hireMessageRef.current?.value;
+    const message = messageRef.current?.value;
     if (!convId || !userInfo) return;
     send({
       id: convId,
@@ -75,7 +75,7 @@ const MessageModal: FC<MessageModalProps> = ({ player, visible, onClose }) => {
 
   const onSubmit = (event: SyntheticEvent) => {
     event.preventDefault();
-    const message = hireMessageRef.current?.value;
+    const message = messageRef.current?.value;
     if (
       message &&
       createStatus !== "loading" &&
@@ -101,7 +101,7 @@ const MessageModal: FC<MessageModalProps> = ({ player, visible, onClose }) => {
                 cols={30}
                 rows={10}
                 className="field__textarea"
-                ref={hireMessageRef}
+                ref={messageRef}
               ></textarea>
             </div>
           </div>

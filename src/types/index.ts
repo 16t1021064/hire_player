@@ -165,3 +165,15 @@ export interface THire {
   createdAt?: string;
   updatedAt?: string;
 }
+
+export interface TDonate {
+  id: string;
+  fromUser?: string | TUser;
+  toUser?: string | TUser;
+  message?: string;
+  amount?: number;
+  realAmount?: number;
+  replyMessage?: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
