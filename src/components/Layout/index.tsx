@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { FC, useEffect, useRef } from "react";
 import ReactNotification from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
 import Header from "./Header";
@@ -7,12 +7,22 @@ import { ConfigProvider } from "antd";
 import useSocket from "hooks/useSocket";
 import RatingModal from "components/RatingModal";
 import { useAppSelector } from "hooks/useRedux";
-import { TEventData_StartOnline } from "socket/types";
-import { SocketEvents } from "socket";
+import { TEventData_StartOnline, TListenerData_OnMessages } from "socket/types";
+import { SocketEvents, SocketListeners } from "socket";
+import { useHistory, useLocation } from "react-router-dom";
+import { TUser } from "types";
+import { routesEnum } from "pages/Routes";
+import notify from "utils/notify";
+import { chatDefaultState } from "pages/Chat";
 
 const Layout: FC = ({ children }) => {
   const { userInfo } = useAppSelector((state) => state.auth);
   const { socket, connected } = useSocket();
+  const location = useLocation();
+  const history = useHistory();
+  const handleOnMessagesRef = useRef<
+    ((data: TListenerData_OnMessages) => void) | null
+  >(null);
 
   useEffect(() => {
     if (connected && userInfo) {
@@ -66,6 +76,43 @@ const Layout: FC = ({ children }) => {
       });
     })();
   });
+
+  const handleOnMessages = (data: TListenerData_OnMessages) => {
+    if (location.pathname === routesEnum.chat) return;
+    let name: string | undefined = "Administrator";
+    if (data.sender.id === (data.conversation.customer as TUser).id) {
+      name = data.sender.userName;
+    } else if (data.sender.id === (data.conversation.player as TUser).id) {
+      name = data.sender.playerInfo?.playerName;
+    }
+    notify(
+      {
+        message: `A new message from ${name}`,
+        onRemoval: (id, removedBy) => {
+          if (removedBy === "click") {
+            history.push(routesEnum.chat, {
+              [chatDefaultState]: data.conversation.id,
+            });
+          }
+        },
+      },
+      "info"
+    );
+  };
+
+  useEffect(() => {
+    if (!connected) {
+      return;
+    }
+    if (handleOnMessagesRef.current) {
+      socket?.removeListener(
+        SocketListeners.onMessages,
+        handleOnMessagesRef.current
+      );
+    }
+    handleOnMessagesRef.current = handleOnMessages;
+    socket?.on(SocketListeners.onMessages, handleOnMessagesRef.current);
+  }, [connected, location]);
 
   return (
     <ConfigProvider>

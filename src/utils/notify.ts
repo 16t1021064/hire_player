@@ -47,4 +47,5 @@ export const notifyInfo = (message: any) => {
 export const notifyWarning = (message: any) => {
   notify({ message }, "warning");
 };
+
 export default notify;
