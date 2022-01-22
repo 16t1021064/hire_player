@@ -29,7 +29,7 @@ const ConversationAdminJoined: FC<ConversationAdminJoinedProps> = ({
   const data: TData = useMemo(() => {
     const payload = notif.payload as TConversationAdminJoinedPayload;
     return {
-      title: "Admin joined",
+      title: "Administrator",
       content: getMessage(notif),
       thumb: notif.image?.link || Thumb,
       time: notif.createdAt || "",

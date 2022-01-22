@@ -25,7 +25,7 @@ export interface TGetReviewsResponse {
 export interface TCreateReviewRequest {
   id: string;
   starPoint: number;
-  body?: string;
+  content?: string;
 }
 
 export interface TCreateReviewResponse {

@@ -15,52 +15,11 @@ import DefaultThumbnail from "assets/images/default-avatar.jpg";
 import clsx from "clsx";
 import Gallery, { TPhoto } from "components/Gallery";
 import { getReviewsRequest } from "api/reviews/request";
-import TimeAgo from "react-timeago";
-import DefaultAvatar from "assets/images/default-avatar.jpg";
 import { openPopup } from "utils/magnific";
 import { createHireRequest } from "api/hires/request";
 import Modal from "components/Modal";
 import { message } from "antd";
-
-interface RatingProps {
-  review: TReview;
-}
-
-const Rating: FC<RatingProps> = ({ review }) => {
-  return (
-    <div className="ratings__item">
-      <div className="ratings__ava">
-        <img
-          src={(review?.reviewer as TUser)?.avatar?.link || DefaultAvatar}
-          alt=""
-          className="ratings__pic"
-        />
-      </div>
-      <div className="ratings__details">
-        <div className="ratings__top">
-          <div className="ratings__author">
-            {(review?.reviewer as TUser)?.userName}
-          </div>
-          <div className="ratings__time">
-            <TimeAgo date={review.createdAt || 0} />
-          </div>
-        </div>
-        <div className="ratings__text">{review.content}</div>
-        <div className="ratings__stars">
-          {[...Array(parseInt(`${review?.starPoint || 0}`)).keys()].map((x) => (
-            <IonIcon key={x} className="icon icon-star" name="star" />
-          ))}
-          {(review?.starPoint || 0) % 1 > 0 && (
-            <IonIcon
-              className="icon icon-star-half-outline"
-              name="star-half-outline"
-            />
-          )}
-        </div>
-      </div>
-    </div>
-  );
-};
+import ReviewPanel from "components/ReviewPanel";
 
 const PlayerProfile: FC = () => {
   const [reviews, setReviews] = useState<TReview[]>([]);
@@ -116,6 +75,7 @@ const PlayerProfile: FC = () => {
         page: 1,
         receiverId: player.id,
         populate: "reviewer:userName,avatar",
+        sortBy: "createdAt:desc",
       });
     }
   }, [player]);
@@ -247,7 +207,7 @@ const PlayerProfile: FC = () => {
             <div className="ratings__container">
               <div className="ratings__list">
                 {reviews.map((review: TReview, pos: number) => (
-                  <Rating key={pos} review={review} />
+                  <ReviewPanel key={pos} review={review} />
                 ))}
               </div>
             </div>

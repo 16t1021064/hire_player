@@ -41,7 +41,7 @@ const HireUserCreated: FC<HireUserCreatedProps> = ({ notif, fnClose }) => {
   const data: TData = useMemo(() => {
     const payload = notif.payload as THireUserCreatedPayload;
     return {
-      title: notif.customer?.userName || "",
+      title: notif.customer?.userName || "Hire",
       content: getMessage(notif),
       thumb: notif.image?.link || Thumb,
       time: notif.createdAt || "",

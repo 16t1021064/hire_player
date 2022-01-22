@@ -40,7 +40,7 @@ const HirePlayerAccepted: FC<HirePlayerAcceptedProps> = ({
   const data: TData = useMemo(() => {
     const payload = notif.payload as THirePlayerAcceptedPayload;
     return {
-      title: notif.player?.playerInfo?.playerName || "",
+      title: notif.player?.playerInfo?.playerName || "Hire",
       content: getMessage(notif),
       thumb: notif.image?.link || Thumb,
       time: notif.createdAt || "",

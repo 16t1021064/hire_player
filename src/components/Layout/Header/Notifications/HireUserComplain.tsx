@@ -30,7 +30,7 @@ const HireUserComplain: FC<HireUserComplainProps> = ({ notif, fnClose }) => {
   const data: TData = useMemo(() => {
     const payload = notif.payload as THireUserComplainPayload;
     return {
-      title: notif.player?.playerInfo?.playerName || "",
+      title: notif.player?.playerInfo?.playerName || "Hire",
       content: getMessage(notif),
       thumb: notif.image?.link || Thumb,
       time: notif.createdAt || "",

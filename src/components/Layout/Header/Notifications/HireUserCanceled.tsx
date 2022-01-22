@@ -26,7 +26,7 @@ const HireUserCanceled: FC<HireUserCanceledProps> = ({ notif, fnClose }) => {
   const data: TData = useMemo(() => {
     const payload = notif.payload as THireUserCanceledPayload;
     return {
-      title: notif.player?.playerInfo?.playerName || "",
+      title: notif.player?.playerInfo?.playerName || "Hire",
       content: getMessage(notif),
       thumb: notif.image?.link || Thumb,
       time: notif.createdAt || "",

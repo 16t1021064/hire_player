@@ -19,7 +19,7 @@ interface ReviewUserRatedProps {
 const ReviewUserRated: FC<ReviewUserRatedProps> = ({ notif }) => {
   const data: TData = useMemo(() => {
     return {
-      title: "Donate",
+      title: "Rating",
       content: getMessage(notif),
       thumb: notif.image?.link || Thumb,
       time: notif.createdAt || "",

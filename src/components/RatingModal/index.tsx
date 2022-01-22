@@ -87,7 +87,7 @@ const RatingModal: FC<RatingModalProps> = ({
     if (!hire || createReviewStatus === "loading") return;
     const data: TCreateReviewRequest = { id: hire.id, starPoint: value };
     if (values.message) {
-      data.body = values.messages;
+      data.content = values.message;
     }
     createReview(data);
   };
@@ -127,8 +127,8 @@ const RatingModal: FC<RatingModalProps> = ({
                 <label>Message</label>
               </Col>
               <Col xs={24} lg={16}>
-                <Form.Item>
-                  <Input.TextArea name="message" rows={4} />
+                <Form.Item name="message">
+                  <Input.TextArea rows={4} />
                 </Form.Item>
               </Col>
             </Row>

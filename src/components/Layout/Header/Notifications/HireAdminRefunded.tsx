@@ -26,7 +26,7 @@ const HireAdminRefunded: FC<HireAdminRefundedProps> = ({ notif, fnClose }) => {
   const data: TData = useMemo(() => {
     const payload = notif.payload as THireAdminRefundedPayload;
     return {
-      title: "Hire refunded",
+      title: "Hire",
       content: getMessage(notif),
       thumb: notif.image?.link || Thumb,
       time: notif.createdAt || "",
