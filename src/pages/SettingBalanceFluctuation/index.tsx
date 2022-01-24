@@ -23,9 +23,11 @@ const SettingBalanceFluctuation: FC = () => {
             <div className="table-reponsive">
               <table className="table-latitude">
                 <thead>
-                  <th>TIME</th>
-                  <th>MONEY</th>
-                  <th>MESSAGE</th>
+                  <tr>
+                    <th>TIME</th>
+                    <th>MONEY</th>
+                    <th>MESSAGE</th>
+                  </tr>
                 </thead>
                 <tbody>
                   <tr>

@@ -108,11 +108,13 @@ const SettingPlayerDonateHistory: FC = () => {
             <div className="table-reponsive">
               <table className="table-latitude">
                 <thead>
-                  <th>DONATED AT</th>
-                  <th>FROM USER</th>
-                  <th>AMOUNT</th>
-                  <th>MESSAGE</th>
-                  <th>ACTION</th>
+                  <tr>
+                    <th>DONATED AT</th>
+                    <th>FROM USER</th>
+                    <th>AMOUNT</th>
+                    <th>MESSAGE</th>
+                    <th>ACTION</th>
+                  </tr>
                 </thead>
                 <tbody>
                   {donates.map((donate, pos: number) => (

@@ -23,10 +23,12 @@ const SettingBlockUsers: FC = () => {
             <div className="table-reponsive">
               <table className="table-latitude">
                 <thead>
-                  <th>USER</th>
-                  <th>TIME BLOCK</th>
-                  <th>REASON</th>
-                  <th>ACTION</th>
+                  <tr>
+                    <th>USER</th>
+                    <th>TIME BLOCK</th>
+                    <th>REASON</th>
+                    <th>ACTION</th>
+                  </tr>
                 </thead>
                 <tbody>
                   <tr>

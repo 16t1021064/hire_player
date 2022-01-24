@@ -66,11 +66,13 @@ const SettingBalance: FC = () => {
             <div className="table-reponsive">
               <table className="table-latitude">
                 <thead>
-                  <th>Amount</th>
-                  <th>TIME WITHDRAW</th>
-                  <th>METHOD</th>
-                  <th>Status</th>
-                  <th>Note</th>
+                  <tr>
+                    <th>Amount</th>
+                    <th>TIME WITHDRAW</th>
+                    <th>METHOD</th>
+                    <th>Status</th>
+                    <th>Note</th>
+                  </tr>
                 </thead>
                 <tbody>
                   <tr>

@@ -23,10 +23,12 @@ const SettingPlayerHireHistory: FC = () => {
             <div className="table-reponsive">
               <table className="table-latitude">
                 <thead>
-                  <th>HIRE CODE</th>
-                  <th>CREATED AT</th>
-                  <th>USER</th>
-                  <th>STATUS</th>
+                  <tr>
+                    <th>HIRE CODE</th>
+                    <th>CREATED AT</th>
+                    <th>USER</th>
+                    <th>STATUS</th>
+                  </tr>
                 </thead>
                 <tbody>
                   <tr>
