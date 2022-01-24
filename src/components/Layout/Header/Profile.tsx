@@ -1,13 +1,14 @@
 import IonIcon from "@reacticons/ionicons";
 import { routesEnum } from "pages/Routes";
 import { FC, MouseEvent, useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import DefaultThumbnail from "assets/images/default-avatar.jpg";
 import clsx from "clsx";
 
 const Profile: FC = () => {
   const wrapperRef = useRef<HTMLDivElement | null>(null);
   const [visible, setVisible] = useState(false);
+  const history = useHistory();
 
   useEffect(() => {
     const callback = (event: any) => {
@@ -32,6 +33,24 @@ const Profile: FC = () => {
     setVisible(true);
   };
 
+  const onChangePassword = (event: MouseEvent) => {
+    event.preventDefault();
+    setVisible(false);
+    history.push(routesEnum.settingUserPassword);
+  };
+
+  const onLogout = (event: MouseEvent) => {
+    event.preventDefault();
+    setVisible(false);
+    history.push(routesEnum.logout);
+  };
+
+  const onUser = (event: MouseEvent) => {
+    event.preventDefault();
+    setVisible(false);
+    history.push(routesEnum.settingUser);
+  };
+
   return (
     <div
       className={clsx("header__item header__item_profile", visible && "active")}
@@ -41,7 +60,7 @@ const Profile: FC = () => {
         <img src={DefaultThumbnail} alt="" className="header__pic" />
       </a>
       <div className="header__body">
-        <Link to={routesEnum.settingUserPassword} className="header__link">
+        <a className="header__link" onClick={onUser}>
           <div className="header__img">
             <IonIcon
               className="icon icon-person-outline"
@@ -49,8 +68,8 @@ const Profile: FC = () => {
             />
           </div>
           Profile
-        </Link>
-        <Link to={routesEnum.settingUserPassword} className="header__link">
+        </a>
+        <a className="header__link" onClick={onChangePassword}>
           <div className="header__img">
             <IonIcon
               className="icon icon-settings-outline"
@@ -58,8 +77,8 @@ const Profile: FC = () => {
             />
           </div>
           Change password
-        </Link>
-        <Link to={routesEnum.logout} className="header__link">
+        </a>
+        <a className="header__link" onClick={onLogout}>
           <div className="header__img">
             <IonIcon
               className="icon icon-log-out-outline"
@@ -67,7 +86,7 @@ const Profile: FC = () => {
             />
           </div>
           Log Out
-        </Link>
+        </a>
       </div>
     </div>
   );
