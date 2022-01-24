@@ -6,6 +6,8 @@ import {
   TGetReceivedDonatesResponse,
   TGetSentDonatesRequest,
   TGetSentDonatesResponse,
+  TReplyDonateRequest,
+  TReplyDonateResponse,
 } from "./types";
 
 export const createDonateRequest = async (
@@ -30,5 +32,15 @@ export const getSentDonatesRequest = async (
   const { data } = await axiosInstance.get(`/donates`, {
     params: request,
   });
+  return data;
+};
+
+export const replyDonateRequest = async (
+  request: TReplyDonateRequest
+): Promise<TReplyDonateResponse> => {
+  const { data } = await axiosInstance.post(
+    `/donates/${request.id}/reply`,
+    request
+  );
   return data;
 };

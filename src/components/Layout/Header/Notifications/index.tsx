@@ -34,6 +34,8 @@ import ConversationAdminJoined from "./ConversationAdminJoined";
 import HireAdminRefunded from "./HireAdminRefunded";
 import { Socket } from "socket.io-client";
 import ReviewUserRated from "./ReviewUserRated";
+import DonateCreated from "./DonateCreated";
+import DonateReplied from "./DonateReplied";
 
 export interface TNotificationTransform extends TNotification {
   isSocketFrom?: boolean;
@@ -174,6 +176,10 @@ const Notifications: FC<NotificationsProps> = ({
         return <HireAdminRefunded notif={notif} fnClose={fnClose} />;
       case NotificationActionsEnum.REVIEW_USER_RATED:
         return <ReviewUserRated notif={notif} />;
+      case NotificationActionsEnum.DONATE_CREATED:
+        return <DonateCreated notif={notif} fnClose={fnClose} />;
+      case NotificationActionsEnum.DONATE_REPLIED:
+        return <DonateReplied notif={notif} fnClose={fnClose} />;
       default:
         return <></>;
     }

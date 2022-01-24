@@ -28,3 +28,12 @@ export interface TGetSentDonatesResponse {
   };
   message: "GET_DONATES_SUCCESS";
 }
+
+export interface TReplyDonateRequest {
+  id: string;
+  replyMessage: string;
+}
+
+export interface TReplyDonateResponse {
+  message: "REPLY_DONATE_SUCCESS";
+}

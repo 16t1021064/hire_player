@@ -31,5 +31,7 @@
   "ERROR_PLAYER_NOT_COMPLETE_HIRE": "Player not complete hire",
   "ERROR_ONLY_CUSTOMER_CREATE_REVIEW": "Only customer create review",
   "ERROR_CUSTOMER_ALREADY_REVIEW_THIS_HIRE": "Customer already review this hire",
-  "ERROR_HIRE_NOT_COMPLETE": "Hire not complete"
+  "ERROR_HIRE_NOT_COMPLETE": "Hire not complete",
+  "ERROR_ONLY_RECEIVER_REPLY_DONATE": "Only receiver reply donate",
+  "ERROR_THIS_DONATE_ALREADY_REPLY": "This donate already reply"
 }

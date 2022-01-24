@@ -2,11 +2,17 @@ import { FC, useEffect, useState } from "react";
 import IonIcon from "@reacticons/ionicons";
 import SidebarSettings from "components/Layout/SidebarSettings";
 import { useMutation } from "react-query";
-import { getReceivedDonatesRequest } from "api/donates/requests";
+import {
+  getReceivedDonatesRequest,
+  replyDonateRequest,
+} from "api/donates/requests";
 import { TDonate, TPagination, TUser } from "types";
 import moment from "moment";
 import { DATE_FORMAT } from "utils/format";
-import { Pagination } from "antd";
+import { Button, Col, Form, Input, message, Pagination, Row } from "antd";
+import { faReply } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Modal from "components/Modal";
 
 const SettingPlayerDonateHistory: FC = () => {
   const [donates, setDonates] = useState<TDonate[]>([]);
@@ -16,6 +22,11 @@ const SettingPlayerDonateHistory: FC = () => {
     totalPages: 0,
     totalResults: 0,
   });
+  const [visible, setVisible] = useState<boolean>(false);
+  const [repliedDonate, setRepliedDonate] = useState<TDonate | undefined>(
+    undefined
+  );
+  const [replyForm] = Form.useForm();
 
   const { mutate: getReceivedDonates } = useMutation(
     getReceivedDonatesRequest,
@@ -49,6 +60,34 @@ const SettingPlayerDonateHistory: FC = () => {
     });
   };
 
+  const onCloseModal = () => {
+    setVisible(false);
+  };
+
+  const { mutate: replyDonate, status: replyDonateStatus } = useMutation(
+    replyDonateRequest,
+    {
+      onSuccess: () => {
+        setVisible(false);
+        message.success("message sent");
+      },
+    }
+  );
+
+  const onFinish = (values: any) => {
+    if (repliedDonate && replyDonateStatus !== "loading") {
+      replyDonate({
+        id: repliedDonate.id,
+        replyMessage: values.message,
+      });
+    }
+  };
+
+  const fnReply = (donate: TDonate) => {
+    setRepliedDonate(donate);
+    setVisible(true);
+  };
+
   return (
     <>
       <div className="setting__menu__mobile">
@@ -73,6 +112,7 @@ const SettingPlayerDonateHistory: FC = () => {
                   <th>FROM USER</th>
                   <th>AMOUNT</th>
                   <th>MESSAGE</th>
+                  <th>ACTION</th>
                 </thead>
                 <tbody>
                   {donates.map((donate, pos: number) => (
@@ -81,6 +121,21 @@ const SettingPlayerDonateHistory: FC = () => {
                       <td>{(donate.fromUser as TUser).userName}</td>
                       <td>${donate.amount?.toFixed(2)}</td>
                       <td>{donate.message}</td>
+                      <td>
+                        {!donate.replyMessage && (
+                          <a
+                            className="btn btn__small btn_gray btn_square"
+                            onClick={() => {
+                              fnReply(donate);
+                            }}
+                          >
+                            <FontAwesomeIcon
+                              icon={faReply}
+                              className="icon icon-trash-outline"
+                            />
+                          </a>
+                        )}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -95,6 +150,45 @@ const SettingPlayerDonateHistory: FC = () => {
           </div>
         </div>
       </div>
+      <Modal
+        visible={visible}
+        title={`Reply to ${(repliedDonate?.fromUser as TUser)?.userName}`}
+        onCancel={onCloseModal}
+      >
+        <Form form={replyForm} onFinish={onFinish}>
+          <Row gutter={[16, 16]}>
+            <Col xs={24}>
+              <div>
+                {(repliedDonate?.fromUser as TUser)?.userName}:{" "}
+                {repliedDonate?.message}
+              </div>
+            </Col>
+            <Col xs={24}>
+              <label>Reply:</label>
+              <Form.Item
+                name="message"
+                rules={[
+                  {
+                    required: true,
+                    message: "Message is required",
+                  },
+                ]}
+              >
+                <Input.TextArea rows={4} />
+              </Form.Item>
+            </Col>
+            <Col xs={24}>
+              <Button
+                type="primary"
+                htmlType="submit"
+                loading={replyDonateStatus === "loading"}
+              >
+                Reply
+              </Button>
+            </Col>
+          </Row>
+        </Form>
+      </Modal>
     </>
   );
 };

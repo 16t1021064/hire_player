@@ -11,11 +11,23 @@ export enum NotificationActionsEnum {
   HIRE_ADMIN_REFUNDED = 12,
   REVIEW_USER_RATED = 8,
   CONVERSATION_ADMIN_JOINED = 9,
-  DONATION_USER_DONATED = 10,
-  DONATION_PLAYER_REPLIED = 11,
+  DONATE_CREATED = 10,
+  DONATE_REPLIED = 11,
 }
 
-export type TNotificationActions = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 12;
+export type TNotificationActions =
+  | 1
+  | 2
+  | 3
+  | 4
+  | 5
+  | 6
+  | 7
+  | 8
+  | 9
+  | 10
+  | 11
+  | 12;
 
 export interface THireUserCreatedPayload {
   hireId?: string;
@@ -72,14 +84,14 @@ export interface TConversationAdminJoinedPayload {
   conversationId?: string;
 }
 
-export interface TDonationUserDonatedPayload {
+export interface TDonateCreatedPayload {
   donateAmount?: number;
   donateRealAmount?: number;
   donateMessage?: string;
   donateId?: string;
 }
 
-export interface TDonationPlayerRepliedPayload {
+export interface TDonateRepliedPayload {
   donateReplyMessage?: string;
   donateId?: string;
 }
@@ -95,8 +107,8 @@ export type TNotificationPayload =
   | THireAdminRefundedPayload
   | TReviewUserRatedPayload
   | TConversationAdminJoinedPayload
-  | TDonationUserDonatedPayload
-  | TDonationPlayerRepliedPayload;
+  | TDonateCreatedPayload
+  | TDonateRepliedPayload;
 
 export interface TNotification {
   id: string;

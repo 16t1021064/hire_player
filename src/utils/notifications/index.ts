@@ -7,6 +7,8 @@ import * as hireUserComplain from "utils/notifications/hireUserComplain";
 import * as hireAdminRefunded from "utils/notifications/hireAdminRefunded";
 import * as conversationAdminJoined from "utils/notifications/conversationAdminJoined";
 import * as reviewUserRated from "utils/notifications/reviewUserRated";
+import * as donateCreated from "utils/notifications/donateCreated";
+import * as donateReplied from "utils/notifications/donateReplied";
 import { NotificationActionsEnum, TNotification } from "types/notifications";
 
 export const getMessage = (notif: TNotification) => {
@@ -29,6 +31,10 @@ export const getMessage = (notif: TNotification) => {
       return conversationAdminJoined.getMessage(notif);
     case NotificationActionsEnum.REVIEW_USER_RATED:
       return reviewUserRated.getMessage(notif);
+    case NotificationActionsEnum.DONATE_CREATED:
+      return donateCreated.getMessage(notif);
+    case NotificationActionsEnum.DONATE_REPLIED:
+      return donateReplied.getMessage(notif);
     default:
       return undefined;
   }
