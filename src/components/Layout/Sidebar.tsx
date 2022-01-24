@@ -1,11 +1,12 @@
-import { FC, useEffect } from "react";
+import { ChangeEvent, FC } from "react";
 import clsx from "clsx";
 import IonIcon from "@reacticons/ionicons";
 import Logo from "img/logo.png";
 import LogoWhite from "img/logo-white.png";
 import { Link } from "react-router-dom";
 import { routesEnum } from "pages/Routes";
-import { useAppSelector } from "hooks/useRedux";
+import { useAppDispatch, useAppSelector } from "hooks/useRedux";
+import { setDarkMode } from "store/ducks/system/slice";
 
 interface TMenu {
   text: string;
@@ -53,33 +54,16 @@ interface SidebarProps {
 
 const Sidebar: FC<SidebarProps> = ({ classSidebar }) => {
   const { isLogin } = useAppSelector((state) => state.auth);
+  const { darkMode } = useAppSelector((state) => state.system);
+  const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    if (localStorage.getItem("darkMode") === "on") {
-      document.body.classList.add("dark");
-      document.addEventListener("DOMContentLoaded", function () {
-        (document.querySelector(".js-switch-theme input") as any).checked =
-          true;
-      });
+  const onChangeDarkMode = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.checked) {
+      dispatch(setDarkMode("on"));
+    } else {
+      dispatch(setDarkMode("off"));
     }
-
-    (function () {
-      // eslint-disable-next-line no-undef
-      const switchTheme = $(".js-switch-theme"),
-        // eslint-disable-next-line no-undef
-        body = $("body");
-
-      switchTheme.on("change", function () {
-        if (!body.hasClass("dark")) {
-          body.addClass("dark");
-          localStorage.setItem("darkMode", "on");
-        } else {
-          body.removeClass("dark");
-          localStorage.setItem("darkMode", "off");
-        }
-      });
-    })();
-  });
+  };
 
   return (
     <>
@@ -136,7 +120,12 @@ const Sidebar: FC<SidebarProps> = ({ classSidebar }) => {
         </div>
         <div className="sidebar__bottom">
           <label className="switch switch_theme js-switch-theme">
-            <input className="switch__input" type="checkbox" />
+            <input
+              className="switch__input"
+              type="checkbox"
+              onChange={onChangeDarkMode}
+              checked={darkMode === "on"}
+            />
             <span className="switch__in">
               <span className="switch__box"></span>
               <span className="switch__icon">

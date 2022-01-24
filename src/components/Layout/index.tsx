@@ -23,6 +23,7 @@ const Layout: FC = ({ children }) => {
   const handleOnMessagesRef = useRef<
     ((data: TListenerData_OnMessages) => void) | null
   >(null);
+  const { darkMode } = useAppSelector((state) => state.system);
 
   useEffect(() => {
     if (connected && userInfo) {
@@ -34,48 +35,12 @@ const Layout: FC = ({ children }) => {
   }, [connected, userInfo]);
 
   useEffect(() => {
-    // tabs
-    (function () {
-      // tab info player
-      // eslint-disable-next-line no-undef
-      let tabs1: any = $(".catalog_player");
-      tabs1.each(function (e: any, ele: any) {
-        // eslint-disable-next-line no-undef
-        let thisTabs = $(ele),
-          nav = thisTabs.find(".catalog__link"),
-          item = thisTabs.find(".catalog__tabs__item");
-        nav.on("click", function () {
-          // eslint-disable-next-line no-undef
-          var thisNav = $(this),
-            indexNav = thisNav.index();
-          nav.removeClass("active");
-          thisNav.addClass("active");
-          item.hide();
-          item.eq(indexNav).fadeIn();
-          return false;
-        });
-      });
-
-      // eslint-disable-next-line no-undef
-      let tabs: any = $(".js-tabs");
-      tabs.each(function (e: any, ele: any) {
-        // eslint-disable-next-line no-undef
-        var thisTabs = $(ele),
-          nav = thisTabs.find(".js-tabs-link"),
-          item = thisTabs.find(".js-tabs-item");
-        nav.on("click", function () {
-          // eslint-disable-next-line no-undef
-          var thisNav = $(this),
-            indexNav = thisNav.index();
-          nav.removeClass("active");
-          thisNav.addClass("active");
-          item.hide();
-          item.eq(indexNav).fadeIn();
-          return false;
-        });
-      });
-    })();
-  });
+    if (darkMode === "on") {
+      document.getElementsByTagName("body")[0].classList.add("dark");
+    } else {
+      document.getElementsByTagName("body")[0].classList.remove("dark");
+    }
+  }, [darkMode]);
 
   const handleOnMessages = (data: TListenerData_OnMessages) => {
     if (

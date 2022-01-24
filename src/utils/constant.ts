@@ -4,7 +4,7 @@ export const LOCAL_STORAGE = {
   language: "i18nextLng",
   accessToken: "access-token",
   refreshToken: "refresh-token",
-  theme: "theme",
+  darkMode: "darkMode",
 };
 
 export const LANGUAGE = ["en-US", "tr-TR"];

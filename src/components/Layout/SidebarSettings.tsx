@@ -12,6 +12,7 @@ const SidebarSettings: FC = () => {
         var item = $(this),
           sidebar_item = item.parent(),
           sub_menu = sidebar_item.find(".sidebar-submenu");
+
         if (sidebar_item.hasClass("active") && sub_menu) {
           sidebar_item.removeClass("active");
           sub_menu.removeClass("menu-open");
@@ -24,6 +25,7 @@ const SidebarSettings: FC = () => {
         }
         return false;
       });
+
       // setting menu mobile
       $(".setting__menu__outline").on("click", function () {
         //icon

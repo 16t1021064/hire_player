@@ -1,26 +1,25 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { message } from "antd";
 import { LOCAL_STORAGE } from "utils/constant";
 
-type TTheme = "LIGHT" | "DARK";
+type TDarkMode = "on" | "off";
 
 interface TSystemReducer {
   language: string;
-  theme: TTheme;
+  darkMode: TDarkMode;
 }
 
-const getLocalTheme = (): TTheme => {
-  const rs = localStorage.getItem(LOCAL_STORAGE.theme);
-  if (rs && (rs === "LIGHT" || rs === "DARK")) {
+const isDarkMode = (): TDarkMode => {
+  const rs = localStorage.getItem(LOCAL_STORAGE.darkMode);
+  if (rs && (rs === "on" || rs === "off")) {
     return rs;
   } else {
-    return "LIGHT";
+    return "off";
   }
 };
 
 const initialState: TSystemReducer = {
   language: localStorage.getItem(LOCAL_STORAGE.language) || "",
-  theme: getLocalTheme(),
+  darkMode: isDarkMode(),
 };
 
 const systemSlice = createSlice({
@@ -33,18 +32,16 @@ const systemSlice = createSlice({
         language: action.payload,
       };
     },
-    setTheme(state, action: PayloadAction<TTheme>) {
-      // localStorage.setItem(LOCAL_STORAGE.theme, action.payload);
-      message.warning("Dark Mode in development");
-      console.log("theme change", action.payload);
+    setDarkMode(state, action: PayloadAction<TDarkMode>) {
+      localStorage.setItem(LOCAL_STORAGE.darkMode, action.payload);
       return {
         ...state,
-        // theme: action.payload,
+        darkMode: action.payload,
       };
     },
   },
 });
 
-export const { setLanguage, setTheme } = systemSlice.actions;
+export const { setLanguage, setDarkMode } = systemSlice.actions;
 
 export default systemSlice.reducer;
