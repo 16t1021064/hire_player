@@ -1,8 +1,34 @@
 import { FC } from "react";
 import IonIcon from "@reacticons/ionicons";
 import SidebarSettings from "components/Layout/SidebarSettings";
+import { useAppDispatch, useAppSelector } from "hooks/useRedux";
+import DefaultAvatar from "assets/images/default-avatar.jpg";
+import { Upload } from "antd";
+import { uploadAvatarRequest } from "api/players/request";
+import { useMutation } from "react-query";
+import { setUserInfo } from "store/ducks/auth/slice";
 
 const SettingPlayer: FC = () => {
+  const { userInfo } = useAppSelector((state) => state.auth);
+  const dispatch = useAppDispatch();
+
+  const { mutate: uploadAvatar, status: uploadAvatarStatus } = useMutation(
+    uploadAvatarRequest,
+    {
+      onSuccess: (data) => {
+        dispatch(setUserInfo(data.data));
+      },
+    }
+  );
+
+  const beforeUpload = (file: File) => {
+    uploadAvatar({
+      id: userInfo?.id || "",
+      images: [file],
+    });
+    return false;
+  };
+
   return (
     <>
       <div className="setting__menu__mobile">
@@ -20,6 +46,41 @@ const SettingPlayer: FC = () => {
         <div className="setting__content">
           <form className="setting__form">
             <div className="setting__title h5">Player Info</div>
+            <div className="setting__user">
+              <div className="setting__category caption-sm">Your Avatar</div>
+              <div className="setting__line">
+                <div className="setting__ava">
+                  <img
+                    className="setting__pic"
+                    src={
+                      userInfo?.playerInfo?.playerAvatar?.link || DefaultAvatar
+                    }
+                    alt=""
+                  />
+                </div>
+                <div className="setting__details">
+                  <div className="setting__btns">
+                    <div className="setting__loading">
+                      <Upload
+                        beforeUpload={beforeUpload}
+                        accept="image/*"
+                        showUploadList={false}
+                        maxCount={1}
+                        disabled={uploadAvatarStatus === "loading"}
+                      >
+                        <button
+                          type="button"
+                          className="setting__btn btn btn_gray btn__small"
+                        >
+                          Change
+                        </button>
+                      </Upload>
+                    </div>
+                  </div>
+                  <div className="setting__text">JPG, GIF OR PNG, 5 MB</div>
+                </div>
+              </div>
+            </div>
             <div className="setting__fieldset">
               <div className="setting__row">
                 <div className="setting__field field">

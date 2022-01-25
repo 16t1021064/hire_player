@@ -47,3 +47,13 @@ export interface TRemoveImagesResponse {
   data: TUser;
   message: "REMOVE_IMAGES_SUCCESS";
 }
+
+export interface TUploadAvatarRequest {
+  id: string;
+  images: File[];
+}
+
+export interface TUploadAvatarResponse {
+  data: TUser;
+  message: "UPLOAD_AVATAR_SUCCESS";
+}

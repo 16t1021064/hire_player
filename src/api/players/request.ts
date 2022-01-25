@@ -5,6 +5,8 @@ import {
   TGetPlayersResponse,
   TRemoveImagesRequest,
   TRemoveImagesResponse,
+  TUploadAvatarRequest,
+  TUploadAvatarResponse,
   TUploadImagesRequest,
   TUploadImagesResponse,
 } from "./types";
@@ -50,6 +52,25 @@ export const removeImagesRequest = async (
   const { data } = await axiosInstance.put(
     `/players/${request.id}/remove-images`,
     request
+  );
+  return data;
+};
+
+export const uploadAvatarRequest = async (
+  request: TUploadAvatarRequest
+): Promise<TUploadAvatarResponse> => {
+  const formData = new FormData();
+  request.images.forEach((image: File) => {
+    formData.append("avatar", image);
+  });
+  const { data } = await axiosInstance.put(
+    `/players/${request.id}/upload-avatar`,
+    formData,
+    {
+      headers: {
+        "Content-type": "multipart/form-data",
+      },
+    }
   );
   return data;
 };
