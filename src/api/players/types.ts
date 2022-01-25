@@ -25,3 +25,13 @@ export interface TGetPlayerResponse {
   data: TUser | null;
   message: "GET_DETAIL_PLAYER_INFO_SUCCESS";
 }
+
+export interface TUploadImagesRequest {
+  id: string;
+  images: File[];
+}
+
+export interface TUploadImagesResponse {
+  data: TUser;
+  message: "UPLOAD_IMAGES_SUCCESS";
+}

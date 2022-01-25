@@ -46,16 +46,22 @@ axiosInstance.interceptors.response.use(handleSuccess, handleError);
 axiosInstance.interceptors.request.use(
   async (config: AxiosRequestConfig) => {
     let token = getAccessToken();
+    let data = JSON.stringify(config.data);
+    let contentType = "application/json";
+    if (config.headers["Content-type"] === "multipart/form-data") {
+      contentType = "multipart/form-data";
+      data = config.data;
+    }
     if (token) {
       config = {
         ...config,
         headers: {
           Authorization: `Bearer ${token}`,
-          "Content-type": "application/json",
+          "Content-type": contentType,
         },
         // withCredentials: true,
         // data: convertToFormData(config.data),
-        data: JSON.stringify(config.data),
+        data,
       };
     }
     return config;
