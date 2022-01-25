@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef, useState } from "react";
+import { FC } from "react";
 import IonIcon from "@reacticons/ionicons";
 import SidebarSettings from "components/Layout/SidebarSettings";
 import SettingPlayerAlbumsImage from "img/setting_player_albums.png";
@@ -9,59 +9,16 @@ import { Upload } from "antd";
 
 const SettingPlayerAlbums: FC = () => {
   const { userInfo } = useAppSelector((state) => state.auth);
-  // const [uploadFiles, setUploadFiles] = useState<File[]>([]);
-  const uploadFiles = useRef<File[]>([]);
-  const countUploadFiles = useRef<number>(0);
 
-  const { mutate: uploadImages } = useMutation(uploadImagesRequest, {
-    onSuccess: (data) => {
-      console.log("length", data.data.playerInfo?.images?.length);
-      countUploadFiles.current = 0;
-      uploadFiles.current = [];
-    },
-    onError: (error) => {
-      console.log(error);
-    },
-  });
+  const { mutate: uploadImages } = useMutation(uploadImagesRequest);
 
   const beforeUpload = (file: File, files: File[]) => {
-    console.log("beforeUpload");
-    countUploadFiles.current = files.length;
-    uploadFiles.current.push(file);
-    setTimeout(() => {
-      upload();
+    uploadImages({
+      id: userInfo?.id || "",
+      images: files,
     });
-    // uploadFiles.push(file);
-    // setUploadFiles([...uploadFiles, ...files]);
-    // setTimeout(() => {
-    //   if (uploadFiles.length === files.length) {
-    //     uploadImages({
-    //       id: userInfo?.id || "",
-    //       images: uploadFiles,
-    //     });
-    //   }
-    // });
     return false;
   };
-
-  const upload = () => {
-    console.log("upload");
-    if (countUploadFiles.current === uploadFiles.current.length) {
-      uploadImages({
-        id: userInfo?.id || "",
-        images: uploadFiles.current,
-      });
-    }
-  };
-
-  useEffect(() => {
-    console.log("length", userInfo?.playerInfo?.images?.length);
-  }, [userInfo]);
-
-  // useEffect(() => {
-  //   // countUploadFiles.current = uploadFiles.length;
-  //   console.log(uploadFiles.length);
-  // }, [uploadFiles]);
 
   return (
     <>

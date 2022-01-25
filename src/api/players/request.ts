@@ -28,7 +28,6 @@ export const uploadImagesRequest = async (
 ): Promise<TUploadImagesResponse> => {
   const formData = new FormData();
   request.images.forEach((image: File) => {
-    console.log(image.size);
     formData.append("images", image);
   });
   const { data } = await axiosInstance.put(
