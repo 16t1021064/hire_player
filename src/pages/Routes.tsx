@@ -81,7 +81,6 @@ const routes: CustomRouteProps[] = [
     path: routesEnum.playerProfile,
     exact: true,
     component: lazy(() => import("./PlayerProfile")),
-    private: true,
   },
   {
     path: routesEnum.following,
