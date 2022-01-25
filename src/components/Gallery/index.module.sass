@@ -1,0 +1,40 @@
+.wrap
+  width: 200px
+  height: 200px
+  position: relative
+  display: inline-flex
+  justify-content: center
+  align-items: center
+  &:hover
+    .selector
+      background: rgba(0, 0, 0, 0.3)
+  & :global
+    .ant-image
+      transition: all 0.7s
+
+.selector
+  display: block
+  width: 100%
+  height: 100%
+  position: absolute
+  left: 0
+  top: 0
+  background: rgba(0, 0, 0, 0)
+  cursor: pointer
+
+.selected
+  background: rgba(0, 0, 0, 0.3)
+
+.icon
+  font-size: 28px
+  transition: visibility 0.3s linear,opacity 0.3s linear
+  pointer-events: none
+  transform: translate(8px, 8px)
+
+.visible
+  visibility: visible
+  opacity: 1
+
+.hidden
+  visibility: hidden
+  opacity: 0

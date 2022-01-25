@@ -33,5 +33,10 @@
   "ERROR_CUSTOMER_ALREADY_REVIEW_THIS_HIRE": "Customer already review this hire",
   "ERROR_HIRE_NOT_COMPLETE": "Hire not complete",
   "ERROR_ONLY_RECEIVER_REPLY_DONATE": "Only receiver reply donate",
-  "ERROR_THIS_DONATE_ALREADY_REPLY": "This donate already reply"
+  "ERROR_THIS_DONATE_ALREADY_REPLY": "This donate already reply",
+  "ERROR_MIMETYPE_INVALID": "Mimetype invalid",
+  "ERROR_KEY_UPLOAD_INVALID": "System error",
+  "ERROR_LIMIT_FILE_SIZE": "Limit file size",
+  "ERROR_LIMIT_UNEXPECTED_FILE": "System error",
+  "ERROR_FILE_NOT_FOUND": "File not found"
 }

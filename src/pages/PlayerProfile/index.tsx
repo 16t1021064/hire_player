@@ -6,7 +6,7 @@ import { getPlayerRequest } from "api/players/request";
 import { TReview, TUser } from "types";
 import DefaultThumbnail from "assets/images/default-avatar.jpg";
 import clsx from "clsx";
-import Gallery from "components/Gallery";
+import Gallery, { TPhoto } from "components/Gallery";
 import { getReviewsRequest } from "api/reviews/request";
 import ReviewPanel from "components/ReviewPanel";
 import HireModal from "components/HireModal";
@@ -39,8 +39,15 @@ const PlayerProfile: FC = () => {
     }
   }, [id]);
 
-  const photos: string[] = useMemo(() => {
-    return player?.playerInfo?.images?.map((image) => image.link) || [];
+  const photos: TPhoto[] = useMemo(() => {
+    return (
+      player?.playerInfo?.images?.map(
+        (image): TPhoto => ({
+          src: image.link,
+          name: image.filename || "",
+        })
+      ) || []
+    );
   }, [player]);
 
   const { mutate: fetchReviews } = useMutation(getReviewsRequest, {

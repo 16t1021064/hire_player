@@ -35,3 +35,15 @@ export interface TUploadImagesResponse {
   data: TUser;
   message: "UPLOAD_IMAGES_SUCCESS";
 }
+
+export interface TRemoveImagesRequest {
+  id: string;
+  images: {
+    filename: string;
+  }[];
+}
+
+export interface TRemoveImagesResponse {
+  data: TUser;
+  message: "REMOVE_IMAGES_SUCCESS";
+}

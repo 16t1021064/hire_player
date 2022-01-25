@@ -3,6 +3,8 @@ import {
   TGetPlayerResponse,
   TGetPlayersRequest,
   TGetPlayersResponse,
+  TRemoveImagesRequest,
+  TRemoveImagesResponse,
   TUploadImagesRequest,
   TUploadImagesResponse,
 } from "./types";
@@ -38,6 +40,16 @@ export const uploadImagesRequest = async (
         "Content-type": "multipart/form-data",
       },
     }
+  );
+  return data;
+};
+
+export const removeImagesRequest = async (
+  request: TRemoveImagesRequest
+): Promise<TRemoveImagesResponse> => {
+  const { data } = await axiosInstance.put(
+    `/players/${request.id}/remove-images`,
+    request
   );
   return data;
 };
