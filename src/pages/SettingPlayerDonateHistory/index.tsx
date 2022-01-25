@@ -70,6 +70,11 @@ const SettingPlayerDonateHistory: FC = () => {
       onSuccess: () => {
         setVisible(false);
         message.success("message sent");
+        getReceivedDonates({
+          page: pagination.page,
+          limit: pagination.limit,
+          populate: "fromUser",
+        });
       },
     }
   );
