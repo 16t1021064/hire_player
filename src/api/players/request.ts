@@ -5,6 +5,8 @@ import {
   TGetPlayersResponse,
   TRemoveImagesRequest,
   TRemoveImagesResponse,
+  TSettingHireRequest,
+  TSettingHireResponse,
   TUpdateInfoRequest,
   TUpdateInfoResponse,
   TUploadAvatarRequest,
@@ -82,6 +84,16 @@ export const updateInfoRequest = async (
 ): Promise<TUpdateInfoResponse> => {
   const { data } = await axiosInstance.put(
     `/players/${request.id}/update-info`,
+    request
+  );
+  return data;
+};
+
+export const settingHireRequest = async (
+  request: TSettingHireRequest
+): Promise<TSettingHireResponse> => {
+  const { data } = await axiosInstance.put(
+    `/players/${request.id}/hire-settings`,
     request
   );
   return data;

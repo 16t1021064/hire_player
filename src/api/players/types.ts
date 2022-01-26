@@ -71,3 +71,15 @@ export interface TUpdateInfoResponse {
   data: TUser;
   message: "UPDATE_PLAYER_INFO_SUCCESS";
 }
+
+export interface TSettingHireRequest {
+  id: string;
+  isReceiveHire: boolean;
+  timeMaxHire: number;
+  timeReceiveHire: number[];
+}
+
+export interface TSettingHireResponse {
+  data: TUser;
+  message: "UPDATE_HIRE_SETTINGS_SUCCESS";
+}

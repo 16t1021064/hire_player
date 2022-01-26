@@ -55,7 +55,7 @@ export interface TPlayer {
   totalTimeHired?: number;
   completionRate?: number;
   avgRating?: number;
-  timeReceiveHire?: any[];
+  timeReceiveHire?: number[];
   isReceiveHire?: boolean;
   timeMaxHire?: number;
   images?: TImage[];

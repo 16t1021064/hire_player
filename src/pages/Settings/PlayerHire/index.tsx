@@ -1,17 +1,83 @@
-import { FC } from "react";
+import {
+  ChangeEvent,
+  FC,
+  SyntheticEvent,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import SettingsLayout from "components/Layout/SettingsLayout";
+import { useAppDispatch, useAppSelector } from "hooks/useRedux";
+import { settingHireRequest } from "api/players/request";
+import { useMutation } from "react-query";
+import { setUserInfo } from "store/ducks/auth/slice";
+import { message } from "antd";
 
 const PlayerHire: FC = () => {
+  const dispatch = useAppDispatch();
+  const { userInfo } = useAppSelector((state) => state.auth);
+  const enableHireRef = useRef<HTMLInputElement>(null);
+  const maxHoursRef = useRef<HTMLSelectElement>(null);
+  const [hours, setHours] = useState<number[]>([]);
+
+  useEffect(() => {
+    setHours(userInfo?.playerInfo?.timeReceiveHire || []);
+  }, [userInfo]);
+
+  const onChangeHour = (e: ChangeEvent<HTMLInputElement>, h: number) => {
+    const newHours = [...hours];
+    const index = newHours.findIndex((hour) => hour === h);
+    if (e.target.checked && index < 0) {
+      newHours.push(h);
+    } else if (!e.target.checked && index >= 0) {
+      newHours.splice(index, 1);
+    }
+    setHours(newHours);
+  };
+
+  const { mutate: settingHire, status: settingHireStatus } = useMutation(
+    settingHireRequest,
+    {
+      onSuccess: (data) => {
+        dispatch(setUserInfo(data.data));
+        message.success("Update success");
+      },
+    }
+  );
+
+  const onSubmit = (event: SyntheticEvent) => {
+    event.preventDefault();
+    if (
+      userInfo &&
+      settingHireStatus !== "loading" &&
+      enableHireRef.current &&
+      maxHoursRef.current?.value
+    ) {
+      settingHire({
+        id: userInfo.id,
+        isReceiveHire: enableHireRef.current.checked,
+        timeMaxHire: parseInt(maxHoursRef.current.value),
+        timeReceiveHire: hours,
+      });
+    }
+  };
+
   return (
     <SettingsLayout>
-      <form className="setting__form">
+      <form className="setting__form" onSubmit={onSubmit}>
         <div className="setting__title h5">Setting Hire</div>
         <div className="setting__field field">
           <div className="field__label field__label__inline">
-            {" "}
             <span className="h6">You Want To Receive Hire Rental Request:</span>
             <label className="checkbox">
-              <input className="checkbox__input" type="checkbox" checked />
+              <input
+                className="checkbox__input"
+                type="checkbox"
+                defaultChecked={
+                  userInfo?.playerInfo?.isReceiveHire ? true : false
+                }
+                ref={enableHireRef}
+              />
               <span className="checkbox__in">
                 <span className="checkbox__tick"></span>
               </span>
@@ -22,222 +88,24 @@ const PlayerHire: FC = () => {
           <div className="field__label">Time Frame For Receiving The Hire:</div>
         </div>
         <div className="setting__row__wrap">
-          <div className="setting__row__wrap__field">
-            <label className="checkbox">
-              <input className="checkbox__input" type="checkbox" />
-              <span className="checkbox__in">
-                <span className="checkbox__tick"></span>
-              </span>
-            </label>
-            <span>1:00</span>
-          </div>
-          <div className="setting__row__wrap__field">
-            <label className="checkbox">
-              <input className="checkbox__input" type="checkbox" />
-              <span className="checkbox__in">
-                <span className="checkbox__tick"></span>
-              </span>
-            </label>
-            <span>2:00</span>
-          </div>
-          <div className="setting__row__wrap__field">
-            <label className="checkbox">
-              <input className="checkbox__input" type="checkbox" />
-              <span className="checkbox__in">
-                <span className="checkbox__tick"></span>
-              </span>
-            </label>
-            <span>3:00</span>
-          </div>
-          <div className="setting__row__wrap__field">
-            <label className="checkbox">
-              <input className="checkbox__input" type="checkbox" />
-              <span className="checkbox__in">
-                <span className="checkbox__tick"></span>
-              </span>
-            </label>
-            <span>4:00</span>
-          </div>
-          <div className="setting__row__wrap__field">
-            <label className="checkbox">
-              <input className="checkbox__input" type="checkbox" />
-              <span className="checkbox__in">
-                <span className="checkbox__tick"></span>
-              </span>
-            </label>
-            <span>5:00</span>
-          </div>
-          <div className="setting__row__wrap__field">
-            <label className="checkbox">
-              <input className="checkbox__input" type="checkbox" />
-              <span className="checkbox__in">
-                <span className="checkbox__tick"></span>
-              </span>
-            </label>
-            <span>6:00</span>
-          </div>
-          <div className="setting__row__wrap__field">
-            <label className="checkbox">
-              <input className="checkbox__input" type="checkbox" />
-              <span className="checkbox__in">
-                <span className="checkbox__tick"></span>
-              </span>
-            </label>
-            <span>7:00</span>
-          </div>
-          <div className="setting__row__wrap__field">
-            <label className="checkbox">
-              <input className="checkbox__input" type="checkbox" />
-              <span className="checkbox__in">
-                <span className="checkbox__tick"></span>
-              </span>
-            </label>
-            <span>8:00</span>
-          </div>
-          <div className="setting__row__wrap__field">
-            <label className="checkbox">
-              <input className="checkbox__input" type="checkbox" />
-              <span className="checkbox__in">
-                <span className="checkbox__tick"></span>
-              </span>
-            </label>
-            <span>9:00</span>
-          </div>
-          <div className="setting__row__wrap__field">
-            <label className="checkbox">
-              <input className="checkbox__input" type="checkbox" />
-              <span className="checkbox__in">
-                <span className="checkbox__tick"></span>
-              </span>
-            </label>
-            <span>10:00</span>
-          </div>
-          <div className="setting__row__wrap__field">
-            <label className="checkbox">
-              <input className="checkbox__input" type="checkbox" />
-              <span className="checkbox__in">
-                <span className="checkbox__tick"></span>
-              </span>
-            </label>
-            <span>11:00</span>
-          </div>
-          <div className="setting__row__wrap__field">
-            <label className="checkbox">
-              <input className="checkbox__input" type="checkbox" />
-              <span className="checkbox__in">
-                <span className="checkbox__tick"></span>
-              </span>
-            </label>
-            <span>12:00</span>
-          </div>
-          <div className="setting__row__wrap__field">
-            <label className="checkbox">
-              <input className="checkbox__input" type="checkbox" />
-              <span className="checkbox__in">
-                <span className="checkbox__tick"></span>
-              </span>
-            </label>
-            <span>13:00</span>
-          </div>
-          <div className="setting__row__wrap__field">
-            <label className="checkbox">
-              <input className="checkbox__input" type="checkbox" />
-              <span className="checkbox__in">
-                <span className="checkbox__tick"></span>
-              </span>
-            </label>
-            <span>14:00</span>
-          </div>
-          <div className="setting__row__wrap__field">
-            <label className="checkbox">
-              <input className="checkbox__input" type="checkbox" />
-              <span className="checkbox__in">
-                <span className="checkbox__tick"></span>
-              </span>
-            </label>
-            <span>15:00</span>
-          </div>
-          <div className="setting__row__wrap__field">
-            <label className="checkbox">
-              <input className="checkbox__input" type="checkbox" />
-              <span className="checkbox__in">
-                <span className="checkbox__tick"></span>
-              </span>
-            </label>
-            <span>16:00</span>
-          </div>
-          <div className="setting__row__wrap__field">
-            <label className="checkbox">
-              <input className="checkbox__input" type="checkbox" />
-              <span className="checkbox__in">
-                <span className="checkbox__tick"></span>
-              </span>
-            </label>
-            <span>17:00</span>
-          </div>
-          <div className="setting__row__wrap__field">
-            <label className="checkbox">
-              <input className="checkbox__input" type="checkbox" />
-              <span className="checkbox__in">
-                <span className="checkbox__tick"></span>
-              </span>
-            </label>
-            <span>18:00</span>
-          </div>
-          <div className="setting__row__wrap__field">
-            <label className="checkbox">
-              <input className="checkbox__input" type="checkbox" />
-              <span className="checkbox__in">
-                <span className="checkbox__tick"></span>
-              </span>
-            </label>
-            <span>19:00</span>
-          </div>
-          <div className="setting__row__wrap__field">
-            <label className="checkbox">
-              <input className="checkbox__input" type="checkbox" />
-              <span className="checkbox__in">
-                <span className="checkbox__tick"></span>
-              </span>
-            </label>
-            <span>20:00</span>
-          </div>
-          <div className="setting__row__wrap__field">
-            <label className="checkbox">
-              <input className="checkbox__input" type="checkbox" />
-              <span className="checkbox__in">
-                <span className="checkbox__tick"></span>
-              </span>
-            </label>
-            <span>21:00</span>
-          </div>
-          <div className="setting__row__wrap__field">
-            <label className="checkbox">
-              <input className="checkbox__input" type="checkbox" />
-              <span className="checkbox__in">
-                <span className="checkbox__tick"></span>
-              </span>
-            </label>
-            <span>22:00</span>
-          </div>
-          <div className="setting__row__wrap__field">
-            <label className="checkbox">
-              <input className="checkbox__input" type="checkbox" />
-              <span className="checkbox__in">
-                <span className="checkbox__tick"></span>
-              </span>
-            </label>
-            <span>23:00</span>
-          </div>
-          <div className="setting__row__wrap__field">
-            <label className="checkbox">
-              <input className="checkbox__input" type="checkbox" />
-              <span className="checkbox__in">
-                <span className="checkbox__tick"></span>
-              </span>
-            </label>
-            <span>24:00</span>
-          </div>
+          {Array.from(Array(24).keys()).map((num) => (
+            <div key={num} className="setting__row__wrap__field">
+              <label className="checkbox">
+                <input
+                  className="checkbox__input"
+                  type="checkbox"
+                  checked={hours.includes(num + 1)}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                    onChangeHour(e, num + 1);
+                  }}
+                />
+                <span className="checkbox__in">
+                  <span className="checkbox__tick"></span>
+                </span>
+              </label>
+              <span>{num + 1}:00</span>
+            </div>
+          ))}
         </div>
         <div className="setting__row">
           <div className="setting__field field">
@@ -245,31 +113,16 @@ const PlayerHire: FC = () => {
               Maximum hours can hire in one time:
             </div>
             <div className="field__wrap">
-              <select className="field__select">
-                <option>1 hour</option>
-                <option>2 hour</option>
-                <option>3 hour</option>
-                <option>4 hour</option>
-                <option>5 hour</option>
-                <option>6 hour</option>
-                <option>7 hour</option>
-                <option>8 hour</option>
-                <option>9 hour</option>
-                <option>10 hour</option>
-                <option>11 hour</option>
-                <option>12 hour</option>
-                <option>13 hour</option>
-                <option>14 hour</option>
-                <option>15 hour</option>
-                <option>16 hour</option>
-                <option>17 hour</option>
-                <option>18 hour</option>
-                <option>19 hour</option>
-                <option>20 hour</option>
-                <option>21 hour</option>
-                <option>22 hour</option>
-                <option>23 hour</option>
-                <option>24 hour</option>
+              <select
+                className="field__select"
+                defaultValue={userInfo?.playerInfo?.timeMaxHire || 1}
+                ref={maxHoursRef}
+              >
+                {Array.from(Array(24).keys()).map((num) => (
+                  <option key={num} value={num + 1}>
+                    {num + 1} hour
+                  </option>
+                ))}
               </select>
             </div>
           </div>
