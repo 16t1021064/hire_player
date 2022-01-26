@@ -36,7 +36,7 @@ const Profile: FC = () => {
   const onChangePassword = (event: MouseEvent) => {
     event.preventDefault();
     setVisible(false);
-    history.push(routesEnum.settingUserPassword);
+    history.push(routesEnum.settings_userPassword);
   };
 
   const onLogout = (event: MouseEvent) => {
@@ -48,7 +48,7 @@ const Profile: FC = () => {
   const onUser = (event: MouseEvent) => {
     event.preventDefault();
     setVisible(false);
-    history.push(routesEnum.settingUser);
+    history.push(routesEnum.settings_user);
   };
 
   return (

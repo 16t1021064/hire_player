@@ -35,7 +35,7 @@ const DonateReplied: FC<DonateRepliedProps> = ({ notif, fnClose }) => {
   const history = useHistory();
 
   const gotoList = () => {
-    history.push(routesEnum.settingUserDonateHistory);
+    history.push(routesEnum.settings_userDonates);
   };
 
   useEffect(() => {

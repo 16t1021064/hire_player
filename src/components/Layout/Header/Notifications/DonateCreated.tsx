@@ -35,7 +35,7 @@ const DonateCreated: FC<DonateCreatedProps> = ({ notif, fnClose }) => {
   const history = useHistory();
 
   const gotoList = () => {
-    history.push(routesEnum.settingPlayerDonateHistory);
+    history.push(routesEnum.settings_playerDonates);
   };
 
   useEffect(() => {
