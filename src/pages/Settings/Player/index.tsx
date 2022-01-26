@@ -1,8 +1,8 @@
-import { FC } from "react";
+import { FC, SyntheticEvent, useRef } from "react";
 import { useAppDispatch, useAppSelector } from "hooks/useRedux";
 import DefaultAvatar from "assets/images/default-avatar.jpg";
-import { Upload } from "antd";
-import { uploadAvatarRequest } from "api/players/request";
+import { message, Upload } from "antd";
+import { updateInfoRequest, uploadAvatarRequest } from "api/players/request";
 import { useMutation } from "react-query";
 import { setUserInfo } from "store/ducks/auth/slice";
 import SettingsLayout from "components/Layout/SettingsLayout";
@@ -10,12 +10,18 @@ import SettingsLayout from "components/Layout/SettingsLayout";
 const Player: FC = () => {
   const { userInfo } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
+  const nameRef = useRef<HTMLInputElement>(null);
+  const gamesRef = useRef<HTMLInputElement>(null);
+  const rankRef = useRef<HTMLInputElement>(null);
+  const hourPriceRef = useRef<HTMLInputElement>(null);
+  const descriptionRef = useRef<HTMLTextAreaElement>(null);
 
   const { mutate: uploadAvatar, status: uploadAvatarStatus } = useMutation(
     uploadAvatarRequest,
     {
       onSuccess: (data) => {
         dispatch(setUserInfo(data.data));
+        message.success("Update avatar success");
       },
     }
   );
@@ -28,9 +34,41 @@ const Player: FC = () => {
     return false;
   };
 
+  const { mutate: updateInfo, status: updateInfoStatus } = useMutation(
+    updateInfoRequest,
+    {
+      onSuccess: (data) => {
+        dispatch(setUserInfo(data.data));
+        message.success("Update success");
+      },
+    }
+  );
+
+  const onSubmit = (event: SyntheticEvent) => {
+    event.preventDefault();
+    if (
+      userInfo &&
+      updateInfoStatus !== "loading" &&
+      nameRef.current?.value &&
+      gamesRef.current?.value &&
+      rankRef.current?.value &&
+      hourPriceRef.current?.value &&
+      descriptionRef.current?.value
+    ) {
+      updateInfo({
+        id: userInfo.id,
+        playerName: nameRef.current.value,
+        gameName: gamesRef.current.value,
+        rank: rankRef.current.value,
+        costPerHour: parseFloat(hourPriceRef.current.value),
+        description: descriptionRef.current.value,
+      });
+    }
+  };
+
   return (
     <SettingsLayout>
-      <form className="setting__form">
+      <form className="setting__form" onSubmit={onSubmit}>
         <div className="setting__title h5">Player Info</div>
         <div className="setting__user">
           <div className="setting__category caption-sm">Your Avatar</div>
@@ -70,13 +108,23 @@ const Player: FC = () => {
             <div className="setting__field field">
               <div className="field__label">PLAYER NAME:</div>
               <div className="field__wrap">
-                <input className="field__input" type="text" />
+                <input
+                  className="field__input"
+                  type="text"
+                  ref={nameRef}
+                  defaultValue={userInfo?.playerInfo?.playerName}
+                />
               </div>
             </div>
             <div className="setting__field field">
               <div className="field__label">GAME NAME:</div>
               <div className="field__wrap">
-                <input className="field__input" type="text" />
+                <input
+                  className="field__input"
+                  type="text"
+                  ref={gamesRef}
+                  defaultValue={userInfo?.playerInfo?.gameName}
+                />
               </div>
             </div>
           </div>
@@ -84,20 +132,36 @@ const Player: FC = () => {
             <div className="setting__field field">
               <div className="field__label">TITLE OR RANK:</div>
               <div className="field__wrap">
-                <input className="field__input" type="text" />
+                <input
+                  className="field__input"
+                  type="text"
+                  ref={rankRef}
+                  defaultValue={userInfo?.playerInfo?.rank}
+                />
               </div>
             </div>
             <div className="setting__field field">
               <div className="field__label">COST PER HOUR:</div>
               <div className="field__wrap">
-                <input className="field__input" type="text" />
+                <input
+                  className="field__input"
+                  type="number"
+                  step={1}
+                  min={0}
+                  ref={hourPriceRef}
+                  defaultValue={userInfo?.playerInfo?.costPerHour || 0}
+                />
               </div>
             </div>
           </div>
           <div className="setting__field field">
             <div className="field__label">FULL DETAIL OF YOU:</div>
             <div className="field__wrap">
-              <textarea className="field__textarea"></textarea>
+              <textarea
+                className="field__textarea"
+                ref={descriptionRef}
+                defaultValue={userInfo?.playerInfo?.description}
+              ></textarea>
             </div>
           </div>
         </div>

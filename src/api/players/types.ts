@@ -57,3 +57,17 @@ export interface TUploadAvatarResponse {
   data: TUser;
   message: "UPLOAD_AVATAR_SUCCESS";
 }
+
+export interface TUpdateInfoRequest {
+  id: string;
+  playerName: string;
+  gameName: string;
+  rank: string;
+  costPerHour: number;
+  description: string;
+}
+
+export interface TUpdateInfoResponse {
+  data: TUser;
+  message: "UPDATE_PLAYER_INFO_SUCCESS";
+}

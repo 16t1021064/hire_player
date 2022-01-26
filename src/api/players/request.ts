@@ -5,6 +5,8 @@ import {
   TGetPlayersResponse,
   TRemoveImagesRequest,
   TRemoveImagesResponse,
+  TUpdateInfoRequest,
+  TUpdateInfoResponse,
   TUploadAvatarRequest,
   TUploadAvatarResponse,
   TUploadImagesRequest,
@@ -71,6 +73,16 @@ export const uploadAvatarRequest = async (
         "Content-type": "multipart/form-data",
       },
     }
+  );
+  return data;
+};
+
+export const updateInfoRequest = async (
+  request: TUpdateInfoRequest
+): Promise<TUpdateInfoResponse> => {
+  const { data } = await axiosInstance.put(
+    `/players/${request.id}/update-info`,
+    request
   );
   return data;
 };
