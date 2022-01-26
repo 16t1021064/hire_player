@@ -49,10 +49,10 @@ const menus: TMenu[] = [
 ];
 
 interface SidebarProps {
-  classSidebar?: string;
+  visible: boolean;
 }
 
-const Sidebar: FC<SidebarProps> = ({ classSidebar }) => {
+const Sidebar: FC<SidebarProps> = ({ visible }) => {
   const { isLogin } = useAppSelector((state) => state.auth);
   const { darkMode } = useAppSelector((state) => state.system);
   const dispatch = useAppDispatch();
@@ -67,7 +67,7 @@ const Sidebar: FC<SidebarProps> = ({ classSidebar }) => {
 
   return (
     <>
-      <div className={clsx("sidebar", classSidebar)}>
+      <div className={clsx("sidebar", visible && "visible")}>
         <div className="sidebar__top">
           <Link to={routesEnum.home} className="sidebar__logo">
             <img

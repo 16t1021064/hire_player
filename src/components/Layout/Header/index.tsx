@@ -1,68 +1,32 @@
-import { FC, MouseEvent, useEffect, useRef } from "react";
+import { FC, MouseEvent, useRef } from "react";
 import IonIcon from "@reacticons/ionicons";
 import { openPopup } from "utils/magnific";
 import Notifications from "./Notifications";
 import Profile from "./Profile";
 import { useAppSelector } from "hooks/useRedux";
 import { Socket } from "socket.io-client";
+import clsx from "clsx";
 
 interface HeaderProps {
   socketInstance: Socket | undefined;
   socketConnected: boolean;
+  visibleSidebar: boolean;
+  onChangeVisibleSidebar: (value: boolean) => void;
 }
 
-const Header: FC<HeaderProps> = ({ socketInstance, socketConnected }) => {
+const Header: FC<HeaderProps> = ({
+  socketInstance,
+  socketConnected,
+  visibleSidebar,
+  onChangeVisibleSidebar,
+}) => {
   const modalRechargeRef = useRef<HTMLDivElement | null>(null);
   const { userInfo, isLogin } = useAppSelector((state) => state.auth);
 
-  useEffect(() => {
-    // page
-    (function () {
-      // eslint-disable-next-line no-undef, @typescript-eslint/no-unused-vars
-      const page = $(".page");
-      // eslint-disable-next-line no-undef
-      const sidebar = $(".sidebar");
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const burger = sidebar.find(".sidebar__burger");
-      const close = sidebar.find(".sidebar__close");
-      // eslint-disable-next-line no-undef
-      const header = $(".header");
-      const burgerHeader = header.find(".header__burger");
-      const search = header.find(".header__search");
-      const openSearch = header.find(".header__item_search");
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      let items = header.find(".header__item");
-
-      openSearch.on("click", function (e) {
-        e.preventDefault();
-        burgerHeader.removeClass("active");
-        search.slideToggle();
-        sidebar.removeClass("visible");
-        // eslint-disable-next-line no-undef
-        $("html").removeClass("no-scroll");
-        // eslint-disable-next-line no-undef
-        $("body").removeClass("no-scroll");
-      });
-      burgerHeader.on("click", function () {
-        burgerHeader.toggleClass("active");
-        search.slideUp();
-        sidebar.toggleClass("visible");
-        // eslint-disable-next-line no-undef
-        $("html").toggleClass("no-scroll");
-        // eslint-disable-next-line no-undef
-        $("body").toggleClass("no-scroll");
-      });
-      close.on("click", function () {
-        burgerHeader.removeClass("active");
-        search.slideUp();
-        sidebar.removeClass("visible");
-        // eslint-disable-next-line no-undef
-        $("html").removeClass("no-scroll");
-        // eslint-disable-next-line no-undef
-        $("body").removeClass("no-scroll");
-      });
-    })();
-  });
+  const openSearch = () => {
+    // eslint-disable-next-line no-undef
+    $(".header__search").slideToggle();
+  };
 
   const onRecharge = (event: MouseEvent) => {
     event.preventDefault();
@@ -72,7 +36,12 @@ const Header: FC<HeaderProps> = ({ socketInstance, socketConnected }) => {
   return (
     <>
       <div className="header">
-        <button className="header__burger"></button>
+        <button
+          className={clsx("header__burger", visibleSidebar && "active")}
+          onClick={() => {
+            onChangeVisibleSidebar(!visibleSidebar);
+          }}
+        ></button>
         <form action="" className="header__search">
           <input
             type="text"
@@ -89,7 +58,10 @@ const Header: FC<HeaderProps> = ({ socketInstance, socketConnected }) => {
         {isLogin ? (
           <>
             <div className="header__control">
-              <a className="header__item header__item_search">
+              <a
+                className="header__item header__item_search"
+                onClick={openSearch}
+              >
                 <IonIcon
                   className="icon icon-search-outline"
                   name="search-outline"
