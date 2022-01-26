@@ -26,7 +26,7 @@ export enum routesEnum {
   settings_payments = "/settings/payments",
 
   settings_player = "/settings/player",
-  settings_playerAlbums = "/settings/player-donates",
+  settings_playerAlbums = "/settings/player-albums",
   settings_playerDonates = "/settings/player-donates",
   settings_playerHires = "/settings/player-hires",
   settings_playerHire = "/settings/player-hire",
