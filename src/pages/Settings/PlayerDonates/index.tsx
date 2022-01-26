@@ -1,6 +1,4 @@
 import { FC, useEffect, useState } from "react";
-import IonIcon from "@reacticons/ionicons";
-import SidebarSettings from "components/Layout/SidebarSettings";
 import { useMutation } from "react-query";
 import {
   getReceivedDonatesRequest,
@@ -13,6 +11,7 @@ import { Button, Col, Form, Input, message, Pagination, Row } from "antd";
 import { faReply } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Modal from "components/Modal";
+import SettingsLayout from "components/Layout/SettingsLayout";
 
 const PlayerDonates: FC = () => {
   const [donates, setDonates] = useState<TDonate[]>([]);
@@ -94,67 +93,52 @@ const PlayerDonates: FC = () => {
   };
 
   return (
-    <>
-      <div className="setting__menu__mobile">
-        <span className="setting__menu__outline">
-          <IonIcon className="icon icon-menu-outline" name="menu-outline" />
-        </span>
-        <span className="setting__menu__close">
-          <IonIcon className="icon icon-close-outline" name="close-outline" />
-        </span>
-      </div>
-      <div className="setting__body">
-        <div className="setting__sidebar">
-          <SidebarSettings />
-        </div>
-        <div className="setting__content">
-          <div className="setting__title h5">Received Donate</div>
-          <div className="settings_row">
-            <div className="table-reponsive">
-              <table className="table-latitude">
-                <thead>
-                  <tr>
-                    <th>DONATED AT</th>
-                    <th>FROM USER</th>
-                    <th>AMOUNT</th>
-                    <th>MESSAGE</th>
-                    <th>ACTION</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {donates.map((donate, pos: number) => (
-                    <tr key={pos}>
-                      <td>{moment(donate.createdAt).format(DATE_FORMAT)}</td>
-                      <td>{(donate.fromUser as TUser).userName}</td>
-                      <td>${donate.amount?.toFixed(2)}</td>
-                      <td>{donate.message}</td>
-                      <td>
-                        {!donate.replyMessage && (
-                          <a
-                            className="btn btn__small btn_gray btn_square"
-                            onClick={() => {
-                              fnReply(donate);
-                            }}
-                          >
-                            <FontAwesomeIcon
-                              icon={faReply}
-                              className="icon icon-trash-outline"
-                            />
-                          </a>
-                        )}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              <Pagination
-                current={pagination.page}
-                pageSize={pagination.limit}
-                total={pagination.totalResults}
-                onChange={onPaginate}
-              />
-            </div>
-          </div>
+    <SettingsLayout>
+      <div className="setting__title h5">Received Donate</div>
+      <div className="settings_row">
+        <div className="table-reponsive">
+          <table className="table-latitude">
+            <thead>
+              <tr>
+                <th>DONATED AT</th>
+                <th>FROM USER</th>
+                <th>AMOUNT</th>
+                <th>MESSAGE</th>
+                <th>ACTION</th>
+              </tr>
+            </thead>
+            <tbody>
+              {donates.map((donate, pos: number) => (
+                <tr key={pos}>
+                  <td>{moment(donate.createdAt).format(DATE_FORMAT)}</td>
+                  <td>{(donate.fromUser as TUser).userName}</td>
+                  <td>${donate.amount?.toFixed(2)}</td>
+                  <td>{donate.message}</td>
+                  <td>
+                    {!donate.replyMessage && (
+                      <a
+                        className="btn btn__small btn_gray btn_square"
+                        onClick={() => {
+                          fnReply(donate);
+                        }}
+                      >
+                        <FontAwesomeIcon
+                          icon={faReply}
+                          className="icon icon-trash-outline"
+                        />
+                      </a>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <Pagination
+            current={pagination.page}
+            pageSize={pagination.limit}
+            total={pagination.totalResults}
+            onChange={onPaginate}
+          />
         </div>
       </div>
       <Modal
@@ -196,7 +180,7 @@ const PlayerDonates: FC = () => {
           </Row>
         </Form>
       </Modal>
-    </>
+    </SettingsLayout>
   );
 };
 

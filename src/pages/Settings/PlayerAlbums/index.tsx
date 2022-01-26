@@ -1,12 +1,11 @@
 import { FC, useMemo, useState } from "react";
-import IonIcon from "@reacticons/ionicons";
-import SidebarSettings from "components/Layout/SidebarSettings";
 import { useAppDispatch, useAppSelector } from "hooks/useRedux";
 import { useMutation } from "react-query";
 import { removeImagesRequest, uploadImagesRequest } from "api/players/request";
 import { Button, Col, message, Row, Upload } from "antd";
 import Gallery, { TPhoto, TPhotoData } from "components/Gallery";
 import { setUserInfo } from "store/ducks/auth/slice";
+import SettingsLayout from "components/Layout/SettingsLayout";
 
 const PlayerAlbums: FC = () => {
   const { userInfo } = useAppSelector((state) => state.auth);
@@ -87,87 +86,72 @@ const PlayerAlbums: FC = () => {
   };
 
   return (
-    <>
-      <div className="setting__menu__mobile">
-        <span className="setting__menu__outline">
-          <IonIcon className="icon icon-menu-outline" name="menu-outline" />
-        </span>
-        <span className="setting__menu__close">
-          <IonIcon className="icon icon-close-outline" name="close-outline" />
-        </span>
-      </div>
-      <div className="setting__body">
-        <div className="setting__sidebar">
-          <SidebarSettings />
+    <SettingsLayout>
+      <form className="setting__form">
+        <div className="setting__title h5">Albums Player</div>
+        <div className="setting__btns">
+          <div className="setting__loading">
+            <Upload
+              beforeUpload={beforeUpload}
+              accept="image/*"
+              showUploadList={false}
+              maxCount={15}
+              multiple
+              disabled={
+                uploadImagesStatus === "loading" ||
+                isMax ||
+                removeImagesStatus === "loading"
+              }
+            >
+              <button type="button" className="btn btn_blue btn__small">
+                Upload images
+              </button>
+            </Upload>
+          </div>
+          {isMax && (
+            <span style={{ lineHeight: "46px" }}>
+              You have already reached max 15 images
+            </span>
+          )}
         </div>
-        <div className="setting__content">
-          <form className="setting__form">
-            <div className="setting__title h5">Albums Player</div>
-            <div className="setting__btns">
-              <div className="setting__loading">
-                <Upload
-                  beforeUpload={beforeUpload}
-                  accept="image/*"
-                  showUploadList={false}
-                  maxCount={15}
-                  multiple
-                  disabled={
-                    uploadImagesStatus === "loading" ||
-                    isMax ||
-                    removeImagesStatus === "loading"
+        <Row justify="end" gutter={[0, 0]}>
+          {!selectMode && (
+            <Col>
+              <Button type="primary" onClick={turnonSelectMode}>
+                Select images
+              </Button>
+            </Col>
+          )}
+          {selectMode && (
+            <>
+              <Col>
+                <Button
+                  type="primary"
+                  onClick={removeImages}
+                  loading={
+                    removeImagesStatus === "loading" ||
+                    uploadImagesStatus === "loading"
                   }
+                  danger
                 >
-                  <button type="button" className="btn btn_blue btn__small">
-                    Upload images
-                  </button>
-                </Upload>
-              </div>
-              {isMax && (
-                <span style={{ lineHeight: "46px" }}>
-                  You have already reached max 15 images
-                </span>
-              )}
-            </div>
-            <Row justify="end" gutter={[0, 0]}>
-              {!selectMode && (
-                <Col>
-                  <Button type="primary" onClick={turnonSelectMode}>
-                    Select images
-                  </Button>
-                </Col>
-              )}
-              {selectMode && (
-                <>
-                  <Col>
-                    <Button
-                      type="primary"
-                      onClick={removeImages}
-                      loading={
-                        removeImagesStatus === "loading" ||
-                        uploadImagesStatus === "loading"
-                      }
-                      danger
-                    >
-                      Remove
-                    </Button>
-                  </Col>
-                  <Col>
-                    <Button type="default" onClick={turnoffSelectMode}>
-                      Unselect images
-                    </Button>
-                  </Col>
-                </>
-              )}
-            </Row>
-            <Gallery
-              photos={photos}
-              enableSelect={selectMode}
-              onChangeData={setDataItems}
-            />
-          </form>
-        </div>
-      </div>
-    </>
+                  Remove
+                </Button>
+              </Col>
+              <Col>
+                <Button type="default" onClick={turnoffSelectMode}>
+                  Unselect images
+                </Button>
+              </Col>
+            </>
+          )}
+        </Row>
+        <Gallery
+          photos={photos}
+          enableSelect={selectMode}
+          onChangeData={setDataItems}
+        />
+      </form>
+    </SettingsLayout>
   );
 };
 
