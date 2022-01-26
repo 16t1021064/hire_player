@@ -2,7 +2,7 @@ import { FC } from "react";
 import IonIcon from "@reacticons/ionicons";
 import SidebarSettings from "components/Layout/SidebarSettings";
 
-const SettingBalance: FC = () => {
+const Balance: FC = () => {
   return (
     <>
       {" "}
@@ -103,4 +103,4 @@ const SettingBalance: FC = () => {
   );
 };
 
-export default SettingBalance;
+export default Balance;

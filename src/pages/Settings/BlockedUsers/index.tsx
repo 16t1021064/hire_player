@@ -2,7 +2,7 @@ import { FC } from "react";
 import IonIcon from "@reacticons/ionicons";
 import SidebarSettings from "components/Layout/SidebarSettings";
 
-const SettingBalanceFluctuation: FC = () => {
+const BlockedUsers: FC = () => {
   return (
     <>
       <div className="setting__menu__mobile">
@@ -18,30 +18,44 @@ const SettingBalanceFluctuation: FC = () => {
           <SidebarSettings />
         </div>
         <div className="setting__content">
-          <div className="setting__title h5">Balance fluctuations</div>
+          <div className="setting__title h5">Block users list</div>
           <div className="settings_row">
             <div className="table-reponsive">
               <table className="table-latitude">
                 <thead>
                   <tr>
-                    <th>TIME</th>
-                    <th>MONEY</th>
-                    <th>MESSAGE</th>
+                    <th>USER</th>
+                    <th>TIME BLOCK</th>
+                    <th>REASON</th>
+                    <th>ACTION</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td>19/11/2021 04:22:26</td>
-                    <td>+ $50,00</td>
+                    <td>Phan Vien</td>
+                    <td>19/11/2021</td>
+                    <td>BLOCK USER</td>
                     <td>
-                      <span>Cancel Duo</span>
+                      <button className="btn btn__small btn_gray btn_square">
+                        <IonIcon
+                          className="icon icon-trash-outline"
+                          name="trash-outline"
+                        />
+                      </button>
                     </td>
                   </tr>
                   <tr>
-                    <td>19/10/2021 04:22:26</td>
-                    <td>- $25,00</td>
+                    <td>Phan Vien</td>
+                    <td>19/11/2021</td>
+                    <td>BLOCK USER</td>
                     <td>
-                      <span>Rent player</span>
+                      {" "}
+                      <button className="btn btn__small btn_gray btn_square">
+                        <IonIcon
+                          className="icon icon-trash-outline"
+                          name="trash-outline"
+                        />
+                      </button>
                     </td>
                   </tr>
                 </tbody>
@@ -54,4 +68,4 @@ const SettingBalanceFluctuation: FC = () => {
   );
 };
 
-export default SettingBalanceFluctuation;
+export default BlockedUsers;

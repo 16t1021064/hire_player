@@ -2,7 +2,7 @@ import { FC } from "react";
 import IonIcon from "@reacticons/ionicons";
 import SidebarSettings from "components/Layout/SidebarSettings";
 
-const SettingUserPassword: FC = () => {
+const UserPassword: FC = () => {
   return (
     <>
       <div className="setting__menu__mobile">
@@ -48,4 +48,4 @@ const SettingUserPassword: FC = () => {
   );
 };
 
-export default SettingUserPassword;
+export default UserPassword;

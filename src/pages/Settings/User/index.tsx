@@ -3,7 +3,7 @@ import IonIcon from "@reacticons/ionicons";
 import SidebarSettings from "components/Layout/SidebarSettings";
 import AvaTuongImage from "img/ava-tuong.jpeg";
 
-const SettingUser: FC = () => {
+const User: FC = () => {
   return (
     <>
       <div className="setting__menu__mobile">
@@ -69,4 +69,4 @@ const SettingUser: FC = () => {
   );
 };
 
-export default SettingUser;
+export default User;

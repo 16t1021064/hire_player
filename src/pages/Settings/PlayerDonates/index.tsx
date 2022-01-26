@@ -14,7 +14,7 @@ import { faReply } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Modal from "components/Modal";
 
-const SettingPlayerDonateHistory: FC = () => {
+const PlayerDonates: FC = () => {
   const [donates, setDonates] = useState<TDonate[]>([]);
   const [pagination, setPagination] = useState<TPagination>({
     limit: 10,
@@ -200,4 +200,4 @@ const SettingPlayerDonateHistory: FC = () => {
   );
 };
 
-export default SettingPlayerDonateHistory;
+export default PlayerDonates;

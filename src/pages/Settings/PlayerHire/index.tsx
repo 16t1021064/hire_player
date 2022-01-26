@@ -2,7 +2,7 @@ import { FC } from "react";
 import IonIcon from "@reacticons/ionicons";
 import SidebarSettings from "components/Layout/SidebarSettings";
 
-const SettingPlayerHire: FC = () => {
+const PlayerHire: FC = () => {
   return (
     <>
       <div className="setting__menu__mobile">
@@ -302,4 +302,4 @@ const SettingPlayerHire: FC = () => {
   );
 };
 
-export default SettingPlayerHire;
+export default PlayerHire;

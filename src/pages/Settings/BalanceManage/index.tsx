@@ -2,7 +2,7 @@ import { FC } from "react";
 import IonIcon from "@reacticons/ionicons";
 import SidebarSettings from "components/Layout/SidebarSettings";
 
-const SettingPlayerHireHistory: FC = () => {
+const BalanceManage: FC = () => {
   return (
     <>
       <div className="setting__menu__mobile">
@@ -18,41 +18,30 @@ const SettingPlayerHireHistory: FC = () => {
           <SidebarSettings />
         </div>
         <div className="setting__content">
-          <div className="setting__title h5">Received Hire</div>
+          <div className="setting__title h5">Balance fluctuations</div>
           <div className="settings_row">
             <div className="table-reponsive">
               <table className="table-latitude">
                 <thead>
                   <tr>
-                    <th>HIRE CODE</th>
-                    <th>CREATED AT</th>
-                    <th>USER</th>
-                    <th>STATUS</th>
+                    <th>TIME</th>
+                    <th>MONEY</th>
+                    <th>MESSAGE</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td>125e5448f0e01e</td>
-                    <td>19/11/2021</td>
-                    <td>Phan Vien</td>
+                    <td>19/11/2021 04:22:26</td>
+                    <td>+ $50,00</td>
                     <td>
-                      <span className="text__red text__bold">Cancelled</span>
+                      <span>Cancel Duo</span>
                     </td>
                   </tr>
                   <tr>
-                    <td>125e5448f0e01e</td>
-                    <td>19/11/2021</td>
-                    <td>Phan Vien</td>
+                    <td>19/10/2021 04:22:26</td>
+                    <td>- $25,00</td>
                     <td>
-                      <span className="text__green text__bold">Completed</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>125e5448f0e01e</td>
-                    <td>19/11/2021</td>
-                    <td>Phan Vien</td>
-                    <td>
-                      <span className="text__green text__bold">Completed</span>
+                      <span>Rent player</span>
                     </td>
                   </tr>
                 </tbody>
@@ -65,4 +54,4 @@ const SettingPlayerHireHistory: FC = () => {
   );
 };
 
-export default SettingPlayerHireHistory;
+export default BalanceManage;

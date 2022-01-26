@@ -8,7 +8,7 @@ import { Button, Col, message, Row, Upload } from "antd";
 import Gallery, { TPhoto, TPhotoData } from "components/Gallery";
 import { setUserInfo } from "store/ducks/auth/slice";
 
-const SettingPlayerAlbums: FC = () => {
+const PlayerAlbums: FC = () => {
   const { userInfo } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
   const [selectMode, setSelectMode] = useState<boolean>(false);
@@ -171,4 +171,4 @@ const SettingPlayerAlbums: FC = () => {
   );
 };
 
-export default SettingPlayerAlbums;
+export default PlayerAlbums;

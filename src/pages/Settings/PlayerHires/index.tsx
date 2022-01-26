@@ -2,7 +2,7 @@ import { FC } from "react";
 import IonIcon from "@reacticons/ionicons";
 import SidebarSettings from "components/Layout/SidebarSettings";
 
-const SettingBlockUsers: FC = () => {
+const PlayerHires: FC = () => {
   return (
     <>
       <div className="setting__menu__mobile">
@@ -18,44 +18,41 @@ const SettingBlockUsers: FC = () => {
           <SidebarSettings />
         </div>
         <div className="setting__content">
-          <div className="setting__title h5">Block users list</div>
+          <div className="setting__title h5">Received Hire</div>
           <div className="settings_row">
             <div className="table-reponsive">
               <table className="table-latitude">
                 <thead>
                   <tr>
+                    <th>HIRE CODE</th>
+                    <th>CREATED AT</th>
                     <th>USER</th>
-                    <th>TIME BLOCK</th>
-                    <th>REASON</th>
-                    <th>ACTION</th>
+                    <th>STATUS</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td>Phan Vien</td>
+                    <td>125e5448f0e01e</td>
                     <td>19/11/2021</td>
-                    <td>BLOCK USER</td>
+                    <td>Phan Vien</td>
                     <td>
-                      <button className="btn btn__small btn_gray btn_square">
-                        <IonIcon
-                          className="icon icon-trash-outline"
-                          name="trash-outline"
-                        />
-                      </button>
+                      <span className="text__red text__bold">Cancelled</span>
                     </td>
                   </tr>
                   <tr>
-                    <td>Phan Vien</td>
+                    <td>125e5448f0e01e</td>
                     <td>19/11/2021</td>
-                    <td>BLOCK USER</td>
+                    <td>Phan Vien</td>
                     <td>
-                      {" "}
-                      <button className="btn btn__small btn_gray btn_square">
-                        <IonIcon
-                          className="icon icon-trash-outline"
-                          name="trash-outline"
-                        />
-                      </button>
+                      <span className="text__green text__bold">Completed</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>125e5448f0e01e</td>
+                    <td>19/11/2021</td>
+                    <td>Phan Vien</td>
+                    <td>
+                      <span className="text__green text__bold">Completed</span>
                     </td>
                   </tr>
                 </tbody>
@@ -68,4 +65,4 @@ const SettingBlockUsers: FC = () => {
   );
 };
 
-export default SettingBlockUsers;
+export default PlayerHires;

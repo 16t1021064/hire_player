@@ -2,7 +2,7 @@ import { FC } from "react";
 import IonIcon from "@reacticons/ionicons";
 import SidebarSettings from "components/Layout/SidebarSettings";
 
-const SettingUserHireHistory: FC = () => {
+const UserHires: FC = () => {
   return (
     <>
       <div className="setting__menu__mobile">
@@ -65,4 +65,4 @@ const SettingUserHireHistory: FC = () => {
   );
 };
 
-export default SettingUserHireHistory;
+export default UserHires;

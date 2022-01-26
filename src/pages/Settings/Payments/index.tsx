@@ -2,7 +2,7 @@ import { FC } from "react";
 import IonIcon from "@reacticons/ionicons";
 import SidebarSettings from "components/Layout/SidebarSettings";
 
-const SettingPayments: FC = () => {
+const Payments: FC = () => {
   return (
     <>
       <div className="setting__menu__mobile">
@@ -40,4 +40,4 @@ const SettingPayments: FC = () => {
   );
 };
 
-export default SettingPayments;
+export default Payments;

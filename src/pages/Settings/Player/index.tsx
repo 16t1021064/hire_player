@@ -8,7 +8,7 @@ import { uploadAvatarRequest } from "api/players/request";
 import { useMutation } from "react-query";
 import { setUserInfo } from "store/ducks/auth/slice";
 
-const SettingPlayer: FC = () => {
+const Player: FC = () => {
   const { userInfo } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
 
@@ -127,4 +127,4 @@ const SettingPlayer: FC = () => {
   );
 };
 
-export default SettingPlayer;
+export default Player;

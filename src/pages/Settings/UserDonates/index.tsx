@@ -8,7 +8,7 @@ import moment from "moment";
 import { DATE_FORMAT } from "utils/format";
 import { Pagination } from "antd";
 
-const SettingUserDonateHistory: FC = () => {
+const UserDonates: FC = () => {
   const [donates, setDonates] = useState<TDonate[]>([]);
   const [pagination, setPagination] = useState<TPagination>({
     limit: 10,
@@ -98,4 +98,4 @@ const SettingUserDonateHistory: FC = () => {
   );
 };
 
-export default SettingUserDonateHistory;
+export default UserDonates;
