@@ -85,6 +85,10 @@ const PlayerAlbums: FC = () => {
     }
   };
 
+  const maxCount = useMemo(() => {
+    return 15 - (userInfo?.playerInfo?.images || []).length;
+  }, [userInfo]);
+
   return (
     <SettingsLayout>
       <form className="setting__form">
@@ -95,7 +99,7 @@ const PlayerAlbums: FC = () => {
               beforeUpload={beforeUpload}
               accept="image/*"
               showUploadList={false}
-              maxCount={15}
+              maxCount={maxCount}
               multiple
               disabled={
                 uploadImagesStatus === "loading" ||

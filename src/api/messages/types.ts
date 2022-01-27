@@ -1,4 +1,4 @@
-import { TBodyMessage, TConversation, TMessage, TUser } from "types";
+import { TBodyMessage, TConversation, TImage, TMessage, TUser } from "types";
 
 export interface TGetMessagesRequest {
   id: string; // conversation id
@@ -43,4 +43,16 @@ export interface TReadMessagesRequest {
 
 export interface TReadMessagesResponse {
   message: "READER_MESSAGES_SUCCESS";
+}
+
+export interface TUploadImagesRequest {
+  id: string;
+  images: File[];
+}
+
+export interface TUploadImagesResponse {
+  data: {
+    files: TImage[];
+  };
+  message: "UPLOAD_IMAGES_CHAT_SUCCESS";
 }

@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef, useState } from "react";
+import { FC, useEffect, useMemo, useRef, useState } from "react";
 import ReactNotification from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
 import Header from "./Header";
@@ -25,6 +25,11 @@ const Layout: FC = ({ children }) => {
   >(null);
   const { darkMode } = useAppSelector((state) => state.system);
   const [visibleSidebar, setVisibleSidebar] = useState<boolean>(false);
+
+  const noLayout = useMemo(() => {
+    const blackList: string[] = [];
+    return blackList.includes(location.pathname);
+  }, [location]);
 
   useEffect(() => {
     if (connected && userInfo) {
@@ -89,14 +94,16 @@ const Layout: FC = ({ children }) => {
       <ReactNotification />
 
       <div className="page">
-        <Sidebar visible={visibleSidebar} />
+        {!noLayout && <Sidebar visible={visibleSidebar} />}
         <div className="page__wrapper">
-          <Header
-            visibleSidebar={visibleSidebar}
-            onChangeVisibleSidebar={setVisibleSidebar}
-            socketInstance={socket}
-            socketConnected={connected}
-          />
+          {!noLayout && (
+            <Header
+              visibleSidebar={visibleSidebar}
+              onChangeVisibleSidebar={setVisibleSidebar}
+              socketInstance={socket}
+              socketConnected={connected}
+            />
+          )}
           {children}
         </div>
       </div>

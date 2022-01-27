@@ -6,6 +6,8 @@ import {
   TGetMessagesResponse,
   TReadMessagesRequest,
   TReadMessagesResponse,
+  TUploadImagesRequest,
+  TUploadImagesResponse,
 } from "./types";
 
 export const getMessagesRequest = async (
@@ -35,6 +37,25 @@ export const readMessagesRequest = async (
 ): Promise<TReadMessagesResponse> => {
   const { data } = await axiosInstance.post(
     `/conversations/${request.id}/message/readers`
+  );
+  return data;
+};
+
+export const uploadImagesRequest = async (
+  request: TUploadImagesRequest
+): Promise<TUploadImagesResponse> => {
+  const formData = new FormData();
+  request.images.forEach((image: File) => {
+    formData.append("images", image);
+  });
+  const { data } = await axiosInstance.put(
+    `/service-upload/upload-images-chat`,
+    formData,
+    {
+      headers: {
+        "Content-type": "multipart/form-data",
+      },
+    }
   );
   return data;
 };

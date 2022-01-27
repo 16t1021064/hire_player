@@ -100,7 +100,7 @@ export interface TReview {
 }
 
 export interface TBodyMessage {
-  attachments?: any[];
+  attachments?: TImage[];
   content?: string;
 }
 export interface TMessage {

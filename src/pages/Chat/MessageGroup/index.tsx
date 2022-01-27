@@ -2,13 +2,14 @@ import { FC } from "react";
 import DefaultAvatar from "assets/images/default-avatar.jpg";
 import Message from "./Message";
 import TimeAgo from "react-timeago";
+import { TBodyMessage } from "types";
 
 export interface TMessageGroup {
   avatar?: string;
   senderId?: string;
   name?: string;
   time?: string;
-  messages?: string[];
+  messages?: TBodyMessage[];
 }
 
 interface MessageGroupProps {
@@ -34,7 +35,7 @@ const MessageGroup: FC<MessageGroupProps> = ({ group }) => {
         </div>
         <div className="chat_messenger__group">
           {group?.messages?.map((message, num: number) => (
-            <Message key={num}>{message}</Message>
+            <Message key={num} body={message} />
           ))}
         </div>
       </div>

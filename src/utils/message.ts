@@ -14,6 +14,10 @@ export const generateGroups = (messages: TMessage[]): TMessageGroup[] => {
     const prevPos = groups?.length > 0 ? groups.length - 1 : undefined;
     const sender = (message?.sender as TUser) || undefined;
 
+    if (!message?.body) {
+      return groups;
+    }
+
     // inital array is empty, add new group
     if (!prevPos) {
       groups.push({
@@ -21,7 +25,7 @@ export const generateGroups = (messages: TMessage[]): TMessageGroup[] => {
         senderId: sender?.id,
         name: sender?.userName,
         time: message?.createdAt,
-        messages: [message?.body?.content || ""],
+        messages: [message.body],
       });
       return groups;
     }
@@ -39,7 +43,7 @@ export const generateGroups = (messages: TMessage[]): TMessageGroup[] => {
     if (diff < MILISECONDS_DIFF && sender?.id === groups[prevPos]?.senderId) {
       // within period, add message to group
       groups[prevPos].time = createdAt;
-      groups[prevPos]?.messages?.push(message?.body?.content || "");
+      groups[prevPos]?.messages?.push(message.body);
     } else {
       // out of period, add new group
       groups.push({
@@ -47,7 +51,7 @@ export const generateGroups = (messages: TMessage[]): TMessageGroup[] => {
         senderId: sender?.id,
         name: sender?.userName,
         time: message?.createdAt,
-        messages: [message?.body?.content || ""],
+        messages: [message.body],
       });
     }
 
