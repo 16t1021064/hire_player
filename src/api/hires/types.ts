@@ -1,3 +1,4 @@
+import { TPaginationRequest, TPaginationResponse } from "api/types";
 import { TConversation, THire } from "types";
 
 export interface TCreateHireRequest {
@@ -85,4 +86,22 @@ export interface TAdminRefundRequest {
 export interface TAdminRefundResponse {
   data: THire;
   message: "ADMIN_CANCEL_HIRE_SUCCESS";
+}
+
+export type TGetSentHiresRequest = TPaginationRequest;
+
+export interface TGetSentHiresResponse {
+  data: TPaginationResponse & {
+    results: THire[];
+  };
+  message: "GET_LIST_HIRES_SUCCESS";
+}
+
+export type TGetReceivedHiresRequest = TPaginationRequest;
+
+export interface TGetReceivedHiresResponse {
+  data: TPaginationResponse & {
+    results: THire[];
+  };
+  message: "GET_LIST_RECEIVE_HIRES_SUCCESS";
 }

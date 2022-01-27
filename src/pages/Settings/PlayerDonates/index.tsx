@@ -27,9 +27,8 @@ const PlayerDonates: FC = () => {
   );
   const [replyForm] = Form.useForm();
 
-  const { mutate: getReceivedDonates } = useMutation(
-    getReceivedDonatesRequest,
-    {
+  const { mutate: getReceivedDonates, status: getReceivedDonatesStatus } =
+    useMutation(getReceivedDonatesRequest, {
       onSuccess: (data) => {
         setDonates(data.data.results);
         setPagination({
@@ -40,8 +39,7 @@ const PlayerDonates: FC = () => {
           totalResults: data.data.totalResults,
         });
       },
-    }
-  );
+    });
 
   useEffect(() => {
     getReceivedDonates({
@@ -52,11 +50,13 @@ const PlayerDonates: FC = () => {
   }, []);
 
   const onPaginate = (page: number) => {
-    getReceivedDonates({
-      page: page,
-      limit: pagination.limit,
-      populate: "fromUser",
-    });
+    if (getReceivedDonatesStatus !== "loading") {
+      getReceivedDonates({
+        page: page,
+        limit: pagination.limit,
+        populate: "fromUser",
+      });
+    }
   };
 
   const onCloseModal = () => {

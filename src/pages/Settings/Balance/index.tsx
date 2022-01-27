@@ -1,13 +1,16 @@
 import { FC } from "react";
 import IonIcon from "@reacticons/ionicons";
 import SettingsLayout from "components/Layout/SettingsLayout";
+import { useAppSelector } from "hooks/useRedux";
+import { formatMoney } from "utils/format";
 
 const Balance: FC = () => {
+  const { userInfo } = useAppSelector((state) => state.auth);
   return (
     <SettingsLayout>
       <div className="setting__title h5">Current balance</div>
       <div className="setting__balance">
-        <div className="h2 text__blue">$50</div>
+        <div className="h2 text__blue">{formatMoney(userInfo?.money || 0)}</div>
         <a
           className="js-popup-open btn btn__xs__small btn_primary"
           href="#popup-recharge"

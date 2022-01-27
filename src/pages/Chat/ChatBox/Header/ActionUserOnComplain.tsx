@@ -36,7 +36,7 @@ const ActionUserOnComplain: FC<ActionUserOnComplainProps> = ({
     if (
       hire &&
       userId === userInfo?.id &&
-      hire.hireStep === HireStepsEnum.USER_COMPLAIN
+      hire.hireStep === HireStepsEnum.USER_COMPLAINED
     ) {
       return true;
     } else {

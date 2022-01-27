@@ -40,7 +40,7 @@ const RatingModal: FC<RatingModalProps> = ({
       !userInfo ||
       userId !== userInfo.id ||
       !data ||
-      data.hireStep !== HireStepsEnum.HIRE_COMPLETE
+      data.hireStep !== HireStepsEnum.HIRE_COMPLETED
     ) {
       return;
     }

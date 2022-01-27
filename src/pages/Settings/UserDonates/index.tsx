@@ -16,18 +16,21 @@ const UserDonates: FC = () => {
     totalResults: 0,
   });
 
-  const { mutate: getSentDonates } = useMutation(getSentDonatesRequest, {
-    onSuccess: (data) => {
-      setDonates(data.data.results);
-      setPagination({
-        ...pagination,
-        limit: data.data.limit,
-        page: data.data.page,
-        totalPages: data.data.totalPages,
-        totalResults: data.data.totalResults,
-      });
-    },
-  });
+  const { mutate: getSentDonates, status: getSentDonatesStatus } = useMutation(
+    getSentDonatesRequest,
+    {
+      onSuccess: (data) => {
+        setDonates(data.data.results);
+        setPagination({
+          ...pagination,
+          limit: data.data.limit,
+          page: data.data.page,
+          totalPages: data.data.totalPages,
+          totalResults: data.data.totalResults,
+        });
+      },
+    }
+  );
 
   useEffect(() => {
     getSentDonates({
@@ -38,11 +41,13 @@ const UserDonates: FC = () => {
   }, []);
 
   const onPaginate = (page: number) => {
-    getSentDonates({
-      page: page,
-      limit: pagination.limit,
-      populate: "toUser",
-    });
+    if (getSentDonatesStatus !== "loading") {
+      getSentDonates({
+        page: page,
+        limit: pagination.limit,
+        populate: "toUser",
+      });
+    }
   };
 
   return (

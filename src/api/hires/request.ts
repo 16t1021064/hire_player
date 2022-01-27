@@ -6,6 +6,10 @@ import {
   TCreateHireResponse,
   TGetHireRequest,
   TGetHireResponse,
+  TGetReceivedHiresRequest,
+  TGetReceivedHiresResponse,
+  TGetSentHiresRequest,
+  TGetSentHiresResponse,
   TPlayerAcceptHireRequest,
   TPlayerAcceptHireResponse,
   TPlayerCancelHireRequest,
@@ -84,5 +88,23 @@ export const adminRefundRequest = async (
   request: TAdminRefundRequest
 ): Promise<TAdminRefundResponse> => {
   const { data } = await axiosInstance.put(`/hires/${request.id}/refund`);
+  return data;
+};
+
+export const getReceivedHiresRequest = async (
+  request: TGetReceivedHiresRequest
+): Promise<TGetReceivedHiresResponse> => {
+  const { data } = await axiosInstance.get(`/hires/receive`, {
+    params: request,
+  });
+  return data;
+};
+
+export const getSentHiresRequest = async (
+  request: TGetSentHiresRequest
+): Promise<TGetSentHiresResponse> => {
+  const { data } = await axiosInstance.get(`/hires`, {
+    params: request,
+  });
   return data;
 };

@@ -140,8 +140,8 @@ export enum HireStepsEnum {
   PLAYER_ACCEPTED = 2,
   PLAYER_DENIED = 3,
   USER_CANCELED = 4,
-  HIRE_COMPLETE = 5,
-  USER_COMPLAIN = 6,
+  HIRE_COMPLETED = 5,
+  USER_COMPLAINED = 6,
   ADMIN_REFUNDED = 7,
 }
 export type THireSteps = 1 | 2 | 3 | 4 | 5 | 6 | 7;
