@@ -36,6 +36,7 @@ const PlayerHires: FC = () => {
       page: 1,
       limit: pagination.limit,
       populate: "customer",
+      sortBy: "createdAt:desc",
     });
   }, []);
 
@@ -45,6 +46,7 @@ const PlayerHires: FC = () => {
         page: page,
         limit: pagination.limit,
         populate: "customer",
+        sortBy: "createdAt:desc",
       });
     }
   };

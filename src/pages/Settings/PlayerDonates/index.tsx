@@ -46,6 +46,7 @@ const PlayerDonates: FC = () => {
       page: 1,
       limit: pagination.limit,
       populate: "fromUser",
+      sortBy: "createdAt:desc",
     });
   }, []);
 
@@ -55,6 +56,7 @@ const PlayerDonates: FC = () => {
         page: page,
         limit: pagination.limit,
         populate: "fromUser",
+        sortBy: "createdAt:desc",
       });
     }
   };

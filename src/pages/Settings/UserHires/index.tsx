@@ -38,6 +38,7 @@ const UserHires: FC = () => {
       page: 1,
       limit: pagination.limit,
       populate: "player",
+      sortBy: "createdAt:desc",
     });
   }, []);
 
@@ -46,7 +47,8 @@ const UserHires: FC = () => {
       getSentHires({
         page: page,
         limit: pagination.limit,
-        populate: "customer",
+        populate: "player",
+        sortBy: "createdAt:desc",
       });
     }
   };
