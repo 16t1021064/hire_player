@@ -23,7 +23,7 @@ const ImageItem: FC<ImageItemProps> = ({
 
   return (
     <div className={styles.wrap}>
-      <Image width={200} height={200} src={src} />
+      <Image style={{ maxHeight: "200px" }} src={src} />
       {enableSelect && (
         <div
           className={clsx(styles.selector, selected && styles.selected)}
