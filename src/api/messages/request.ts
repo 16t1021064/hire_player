@@ -48,7 +48,7 @@ export const uploadImagesRequest = async (
   request.images.forEach((image: File) => {
     formData.append("images", image);
   });
-  const { data } = await axiosInstance.put(
+  const { data } = await axiosInstance.post(
     `/service-upload/upload-images-chat`,
     formData,
     {

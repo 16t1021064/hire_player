@@ -13,10 +13,9 @@ const Message: FC<MessageProps> = ({ body }) => {
         {body.attachments?.map((attachment, pos: number) => (
           <Image
             key={pos}
-            width={50}
-            height={50}
             src={attachment.link}
             alt={attachment.filename}
+            style={{ maxWidth: "100%", maxHeight: "300px" }}
           />
         ))}
       </div>

@@ -5,7 +5,7 @@ import {
   uploadImagesRequest,
 } from "api/messages/request";
 import { useAppSelector } from "hooks/useRedux";
-import { TConvertedConversation, TImage } from "types";
+import { TConvertedConversation } from "types";
 import {
   forwardRef,
   SyntheticEvent,
@@ -16,6 +16,8 @@ import {
 } from "react";
 import { useMutation } from "react-query";
 import { Upload } from "antd";
+import styles from "./index.module.sass";
+import clsx from "clsx";
 
 export interface FooterMethods {
   focus: () => void;
@@ -29,7 +31,6 @@ const Footer = forwardRef<FooterMethods, FooterProps>(({ conv }, ref) => {
   const userInfo = useAppSelector((state) => state.auth.userInfo);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [focusText, setFocusText] = useState<boolean>(false);
-  const [currentImages, setCurrentImages] = useState<TImage[]>([]);
 
   const { mutate: createMessage, status: createMessageStatus } =
     useMutation(createMessageRequest);
@@ -45,12 +46,10 @@ const Footer = forwardRef<FooterMethods, FooterProps>(({ conv }, ref) => {
         id: conv.id,
         body: {
           content: inputRef.current.value,
-          attachments: currentImages,
         },
         senderId: userInfo.id,
       });
       inputRef.current.value = "";
-      setCurrentImages([]);
     }
   };
 
@@ -66,50 +65,41 @@ const Footer = forwardRef<FooterMethods, FooterProps>(({ conv }, ref) => {
     },
   }));
 
-  const countSentFilesRef = useRef<number>(0);
-  const countReturnedFilesRef = useRef<number>(0);
-
   const { mutate: uploadImages, status: uploadImagesStatus } = useMutation(
     uploadImagesRequest,
     {
-      onSettled: (data) => {
-        countReturnedFilesRef.current++;
-        if (countReturnedFilesRef.current === countSentFilesRef.current) {
-          setCurrentImages(data?.data.files || []);
-          countSentFilesRef.current = 0;
-          countReturnedFilesRef.current = 0;
+      onSuccess: (data) => {
+        if (!userInfo) {
+          return;
         }
+        createMessage({
+          id: conv.id,
+          senderId: userInfo.id,
+          body: {
+            attachments: data.data.files,
+          },
+        });
       },
     }
   );
 
-  const beforeUpload = (file: File, files: File[]) => {
-    countSentFilesRef.current = files.length;
+  const beforeUpload = (file: File) => {
     uploadImages({
       id: userInfo?.id || "",
-      images: files,
+      images: [file],
     });
     return false;
   };
 
   return (
-    <form className="chat_messenger__foot" onSubmit={onSubmit}>
-      <input
-        type="text"
-        placeholder="Send a message…"
-        className="chat_messenger__input"
-        onFocus={() => {
-          setFocusText(true);
-        }}
-        onBlur={() => {
-          setFocusText(false);
-        }}
-        ref={inputRef}
-      />
-      <button type="submit" className="chat_messenger__btn btn btn_primary">
-        Send
-      </button>
-      <button type="button" className="chat_messenger__smile">
+    <form
+      className={clsx("chat_messenger__foot", styles.wrap)}
+      onSubmit={onSubmit}
+    >
+      <button
+        type="button"
+        className={clsx("chat_messenger__smile", styles.btnIcon)}
+      >
         <IonIcon className="icon icon-happy-outline" name="happy-outline" />
       </button>
       <Upload
@@ -121,14 +111,41 @@ const Footer = forwardRef<FooterMethods, FooterProps>(({ conv }, ref) => {
         disabled={
           uploadImagesStatus === "loading" || createMessageStatus === "loading"
         }
+        className={styles.btnUploadWrap}
       >
-        <button type="button" className="chat_messenger__smile">
+        <button
+          type="button"
+          className={clsx("chat_messenger__smile", styles.btnUpload)}
+        >
           <IonIcon
             className="icon icon-cloud-upload-outline"
             name="cloud-upload-outline"
           />
         </button>
       </Upload>
+      <input
+        type="text"
+        placeholder="Send a message…"
+        className={clsx("chat_messenger__input", styles.input)}
+        onFocus={() => {
+          setFocusText(true);
+        }}
+        onBlur={() => {
+          setFocusText(false);
+        }}
+        ref={inputRef}
+      />
+      <button
+        type="submit"
+        className={clsx(
+          "chat_messenger__btn",
+          "btn",
+          "btn_primary",
+          styles.btnSend
+        )}
+      >
+        Send
+      </button>
     </form>
   );
 });
