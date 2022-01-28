@@ -89,12 +89,18 @@ const Layout: FC = ({ children }) => {
     socket?.on(SocketListeners.onMessages, handleOnMessagesRef.current);
   }, [connected, location]);
 
+  const onCloseSidebar = () => {
+    setVisibleSidebar(false);
+  };
+
   return (
     <ConfigProvider>
       <ReactNotification />
 
       <div className="page">
-        {!noLayout && <Sidebar visible={visibleSidebar} />}
+        {!noLayout && (
+          <Sidebar visible={visibleSidebar} onClose={onCloseSidebar} />
+        )}
         <div className="page__wrapper">
           {!noLayout && (
             <Header

@@ -1,4 +1,4 @@
-import { ChangeEvent, FC } from "react";
+import { ChangeEvent, FC, MouseEvent } from "react";
 import clsx from "clsx";
 import IonIcon from "@reacticons/ionicons";
 import Logo from "img/logo.png";
@@ -50,9 +50,10 @@ const menus: TMenu[] = [
 
 interface SidebarProps {
   visible: boolean;
+  onClose: () => void;
 }
 
-const Sidebar: FC<SidebarProps> = ({ visible }) => {
+const Sidebar: FC<SidebarProps> = ({ visible, onClose }) => {
   const { isLogin } = useAppSelector((state) => state.auth);
   const { darkMode } = useAppSelector((state) => state.system);
   const dispatch = useAppDispatch();
@@ -62,6 +63,13 @@ const Sidebar: FC<SidebarProps> = ({ visible }) => {
       dispatch(setDarkMode("on"));
     } else {
       dispatch(setDarkMode("off"));
+    }
+  };
+
+  const onCloseClick = (e: MouseEvent) => {
+    e.preventDefault();
+    if (onClose) {
+      onClose();
     }
   };
 
@@ -82,7 +90,7 @@ const Sidebar: FC<SidebarProps> = ({ visible }) => {
             />
           </Link>
           <button className="sidebar__burger"></button>
-          <button className="sidebar__close">
+          <button className="sidebar__close" onClick={onCloseClick}>
             <IonIcon className="icon icon-close-outline" name="close-outline" />
           </button>
         </div>
