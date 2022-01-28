@@ -1,9 +1,11 @@
 import { message } from "antd";
 import { createHireRequest } from "api/hires/request";
 import Modal from "components/Modal";
+import { useAppSelector } from "hooks/useRedux";
 import { FC, SyntheticEvent, useRef } from "react";
 import { useMutation } from "react-query";
 import { TUser } from "types";
+import { formatMoney } from "utils/format";
 
 interface HireModalProps {
   player: TUser;
@@ -14,6 +16,7 @@ interface HireModalProps {
 const HireModal: FC<HireModalProps> = ({ player, visible, onClose }) => {
   const hireHoursRef = useRef<HTMLSelectElement | null>(null);
   const messageRef = useRef<HTMLTextAreaElement | null>(null);
+  const { userInfo } = useAppSelector((state) => state.auth);
 
   const { mutate: createHire, status: createHireStatus } = useMutation(
     createHireRequest,
@@ -51,7 +54,7 @@ const HireModal: FC<HireModalProps> = ({ player, visible, onClose }) => {
             <div className="popup__field field">
               <div className="field__label">Time to rent</div>
               <div className="field__wrap">
-                <select id="" className="field__select" ref={hireHoursRef}>
+                <select className="field__select" ref={hireHoursRef}>
                   {Array.from(
                     Array(player?.playerInfo?.timeMaxHire || 0).keys()
                   ).map((num) => (
@@ -73,7 +76,7 @@ const HireModal: FC<HireModalProps> = ({ player, visible, onClose }) => {
             <div className="popup__field field">
               <div className="field__label">Current balance</div>
               <div className="field__wrap">
-                <span>${player.money?.toFixed(2)}</span>
+                <span>{formatMoney(userInfo?.money || 0)}</span>
               </div>
             </div>
           </div>

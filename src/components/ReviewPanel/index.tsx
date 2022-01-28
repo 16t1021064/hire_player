@@ -24,7 +24,7 @@ const ReviewPanel: FC<ReviewPanelProps> = ({ review }) => {
             {(review?.reviewer as TUser)?.userName}
           </div>
           <div className="ratings__time">
-            <TimeAgo date={review.createdAt || 0} />
+            <TimeAgo date={review.createdAt || 0} minPeriod={30} />
           </div>
         </div>
         <div className="ratings__text">{review.content}</div>

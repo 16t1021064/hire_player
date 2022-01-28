@@ -30,7 +30,7 @@ const MessageGroup: FC<MessageGroupProps> = ({ group }) => {
         <div className="chat_messenger__top">
           <div className="chat_messenger__man">{group?.name || "Unknown"}</div>
           <div className="chat_messenger__time">
-            <TimeAgo date={group?.time || 0} />
+            <TimeAgo date={group?.time || 0} minPeriod={30} />
           </div>
         </div>
         <div className="chat_messenger__group">

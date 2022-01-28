@@ -67,6 +67,7 @@ const DonateModal: FC<DonateModalProps> = ({ player, visible, onClose }) => {
                   min={0}
                   step={1}
                   className="field__input"
+                  defaultValue={0}
                   ref={amountRef}
                 />
               </div>

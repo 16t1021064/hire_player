@@ -5,6 +5,7 @@ import { TUser } from "types";
 import DefaultImage from "assets/images/default-image.jpg";
 import { useHistory } from "react-router-dom";
 import { routesEnum } from "pages/Routes";
+import { formatMoney } from "utils/format";
 
 interface PlayerCardProps {
   player?: TUser;
@@ -59,7 +60,7 @@ const PlayerCard: FC<PlayerCardProps> = ({ player, classStatus }) => {
       </div>
       <div className="card__foot">
         <div className="price">
-          ${(player?.playerInfo?.costPerHour || 12).toFixed(2)}/h
+          {formatMoney(player?.playerInfo?.costPerHour || 12)}/h
         </div>
         <IonIcon className="icon icon-star" name="star" />
         <span className="span__start">

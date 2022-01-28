@@ -3,7 +3,7 @@ import { TDonate, TPagination, TUser } from "types";
 import { useMutation } from "react-query";
 import { getSentDonatesRequest } from "api/donates/requests";
 import moment from "moment";
-import { DATE_FORMAT } from "utils/format";
+import { DATE_FORMAT, formatMoney } from "utils/format";
 import { Pagination } from "antd";
 import SettingsLayout from "components/Layout/SettingsLayout";
 
@@ -69,7 +69,7 @@ const UserDonates: FC = () => {
                 <tr key={pos}>
                   <td>{moment(donate.createdAt).format(DATE_FORMAT)}</td>
                   <td>{(donate.toUser as TUser).playerInfo?.playerName}</td>
-                  <td>${donate.amount?.toFixed(2)}</td>
+                  <td>{formatMoney(donate.amount || 0)}</td>
                   <td>{donate.replyMessage}</td>
                 </tr>
               ))}

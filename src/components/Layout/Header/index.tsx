@@ -6,6 +6,7 @@ import Profile from "./Profile";
 import { useAppSelector } from "hooks/useRedux";
 import { Socket } from "socket.io-client";
 import clsx from "clsx";
+import { formatMoney } from "utils/format";
 
 interface HeaderProps {
   socketInstance: Socket | undefined;
@@ -79,7 +80,7 @@ const Header: FC<HeaderProps> = ({
                 onClick={onRecharge}
               >
                 <IonIcon className="icon icon-add-outline" name="add-outline" />
-                ${(userInfo?.money || 0).toFixed(2)}
+                {formatMoney(userInfo?.money || 0)}
               </a>
             </div>
             <Profile />

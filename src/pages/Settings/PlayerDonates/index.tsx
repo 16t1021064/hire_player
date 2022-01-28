@@ -6,7 +6,7 @@ import {
 } from "api/donates/requests";
 import { TDonate, TPagination, TUser } from "types";
 import moment from "moment";
-import { DATE_FORMAT } from "utils/format";
+import { DATE_FORMAT, formatMoney } from "utils/format";
 import { Button, Col, Form, Input, message, Pagination, Row } from "antd";
 import { faReply } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -112,7 +112,7 @@ const PlayerDonates: FC = () => {
                 <tr key={pos}>
                   <td>{moment(donate.createdAt).format(DATE_FORMAT)}</td>
                   <td>{(donate.fromUser as TUser).userName}</td>
-                  <td>${donate.amount?.toFixed(2)}</td>
+                  <td>{formatMoney(donate.amount || 0)}</td>
                   <td>{donate.message}</td>
                   <td>
                     {!donate.replyMessage && (

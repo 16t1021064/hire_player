@@ -135,8 +135,7 @@ const PlayerProfile: FC = () => {
                   <div className="author__parameter">
                     <span>COMPLETION RATE </span>
                     <strong>
-                      {(player?.playerInfo?.completionRate || 93.67).toFixed(2)}{" "}
-                      %
+                      {(player?.playerInfo?.completionRate || 0).toFixed(2)} %
                     </strong>
                   </div>
                 </div>

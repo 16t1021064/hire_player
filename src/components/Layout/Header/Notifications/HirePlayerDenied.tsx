@@ -73,7 +73,7 @@ const HirePlayerDenied: FC<HirePlayerDeniedProps> = ({ notif, fnClose }) => {
         <div className="notifications__line">
           <div className="notifications__user">{data.title}</div>
           <div className="notifications__time">
-            <TimeAgo date={data.time || 0} />
+            <TimeAgo date={data.time || 0} minPeriod={30} />
           </div>
         </div>
         <div className="notifications__text">{data.content}</div>
