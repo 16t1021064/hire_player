@@ -1,6 +1,7 @@
 import { FC } from "react";
 import AvaTuongImage from "img/ava-tuong.jpeg";
 import SettingsLayout from "components/Layout/SettingsLayout";
+import Button from "components/Button";
 
 const User: FC = () => {
   return (
@@ -17,9 +18,9 @@ const User: FC = () => {
               <div className="setting__btns">
                 <div className="setting__loading">
                   <input className="setting__file" type="file" />
-                  <button className="setting__btn btn btn_gray btn__small">
+                  <Button type="gray" className="setting__btn" size="small">
                     Change
-                  </button>
+                  </Button>
                 </div>
               </div>
               <div className="setting__text">JPG, GIF OR PNG, 5 MB</div>
@@ -45,9 +46,9 @@ const User: FC = () => {
             </div>
           </div>
         </div>
-        <button className="popup__btn btn btn_primary" type="submit">
+        <Button type="primary" htmlType="submit" className="popup__btn">
           Update
-        </button>
+        </Button>
       </form>
     </SettingsLayout>
   );

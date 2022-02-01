@@ -1,5 +1,6 @@
 import { FC } from "react";
 import SettingsLayout from "components/Layout/SettingsLayout";
+import Button from "components/Button";
 
 const UserPassword: FC = () => {
   return (
@@ -26,7 +27,9 @@ const UserPassword: FC = () => {
             </div>
           </div>
         </div>
-        <button className="popup__btn btn btn_primary">Update</button>
+        <Button type="primary" htmlType="submit" className="popup__btn">
+          Update
+        </Button>
       </form>
     </SettingsLayout>
   );

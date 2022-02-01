@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { setIsLogin, setUserInfo } from "store/ducks/auth/slice";
 import { LOCAL_STORAGE } from "utils/constant";
 import { useHistory } from "react-router";
+import Button from "components/Button";
 
 const Login: FC = () => {
   const history = useHistory();
@@ -72,13 +73,13 @@ const Login: FC = () => {
               </Link>
             </div>
           </div>
-          <button type="submit" className="login__btn btn btn_primary btn_wide">
+          <Button type="primary" className="login__btn" wide htmlType="submit">
             Continue
-          </button>
+          </Button>
           <div className="login__or">Or continue with</div>
-          <button type="button" className="login__btn btn btn_blue btn_wide">
+          <Button type="blue" className="login__btn" wide>
             Google
-          </button>
+          </Button>
         </form>
       </div>
     </div>

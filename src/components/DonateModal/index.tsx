@@ -1,5 +1,6 @@
 import { message } from "antd";
 import { createDonateRequest } from "api/donates/requests";
+import Button from "components/Button";
 import Modal from "components/Modal";
 import { FC, SyntheticEvent, useRef } from "react";
 import { useMutation } from "react-query";
@@ -87,7 +88,9 @@ const DonateModal: FC<DonateModalProps> = ({ player, visible, onClose }) => {
             </div>
           </div>
         </div>
-        <button className="popup__btn btn btn_primary">Donate now</button>
+        <Button htmlType="submit" className="popup__btn" type="primary">
+          Donate now
+        </Button>
       </form>
     </Modal>
   );

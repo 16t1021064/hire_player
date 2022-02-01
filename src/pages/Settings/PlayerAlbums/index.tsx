@@ -2,10 +2,11 @@ import { FC, useMemo, useState } from "react";
 import { useAppDispatch, useAppSelector } from "hooks/useRedux";
 import { useMutation } from "react-query";
 import { removeImagesRequest, uploadImagesRequest } from "api/players/request";
-import { Button, Col, message, Row, Upload } from "antd";
+import { Col, message, Row, Upload } from "antd";
 import Gallery, { TPhoto, TPhotoData } from "components/Gallery";
 import { setUserInfo } from "store/ducks/auth/slice";
 import SettingsLayout from "components/Layout/SettingsLayout";
+import Button from "components/Button";
 
 const PlayerAlbums: FC = () => {
   const { userInfo } = useAppSelector((state) => state.auth);
@@ -107,9 +108,9 @@ const PlayerAlbums: FC = () => {
                 removeImagesStatus === "loading"
               }
             >
-              <button type="button" className="btn btn_blue btn__small">
+              <Button type="blue" size="small">
                 Upload images
-              </button>
+              </Button>
             </Upload>
           </div>
           {isMax && (
@@ -142,7 +143,7 @@ const PlayerAlbums: FC = () => {
                 </Button>
               </Col>
               <Col>
-                <Button type="default" onClick={turnoffSelectMode}>
+                <Button type="gray" onClick={turnoffSelectMode}>
                   Unselect images
                 </Button>
               </Col>

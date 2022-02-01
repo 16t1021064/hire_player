@@ -1,4 +1,4 @@
-import React, { FC, MouseEvent, useEffect, useMemo, useState } from "react";
+import React, { FC, useEffect, useMemo, useState } from "react";
 import IonIcon from "@reacticons/ionicons";
 import { useParams } from "react-router-dom";
 import { useMutation } from "react-query";
@@ -12,6 +12,7 @@ import ReviewPanel from "components/ReviewPanel";
 import HireModal from "components/HireModal";
 import DonateModal from "components/DonateModal";
 import MessageModal from "components/MessageModal";
+import Button from "components/Button";
 
 const PlayerProfile: FC = () => {
   const [reviews, setReviews] = useState<TReview[]>([]);
@@ -70,8 +71,7 @@ const PlayerProfile: FC = () => {
     }
   }, [player]);
 
-  const onHire = (event: MouseEvent) => {
-    event.preventDefault();
+  const onHire = () => {
     setVisibleHire(true);
   };
 
@@ -79,8 +79,7 @@ const PlayerProfile: FC = () => {
     setVisibleHire(false);
   };
 
-  const onDonate = (event: MouseEvent) => {
-    event.preventDefault();
+  const onDonate = () => {
     setVisibleDonate(true);
   };
 
@@ -88,8 +87,7 @@ const PlayerProfile: FC = () => {
     setVisibleDonate(false);
   };
 
-  const onMessage = (event: MouseEvent) => {
-    event.preventDefault();
+  const onMessage = () => {
     setVisibleMessage(true);
   };
 
@@ -142,30 +140,33 @@ const PlayerProfile: FC = () => {
               </div>
             </div>
             <div className="author__btns">
-              <a
-                href=""
-                className="author__btn btn btn__small btn_primary"
+              <Button
+                type="primary"
+                size="small"
+                className="author__btn"
                 onClick={onHire}
               >
                 <span className="btn__text">Hire</span>
-              </a>
-              <a
-                href=""
-                className="author__btn btn btn__small btn_gray"
+              </Button>
+              <Button
+                type="gray"
+                size="small"
+                className="author__btn"
                 onClick={onDonate}
               >
                 <span className="btn__text">Donate</span>
-              </a>
-              <a
-                href=""
-                className="author__btn btn btn_gray btn_square"
+              </Button>
+              <Button
+                type="gray"
+                className="author__btn"
                 onClick={onMessage}
+                square
               >
                 <IonIcon
                   className="icon icon-chatbubble-ellipses-outline"
                   name="chatbubble-ellipses-outline"
                 />
-              </a>
+              </Button>
             </div>
           </div>
         </div>

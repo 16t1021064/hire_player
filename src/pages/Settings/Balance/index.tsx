@@ -3,6 +3,7 @@ import IonIcon from "@reacticons/ionicons";
 import SettingsLayout from "components/Layout/SettingsLayout";
 import { useAppSelector } from "hooks/useRedux";
 import { formatMoney } from "utils/format";
+import Button from "components/Button";
 
 const Balance: FC = () => {
   const { userInfo } = useAppSelector((state) => state.auth);
@@ -11,14 +12,10 @@ const Balance: FC = () => {
       <div className="setting__title h5">Current balance</div>
       <div className="setting__balance">
         <div className="h2 text__blue">{formatMoney(userInfo?.money || 0)}</div>
-        <a
-          className="js-popup-open btn btn__xs__small btn_primary"
-          href="#popup-recharge"
-          data-effect="mfp-zoom-in"
-        >
+        <Button type="primary" size="xs__small" className="js-popup-open">
           <IonIcon className="icon icon-add-outline" name="add-outline" />
           Recharge
-        </a>
+        </Button>
       </div>
       <form className="setting__form">
         <div className="setting__fieldset">
@@ -46,9 +43,9 @@ const Balance: FC = () => {
             </div>
           </div>
         </div>
-        <button className="popup__btn btn btn_gray" type="submit">
+        <Button className="popup__btn" type="gray" htmlType="submit">
           Request withdraw
-        </button>
+        </Button>
       </form>
       <div className="settings_row mt-5">
         <div className="setting__title h5">Withdraw History</div>

@@ -4,6 +4,7 @@ import {
   createConversationRequest,
 } from "api/conversations/request";
 import { createMessageRequest } from "api/messages/request";
+import Button from "components/Button";
 import Modal from "components/Modal";
 import { useAppSelector } from "hooks/useRedux";
 import { FC, SyntheticEvent, useRef } from "react";
@@ -106,7 +107,9 @@ const MessageModal: FC<MessageModalProps> = ({ player, visible, onClose }) => {
             </div>
           </div>
         </div>
-        <button className="popup__btn btn btn_primary">Send now</button>
+        <Button htmlType="submit" type="primary" className="popup__btn">
+          Send now
+        </Button>
       </form>
     </Modal>
   );

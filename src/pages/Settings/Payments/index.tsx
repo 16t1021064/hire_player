@@ -1,5 +1,6 @@
 import { FC } from "react";
 import SettingsLayout from "components/Layout/SettingsLayout";
+import Button from "components/Button";
 
 const Payments: FC = () => {
   return (
@@ -16,9 +17,9 @@ const Payments: FC = () => {
             </div>
           </div>
         </div>
-        <button className="popup__btn btn btn_primary" type="submit">
+        <Button type="primary" htmlType="submit" className="popup__btn">
           Update
-        </button>
+        </Button>
       </form>
     </SettingsLayout>
   );

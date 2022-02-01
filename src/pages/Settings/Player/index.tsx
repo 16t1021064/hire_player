@@ -6,6 +6,7 @@ import { updateInfoRequest, uploadAvatarRequest } from "api/players/request";
 import { useMutation } from "react-query";
 import { setUserInfo } from "store/ducks/auth/slice";
 import SettingsLayout from "components/Layout/SettingsLayout";
+import Button from "components/Button";
 
 const Player: FC = () => {
   const { userInfo } = useAppSelector((state) => state.auth);
@@ -90,12 +91,9 @@ const Player: FC = () => {
                     maxCount={1}
                     disabled={uploadAvatarStatus === "loading"}
                   >
-                    <button
-                      type="button"
-                      className="setting__btn btn btn_gray btn__small"
-                    >
-                      Change
-                    </button>
+                    <Button type="gray" size="small" className="setting__btn">
+                      Update
+                    </Button>
                   </Upload>
                 </div>
               </div>
@@ -165,9 +163,9 @@ const Player: FC = () => {
             </div>
           </div>
         </div>
-        <button className="popup__btn btn btn_primary" type="submit">
+        <Button type="primary" htmlType="submit" className="popup__btn">
           Update
-        </button>
+        </Button>
       </form>
     </SettingsLayout>
   );

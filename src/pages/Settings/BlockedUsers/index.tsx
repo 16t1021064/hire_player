@@ -1,6 +1,7 @@
 import { FC } from "react";
 import IonIcon from "@reacticons/ionicons";
 import SettingsLayout from "components/Layout/SettingsLayout";
+import Button from "components/Button";
 
 const BlockedUsers: FC = () => {
   return (
@@ -23,12 +24,12 @@ const BlockedUsers: FC = () => {
                 <td>19/11/2021</td>
                 <td>BLOCK USER</td>
                 <td>
-                  <button className="btn btn__small btn_gray btn_square">
+                  <Button type="gray" size="small" square>
                     <IonIcon
                       className="icon icon-trash-outline"
                       name="trash-outline"
                     />
-                  </button>
+                  </Button>
                 </td>
               </tr>
               <tr>
@@ -36,13 +37,12 @@ const BlockedUsers: FC = () => {
                 <td>19/11/2021</td>
                 <td>BLOCK USER</td>
                 <td>
-                  {" "}
-                  <button className="btn btn__small btn_gray btn_square">
+                  <Button type="gray" size="small" square>
                     <IonIcon
                       className="icon icon-trash-outline"
                       name="trash-outline"
                     />
-                  </button>
+                  </Button>
                 </td>
               </tr>
             </tbody>

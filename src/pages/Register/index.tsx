@@ -9,6 +9,7 @@ import { LOCAL_STORAGE } from "utils/constant";
 import Countdown from "react-countdown";
 import { notifySuccess, notifyWarning } from "utils/notify";
 import { useTranslation } from "react-i18next";
+import Button from "components/Button";
 
 interface TOtpData {
   email: string | undefined;
@@ -93,8 +94,7 @@ const Register: FC = () => {
     }
   };
 
-  const onSendOtp = (event: React.MouseEvent) => {
-    event.preventDefault();
+  const onSendOtp = () => {
     if (sendOtpStatus !== "loading" && emailRef.current?.value) {
       setOtp({ ...otp, email: undefined, hash: undefined });
       sendOtp({
@@ -146,9 +146,10 @@ const Register: FC = () => {
             <div className="login__col field">
               <div className="field__label">&nbsp;</div>
               <div className="field__wrap">
-                <button
-                  type="button"
-                  className="login__btn btn btn_primary btn_wide"
+                <Button
+                  type="primary"
+                  className="login__btn"
+                  wide
                   disabled={enableCountdown}
                   onClick={onSendOtp}
                 >
@@ -157,17 +158,17 @@ const Register: FC = () => {
                   ) : (
                     "Get Code"
                   )}
-                </button>
+                </Button>
               </div>
             </div>
           </div>
-          <button type="submit" className="login__btn btn btn_primary btn_wide">
+          <Button htmlType="submit" className="login__btn" type="primary" wide>
             Continue
-          </button>
+          </Button>
           <div className="login__or">Sign up by Open ID</div>
-          <button type="button" className="login__btn btn btn_blue btn_wide">
+          <Button className="login__btn" type="blue" wide>
             Google Account
-          </button>
+          </Button>
         </form>
       </div>
     </div>

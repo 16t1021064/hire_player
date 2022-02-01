@@ -1,4 +1,5 @@
 import { requestResetPasswordRequest } from "api/auth/request";
+import Button from "components/Button";
 import { routesEnum } from "pages/Routes";
 import React, { FC, useRef, useState } from "react";
 import { useMutation } from "react-query";
@@ -57,9 +58,9 @@ const ForgotPassword: FC = () => {
               <input type="email" className="field__input" ref={emailRef} />
             </div>
           </div>
-          <button type="submit" className="login__btn btn btn_primary btn_wide">
+          <Button htmlType="submit" className="login__btn" type="primary" wide>
             Continue
-          </button>
+          </Button>
         </form>
       </div>
     </div>

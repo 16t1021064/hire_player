@@ -5,6 +5,7 @@ import { resetPasswordRequest } from "api/auth/request";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import { routesEnum } from "pages/Routes";
 import notify from "utils/notify";
+import Button from "components/Button";
 
 interface TData {
   userId: string | undefined;
@@ -90,9 +91,9 @@ const ResetPassword: FC = () => {
               />
             </div>
           </div>
-          <button type="submit" className="login__btn btn btn_primary btn_wide">
+          <Button htmlType="submit" className="login__btn" wide type="primary">
             Continue
-          </button>
+          </Button>
         </form>
       </div>
     </div>

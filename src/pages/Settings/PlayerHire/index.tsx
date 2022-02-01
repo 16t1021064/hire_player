@@ -12,6 +12,7 @@ import { settingHireRequest } from "api/players/request";
 import { useMutation } from "react-query";
 import { setUserInfo } from "store/ducks/auth/slice";
 import { message } from "antd";
+import Button from "components/Button";
 
 const PlayerHire: FC = () => {
   const dispatch = useAppDispatch();
@@ -127,9 +128,9 @@ const PlayerHire: FC = () => {
             </div>
           </div>
         </div>
-        <button className="popup__btn btn btn_primary" type="submit">
+        <Button className="popup__btn" type="primary" htmlType="submit">
           Update
-        </button>
+        </Button>
       </form>
     </SettingsLayout>
   );

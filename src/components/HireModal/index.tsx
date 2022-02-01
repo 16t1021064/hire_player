@@ -1,5 +1,6 @@
 import { message } from "antd";
 import { createHireRequest } from "api/hires/request";
+import Button from "components/Button";
 import Modal from "components/Modal";
 import { useAppSelector } from "hooks/useRedux";
 import { FC, SyntheticEvent, useRef } from "react";
@@ -92,9 +93,9 @@ const HireModal: FC<HireModalProps> = ({ player, visible, onClose }) => {
             </div>
           </div>
         </div>
-        <button type="submit" className="popup__btn btn btn_primary">
+        <Button htmlType="submit" type="primary" className="popup__btn">
           Hire now
-        </button>
+        </Button>
       </form>
     </Modal>
   );

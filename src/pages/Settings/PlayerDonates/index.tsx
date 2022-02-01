@@ -7,11 +7,12 @@ import {
 import { TDonate, TPagination, TUser } from "types";
 import moment from "moment";
 import { DATE_FORMAT, formatMoney } from "utils/format";
-import { Button, Col, Form, Input, message, Pagination, Row } from "antd";
+import { Col, Form, Input, message, Pagination, Row } from "antd";
 import { faReply } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Modal from "components/Modal";
 import SettingsLayout from "components/Layout/SettingsLayout";
+import Button from "components/Button";
 
 const PlayerDonates: FC = () => {
   const [donates, setDonates] = useState<TDonate[]>([]);
@@ -118,8 +119,10 @@ const PlayerDonates: FC = () => {
                   <td>{donate.message}</td>
                   <td>
                     {!donate.replyMessage && (
-                      <a
-                        className="btn btn__small btn_gray btn_square"
+                      <Button
+                        size="small"
+                        type="gray"
+                        square
                         onClick={() => {
                           fnReply(donate);
                         }}
@@ -128,7 +131,7 @@ const PlayerDonates: FC = () => {
                           icon={faReply}
                           className="icon icon-trash-outline"
                         />
-                      </a>
+                      </Button>
                     )}
                   </td>
                 </tr>
