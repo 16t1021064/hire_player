@@ -1,4 +1,4 @@
-import { FC, MouseEvent, useRef } from "react";
+import { FC, MouseEvent, useEffect, useRef } from "react";
 import IonIcon from "@reacticons/ionicons";
 import { openPopup } from "utils/magnific";
 import Notifications from "./Notifications";
@@ -23,6 +23,8 @@ const Header: FC<HeaderProps> = ({
 }) => {
   const modalRechargeRef = useRef<HTMLDivElement | null>(null);
   const { userInfo, isLogin } = useAppSelector((state) => state.auth);
+  const searchFormRef = useRef<HTMLFormElement | null>(null);
+  const searchToggleRef = useRef<HTMLAnchorElement | null>(null);
 
   const openSearch = () => {
     // eslint-disable-next-line no-undef
@@ -34,6 +36,26 @@ const Header: FC<HeaderProps> = ({
     openPopup(modalRechargeRef.current);
   };
 
+  useEffect(() => {
+    const callback = (event: any) => {
+      if (
+        searchFormRef.current &&
+        searchToggleRef.current &&
+        !searchFormRef.current.contains(event.target) &&
+        !searchToggleRef.current.contains(event.target)
+      ) {
+        // eslint-disable-next-line no-undef
+        $(".header__search").slideUp();
+      }
+    };
+
+    document.addEventListener("mousedown", callback);
+
+    return () => {
+      document.removeEventListener("mousedown", callback);
+    };
+  }, []);
+
   return (
     <>
       <div className="header">
@@ -43,7 +65,11 @@ const Header: FC<HeaderProps> = ({
             onChangeVisibleSidebar(!visibleSidebar);
           }}
         ></button>
-        <form action="" className="header__search">
+        <form
+          action="javascript:void(0);"
+          className="header__search"
+          ref={searchFormRef}
+        >
           <input
             type="text"
             className="header__input"
@@ -62,6 +88,7 @@ const Header: FC<HeaderProps> = ({
               <a
                 className="header__item header__item_search"
                 onClick={openSearch}
+                ref={searchToggleRef}
               >
                 <IonIcon
                   className="icon icon-search-outline"

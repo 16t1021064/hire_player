@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, MouseEvent } from "react";
+import { ChangeEvent, FC } from "react";
 import clsx from "clsx";
 import IonIcon from "@reacticons/ionicons";
 import Logo from "img/logo.png";
@@ -66,8 +66,7 @@ const Sidebar: FC<SidebarProps> = ({ visible, onClose }) => {
     }
   };
 
-  const onCloseClick = (e: MouseEvent) => {
-    e.preventDefault();
+  const onCloseClick = () => {
     if (onClose) {
       onClose();
     }
@@ -113,7 +112,11 @@ const Sidebar: FC<SidebarProps> = ({ visible, onClose }) => {
                   })
                   .map((menu: TMenu, position: number) => (
                     <li key={position} className="sidebar-item">
-                      <Link to={menu.href} className="sidebar-header">
+                      <Link
+                        to={menu.href}
+                        className="sidebar-header"
+                        onClick={onCloseClick}
+                      >
                         <IonIcon
                           className={`icon icon-${menu.icon}`}
                           name={menu.icon as any}
