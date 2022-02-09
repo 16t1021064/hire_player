@@ -11,6 +11,8 @@ import { useMutation } from "react-query";
 import { getConversationRequest } from "api/conversations/request";
 import { fnConvertConversation } from "utils/message";
 import { getHireRequest } from "api/hires/request";
+import clsx from "clsx";
+import styles from "./index.module.sass";
 
 export const chatDefaultState: string = "chat_chatDefaultState";
 
@@ -26,6 +28,7 @@ const Chat: FC = () => {
   const handleOnHiresRef = useRef<
     ((data: TListenerData_OnHires) => void) | null
   >(null);
+  const [visibleSidebar, setVisibleSidebar] = useState<boolean>(true);
 
   const { mutate: getConversation } = useMutation(getConversationRequest, {
     onSuccess: (data) => {
@@ -80,6 +83,7 @@ const Chat: FC = () => {
   const onChangeConv = (conv: TConvertedConversation | undefined) => {
     setHire(undefined);
     setActiveConv(conv);
+    setVisibleSidebar(false);
   };
 
   const handleOnHires = (data: TListenerData_OnHires) => {
@@ -103,9 +107,19 @@ const Chat: FC = () => {
     socket?.on(SocketListeners.onHires, handleOnHiresRef.current);
   }, [connected, activeConv]);
 
+  const onBack = () => {
+    setVisibleSidebar(true);
+  };
+
   return (
     <div className="chat">
-      <div className="chat__sidebar">
+      <div
+        className={clsx(
+          "chat__sidebar",
+          styles.sidebar,
+          visibleSidebar && styles.visibleSidebar
+        )}
+      >
         <SideBar
           activeConv={activeConv}
           onChangeConv={onChangeConv}
@@ -122,6 +136,7 @@ const Chat: FC = () => {
             hire={hire}
             onChangeHire={setHire}
             onChangeConv={onChangeConv}
+            onBack={onBack}
           />
         )}
       </div>

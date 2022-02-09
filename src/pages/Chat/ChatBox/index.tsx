@@ -23,6 +23,7 @@ interface ChatBoxProps {
   hire?: THire | undefined;
   onChangeHire: (hire: THire) => void;
   onChangeConv: (conv: TConvertedConversation | undefined) => void;
+  onBack: () => void;
 }
 
 const ChatBox: FC<ChatBoxProps> = ({
@@ -32,6 +33,7 @@ const ChatBox: FC<ChatBoxProps> = ({
   hire,
   onChangeHire,
   onChangeConv,
+  onBack,
 }) => {
   const [groups, setGroups] = useState<TMessageGroup[]>([]);
   const [pagination, setPagination] = useState<TPagination>({
@@ -146,6 +148,7 @@ const ChatBox: FC<ChatBoxProps> = ({
         hire={hire}
         onChangeHire={onChangeHire}
         onChangeConv={onChangeConv}
+        onBack={onBack}
       />
       <div className="chat_messenger__body">
         <div

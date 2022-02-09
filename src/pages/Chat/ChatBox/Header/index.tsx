@@ -1,5 +1,5 @@
 import IonIcon from "@reacticons/ionicons";
-import { FC } from "react";
+import { FC, MouseEvent } from "react";
 import { TConvertedConversation, THire } from "types";
 import ActionAdminOnComplain from "./ActionAdminOnComplain";
 import ActionPlayerOnRequest from "./ActionPlayerOnRequest";
@@ -14,6 +14,7 @@ interface HeaderProps {
   hire?: THire;
   onChangeHire: (hire: THire) => void;
   onChangeConv: (conv: TConvertedConversation | undefined) => void;
+  onBack: () => void;
 }
 
 const Header: FC<HeaderProps> = ({
@@ -21,7 +22,15 @@ const Header: FC<HeaderProps> = ({
   hire,
   onChangeHire,
   onChangeConv,
+  onBack,
 }) => {
+  const onBackClick = (e: MouseEvent) => {
+    e.preventDefault();
+    if (onBack) {
+      onBack();
+    }
+  };
+
   return (
     <div className="chat_messenger__head">
       <div className="chat_messenger__title h6 mr-auto">
@@ -46,7 +55,10 @@ const Header: FC<HeaderProps> = ({
             onChangeHire={onChangeHire}
           />
         )}
-        <button className="chat__action chat__action__btn__back__chat">
+        <button
+          className="chat__action chat__action__btn__back__chat"
+          onClick={onBackClick}
+        >
           <IonIcon
             className="icon icon-arrow-back-outline"
             name="arrow-back-outline"
