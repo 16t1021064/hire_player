@@ -12,7 +12,7 @@ import { getConversationRequest } from "api/conversations/request";
 import { fnConvertConversation } from "utils/message";
 import { getHireRequest } from "api/hires/request";
 import clsx from "clsx";
-import styles from "./index.module.sass";
+import styles from "./index.module.less";
 
 export const chatDefaultState: string = "chat_chatDefaultState";
 

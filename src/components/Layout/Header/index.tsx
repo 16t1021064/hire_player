@@ -7,6 +7,7 @@ import { useAppSelector } from "hooks/useRedux";
 import { Socket } from "socket.io-client";
 import clsx from "clsx";
 import { formatMoney } from "utils/format";
+import styles from "./index.module.less";
 
 interface HeaderProps {
   socketInstance: Socket | undefined;
@@ -98,8 +99,10 @@ const Header: FC<HeaderProps> = ({
             </div>
             <div className="header__item header__item__money">
               <a
-                href=""
-                className="header__head js-propagation"
+                className={clsx(
+                  "header__head js-propagation",
+                  styles.walletValue
+                )}
                 onClick={onRecharge}
               >
                 <IonIcon className="icon icon-add-outline" name="add-outline" />
