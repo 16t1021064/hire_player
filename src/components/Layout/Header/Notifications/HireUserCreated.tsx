@@ -1,5 +1,5 @@
 import { FC, MouseEvent, ReactNode, useEffect, useMemo, useState } from "react";
-import { HireStepsEnum } from "types";
+import { HireStepsEnum, TConversation } from "types";
 import { message } from "antd";
 import { useMutation } from "react-query";
 import { getMessage } from "utils/notifications";
@@ -83,6 +83,18 @@ const HireUserCreated: FC<HireUserCreatedProps> = ({ notif, fnClose }) => {
       onSuccess: (data) => {
         if (data.data.hireStep === HireStepsEnum.USER_CREATED) {
           setVisible(true);
+          return;
+        }
+        let convId = undefined;
+        if (typeof data.data.conversation === "string") {
+          convId = data.data.conversation;
+        } else if (typeof data.data.conversation === "object") {
+          convId = (data.data.conversation as TConversation).id;
+        }
+        if (convId) {
+          history.push(routesEnum.chat, {
+            [chatDefaultState]: convId,
+          });
         }
       },
     }

@@ -65,11 +65,7 @@ const Header: FC<HeaderProps> = ({
             onChangeVisibleSidebar(!visibleSidebar);
           }}
         ></button>
-        <form
-          action="javascript:void(0);"
-          className="header__search"
-          ref={searchFormRef}
-        >
+        <form action="" className="header__search" ref={searchFormRef}>
           <input
             type="text"
             className="header__input"

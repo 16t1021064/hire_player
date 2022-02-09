@@ -36,6 +36,7 @@ const Chat: FC = () => {
         fnConvertConversation(data.data, userInfo?.id);
       if (converted) {
         setActiveConv({ ...converted });
+        setVisibleSidebar(false);
       }
     },
   });
