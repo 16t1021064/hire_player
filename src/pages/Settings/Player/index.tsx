@@ -30,7 +30,7 @@ const Player: FC = () => {
   const beforeUpload = (file: File) => {
     uploadAvatar({
       id: userInfo?.id || "",
-      images: [file],
+      avatar: file,
     });
     return false;
   };
@@ -163,7 +163,14 @@ const Player: FC = () => {
             </div>
           </div>
         </div>
-        <Button type="primary" htmlType="submit" className="popup__btn">
+        <Button
+          type="primary"
+          htmlType="submit"
+          className="popup__btn"
+          loading={
+            uploadAvatarStatus === "loading" || updateInfoStatus === "loading"
+          }
+        >
           Update
         </Button>
       </form>

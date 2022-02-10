@@ -50,7 +50,7 @@ export interface TRemoveImagesResponse {
 
 export interface TUploadAvatarRequest {
   id: string;
-  images: File[];
+  avatar: File;
 }
 
 export interface TUploadAvatarResponse {

@@ -31,6 +31,7 @@ export interface TUser {
   deletedBy?: string | null;
   roles?: TUserRoles[];
   userName?: string;
+  fullName?: string;
   email?: string;
   emailVerifiedAt?: string | null;
   createdAt?: string;

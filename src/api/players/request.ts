@@ -64,9 +64,7 @@ export const uploadAvatarRequest = async (
   request: TUploadAvatarRequest
 ): Promise<TUploadAvatarResponse> => {
   const formData = new FormData();
-  request.images.forEach((image: File) => {
-    formData.append("avatar", image);
-  });
+  formData.append("avatar", request.avatar);
   const { data } = await axiosInstance.put(
     `/players/${request.id}/upload-avatar`,
     formData,
