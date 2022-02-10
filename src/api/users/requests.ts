@@ -1,5 +1,6 @@
 import axiosInstance from "api/axios";
 import {
+  TGetPaymentSettingResponse,
   TUpdateInfoRequest,
   TUpdateInfoResponse,
   TUploadAvatarRequest,
@@ -25,3 +26,9 @@ export const updateInfoRequest = async (
   const { data } = await axiosInstance.put(`/users`, request);
   return data;
 };
+
+export const getPaymentSettingRequest =
+  async (): Promise<TGetPaymentSettingResponse> => {
+    const { data } = await axiosInstance.get(`/users/payment-settings`);
+    return data;
+  };

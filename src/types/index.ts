@@ -178,3 +178,27 @@ export interface TDonate {
   createdAt?: string;
   updatedAt?: string;
 }
+
+export interface TPaymentCard {
+  paymentMethodId: string;
+  type: string;
+  card: {
+    number: number;
+    expMonth: number;
+    expYear: number;
+    cvc: number;
+  };
+}
+export interface TPaymentSetting {
+  id: string;
+  user?: string | TUser;
+  paypalConfig?: {
+    email: string;
+  };
+  creditCardConfig?: {
+    paymentMethods?: TPaymentCard[];
+    customerId?: string;
+  };
+  createdAt?: string;
+  updatedAt?: string;
+}

@@ -1,8 +1,16 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import SettingsLayout from "components/Layout/SettingsLayout";
 import Button from "components/Button";
+import { loadStripe } from "@stripe/stripe-js";
 
 const Payments: FC = () => {
+  useEffect(() => {
+    (async () => {
+      const stripe = await loadStripe("pk_test_TYooMQauvdEDq54NiTphI7jx");
+      stripe?.confirmCardPayment("a", {});
+      console.log(stripe);
+    })();
+  }, []);
   return (
     <SettingsLayout>
       <form className="setting__form">
