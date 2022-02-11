@@ -6,6 +6,7 @@ import { Link, useHistory, useLocation } from "react-router-dom";
 import { routesEnum } from "pages/Routes";
 import notify from "utils/notify";
 import Button from "components/Button";
+import { LoadingFullpage } from "components/LoadingFullpage";
 
 interface TData {
   userId: string | undefined;
@@ -70,7 +71,7 @@ const ResetPassword: FC = () => {
   };
 
   return forbidden ? (
-    <></>
+    <LoadingFullpage forbidden />
   ) : (
     <div className="login">
       <div className="login__container">
@@ -91,7 +92,13 @@ const ResetPassword: FC = () => {
               />
             </div>
           </div>
-          <Button htmlType="submit" className="login__btn" wide type="primary">
+          <Button
+            htmlType="submit"
+            className="login__btn"
+            wide
+            type="primary"
+            loading={resetPasswordStatus === "loading"}
+          >
             Continue
           </Button>
         </form>

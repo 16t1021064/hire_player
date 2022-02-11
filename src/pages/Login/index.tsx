@@ -73,7 +73,13 @@ const Login: FC = () => {
               </Link>
             </div>
           </div>
-          <Button type="primary" className="login__btn" wide htmlType="submit">
+          <Button
+            type="primary"
+            className="login__btn"
+            wide
+            htmlType="submit"
+            loading={loginStatus === "loading"}
+          >
             Continue
           </Button>
           <div className="login__or">Or continue with</div>

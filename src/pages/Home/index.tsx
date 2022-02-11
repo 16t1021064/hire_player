@@ -3,6 +3,7 @@ import React, { FC, useEffect, useRef, useState } from "react";
 import { useMutation } from "react-query";
 import { getPlayersRequest } from "api/players/request";
 import { TUser, TPlayerTypes } from "types";
+import { Skeleton } from "antd";
 
 const LIMIT: number = 8;
 
@@ -12,11 +13,14 @@ const Home: FC = () => {
   const typesRef = useRef<HTMLSelectElement>(null);
   const [players, setPlayers] = useState<TUser[]>([]);
 
-  const { mutate: fetch } = useMutation(getPlayersRequest, {
-    onSuccess: (data) => {
-      setPlayers([...data.data.results]);
-    },
-  });
+  const { mutate: fetch, status: fetchStatus } = useMutation(
+    getPlayersRequest,
+    {
+      onSuccess: (data) => {
+        setPlayers([...data.data.results]);
+      },
+    }
+  );
 
   const onChange = (event: React.ChangeEvent) => {
     event.preventDefault();
@@ -59,9 +63,13 @@ const Home: FC = () => {
           </div>
         </div>
         <div className="collection__list">
-          {players.map((player: TUser) => (
-            <PlayerCard player={player} key={player.id} />
-          ))}
+          {fetchStatus === "loading" ? (
+            <Skeleton />
+          ) : (
+            players.map((player: TUser) => (
+              <PlayerCard player={player} key={player.id} />
+            ))
+          )}
         </div>
       </div>
     </div>

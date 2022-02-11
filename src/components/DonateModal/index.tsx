@@ -88,7 +88,12 @@ const DonateModal: FC<DonateModalProps> = ({ player, visible, onClose }) => {
             </div>
           </div>
         </div>
-        <Button htmlType="submit" className="popup__btn" type="primary">
+        <Button
+          htmlType="submit"
+          className="popup__btn"
+          type="primary"
+          loading={donateStatus === "loading"}
+        >
           Donate now
         </Button>
       </form>

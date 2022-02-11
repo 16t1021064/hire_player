@@ -93,7 +93,12 @@ const HireModal: FC<HireModalProps> = ({ player, visible, onClose }) => {
             </div>
           </div>
         </div>
-        <Button htmlType="submit" type="primary" className="popup__btn">
+        <Button
+          htmlType="submit"
+          type="primary"
+          className="popup__btn"
+          loading={createHireStatus === "loading"}
+        >
           Hire now
         </Button>
       </form>

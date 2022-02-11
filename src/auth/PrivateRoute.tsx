@@ -1,3 +1,4 @@
+import { LoadingFullpage } from "components/LoadingFullpage";
 import { useAppSelector } from "hooks/useRedux";
 import { Route } from "react-router-dom";
 
@@ -7,7 +8,7 @@ const PrivateRoute = ({ component, ...args }: any) => {
   return isLogin ? (
     <Route component={component} {...args} />
   ) : (
-    <div>404 Not Found</div>
+    <LoadingFullpage notFound />
   );
 };
 
