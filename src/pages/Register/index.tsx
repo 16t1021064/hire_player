@@ -1,7 +1,7 @@
 import { registerRequest, sendOtpRequest } from "api/auth/request";
 import { useAppDispatch } from "hooks/useRedux";
 import { routesEnum } from "pages/Routes";
-import React, { FC, useRef, useState } from "react";
+import React, { FC, useMemo, useRef, useState } from "react";
 import { useMutation } from "react-query";
 import { Link, useHistory } from "react-router-dom";
 import { setIsLogin, setUserInfo } from "store/ducks/auth/slice";
@@ -103,6 +103,10 @@ const Register: FC = () => {
     }
   };
 
+  const loading = useMemo(() => {
+    return registerStatus === "loading" || sendOtpStatus === "loading";
+  }, [registerStatus, sendOtpStatus]);
+
   return (
     <div className="login">
       <div className="login__container">
@@ -110,7 +114,7 @@ const Register: FC = () => {
           <div className="login__title h3">Sign up</div>
           <div className="login__line">
             <div className="login__text">Already a user</div>
-            <Link to={routesEnum.home} className="login__link">
+            <Link to={routesEnum.login} className="login__link">
               Login now
             </Link>
           </div>
@@ -152,6 +156,7 @@ const Register: FC = () => {
                   wide
                   disabled={enableCountdown}
                   onClick={onSendOtp}
+                  loading={loading}
                 >
                   {enableCountdown ? (
                     <Countdown date={Date.now() + 60000} renderer={renderer} />
@@ -162,7 +167,13 @@ const Register: FC = () => {
               </div>
             </div>
           </div>
-          <Button htmlType="submit" className="login__btn" type="primary" wide>
+          <Button
+            htmlType="submit"
+            className="login__btn"
+            type="primary"
+            wide
+            loading={loading}
+          >
             Continue
           </Button>
           <div className="login__or">Sign up by Open ID</div>

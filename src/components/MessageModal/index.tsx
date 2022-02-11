@@ -107,7 +107,12 @@ const MessageModal: FC<MessageModalProps> = ({ player, visible, onClose }) => {
             </div>
           </div>
         </div>
-        <Button htmlType="submit" type="primary" className="popup__btn">
+        <Button
+          htmlType="submit"
+          type="primary"
+          className="popup__btn"
+          loading={sendStatus === "loading"}
+        >
           Send now
         </Button>
       </form>

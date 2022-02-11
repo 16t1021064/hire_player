@@ -13,6 +13,8 @@ import HireModal from "components/HireModal";
 import DonateModal from "components/DonateModal";
 import MessageModal from "components/MessageModal";
 import Button from "components/Button";
+import { LoadingFullpage } from "components/LoadingFullpage";
+import { Skeleton } from "antd";
 
 const PlayerProfile: FC = () => {
   const [reviews, setReviews] = useState<TReview[]>([]);
@@ -22,17 +24,20 @@ const PlayerProfile: FC = () => {
   const [visibleMessage, setVisibleMessage] = useState<boolean>(false);
   const { id }: any = useParams();
 
-  const { mutate: getPlayer } = useMutation(getPlayerRequest, {
-    onSuccess: (data) => {
-      if (data.message === "GET_DETAIL_PLAYER_INFO_SUCCESS") {
-        if (data.data) {
-          setPlayer(data.data);
-        } else {
-          setPlayer(undefined);
+  const { mutate: getPlayer, status: getPlayerStatus } = useMutation(
+    getPlayerRequest,
+    {
+      onSuccess: (data) => {
+        if (data.message === "GET_DETAIL_PLAYER_INFO_SUCCESS") {
+          if (data.data) {
+            setPlayer(data.data);
+          } else {
+            setPlayer(undefined);
+          }
         }
-      }
-    },
-  });
+      },
+    }
+  );
 
   useEffect(() => {
     if (id) {
@@ -51,13 +56,16 @@ const PlayerProfile: FC = () => {
     );
   }, [player]);
 
-  const { mutate: fetchReviews } = useMutation(getReviewsRequest, {
-    onSuccess: (data) => {
-      if (data.message === "GET_REVIEWS_SUCCESS") {
-        setReviews([...data.data.results]);
-      }
-    },
-  });
+  const { mutate: fetchReviews, status: fetchReviewsStatus } = useMutation(
+    getReviewsRequest,
+    {
+      onSuccess: (data) => {
+        if (data.message === "GET_REVIEWS_SUCCESS") {
+          setReviews([...data.data.results]);
+        }
+      },
+    }
+  );
 
   useEffect(() => {
     if (player) {
@@ -181,9 +189,13 @@ const PlayerProfile: FC = () => {
           <div className="ratings__row">
             <div className="ratings__container">
               <div className="ratings__list">
-                {reviews.map((review: TReview, pos: number) => (
-                  <ReviewPanel key={pos} review={review} />
-                ))}
+                {fetchReviewsStatus === "loading" ? (
+                  <Skeleton />
+                ) : (
+                  reviews.map((review: TReview, pos: number) => (
+                    <ReviewPanel key={pos} review={review} />
+                  ))
+                )}
               </div>
             </div>
           </div>
@@ -203,7 +215,7 @@ const PlayerProfile: FC = () => {
       />
     </>
   ) : (
-    <div>404 Not Found</div>
+    <LoadingFullpage notFound={getPlayerStatus === "loading" ? false : true} />
   );
 };
 

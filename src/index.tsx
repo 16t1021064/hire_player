@@ -12,6 +12,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { BrowserRouter as Router } from "react-router-dom";
 // import { ReactQueryDevtools } from "react-query/devtools";
 import { SENTRY_DSN } from "utils/constant";
+import { LoadingFullpage } from "components/LoadingFullpage";
 
 Sentry.init({
   dsn: SENTRY_DSN,
@@ -29,7 +30,7 @@ ReactDOM.render(
   <Provider store={store}>
     <HelmetProvider>
       <StrictMode>
-        <Suspense fallback={<></>}>
+        <Suspense fallback={<LoadingFullpage />}>
           <QueryClientProvider client={queryClient}>
             <Router>
               <App />

@@ -58,7 +58,13 @@ const ForgotPassword: FC = () => {
               <input type="email" className="field__input" ref={emailRef} />
             </div>
           </div>
-          <Button htmlType="submit" className="login__btn" type="primary" wide>
+          <Button
+            htmlType="submit"
+            className="login__btn"
+            type="primary"
+            wide
+            loading={requestResetPasswordStatus === "loading"}
+          >
             Continue
           </Button>
         </form>
