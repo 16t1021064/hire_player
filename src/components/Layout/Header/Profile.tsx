@@ -4,11 +4,13 @@ import { FC, MouseEvent, useEffect, useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
 import DefaultThumbnail from "assets/images/default-avatar.jpg";
 import clsx from "clsx";
+import { useAppSelector } from "hooks/useRedux";
 
 const Profile: FC = () => {
   const wrapperRef = useRef<HTMLDivElement | null>(null);
   const [visible, setVisible] = useState(false);
   const history = useHistory();
+  const { userInfo } = useAppSelector((state) => state.auth);
 
   useEffect(() => {
     const callback = (event: any) => {
@@ -26,10 +28,6 @@ const Profile: FC = () => {
 
   const onShow = (event: MouseEvent) => {
     event.preventDefault();
-    // burgerHeader.removeClass("active");
-    // sidebar.removeClass("visible");
-    // search.slideUp();
-    // items.removeClass("active");
     setVisible(true);
   };
 
@@ -57,7 +55,11 @@ const Profile: FC = () => {
       ref={wrapperRef}
     >
       <a className="header__head" onClick={onShow}>
-        <img src={DefaultThumbnail} alt="" className="header__pic" />
+        <img
+          src={userInfo?.avatar?.link || DefaultThumbnail}
+          alt=""
+          className="header__pic"
+        />
       </a>
       <div className="header__body">
         <a className="header__link" onClick={onUser}>
