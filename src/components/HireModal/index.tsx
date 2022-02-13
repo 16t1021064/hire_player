@@ -1,4 +1,3 @@
-import { message } from "antd";
 import { createHireRequest } from "api/hires/request";
 import Button from "components/Button";
 import Modal from "components/Modal";
@@ -7,6 +6,7 @@ import { FC, SyntheticEvent, useRef } from "react";
 import { useMutation } from "react-query";
 import { TUser } from "types";
 import { formatMoney } from "utils/format";
+import { notifySuccess } from "utils/notify";
 
 interface HireModalProps {
   player: TUser;
@@ -23,7 +23,7 @@ const HireModal: FC<HireModalProps> = ({ player, visible, onClose }) => {
     createHireRequest,
     {
       onSuccess: () => {
-        message.success("Your request sent successful");
+        notifySuccess("Your request sent successfully");
         onClose();
       },
     }

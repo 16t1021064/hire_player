@@ -1,12 +1,13 @@
 import { FC, SyntheticEvent, useRef } from "react";
 import { useAppDispatch, useAppSelector } from "hooks/useRedux";
 import DefaultAvatar from "assets/images/default-avatar.jpg";
-import { message, Upload } from "antd";
+import { Upload } from "antd";
 import { updateInfoRequest, uploadAvatarRequest } from "api/players/request";
 import { useMutation } from "react-query";
 import { setUserInfo } from "store/ducks/auth/slice";
 import SettingsLayout from "components/Layout/SettingsLayout";
 import Button from "components/Button";
+import { notifySuccess } from "utils/notify";
 
 const Player: FC = () => {
   const { userInfo } = useAppSelector((state) => state.auth);
@@ -22,7 +23,7 @@ const Player: FC = () => {
     {
       onSuccess: (data) => {
         dispatch(setUserInfo(data.data));
-        message.success("Update avatar success");
+        notifySuccess("Avatar has been updated successfully");
       },
     }
   );
@@ -40,7 +41,7 @@ const Player: FC = () => {
     {
       onSuccess: (data) => {
         dispatch(setUserInfo(data.data));
-        message.success("Update success");
+        notifySuccess("Information has been updated successfully");
       },
     }
   );

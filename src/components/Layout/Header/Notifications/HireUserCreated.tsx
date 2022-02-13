@@ -1,11 +1,10 @@
 import { FC, MouseEvent, ReactNode, useEffect, useMemo, useState } from "react";
 import { HireStepsEnum, TConversation } from "types";
-import { message } from "antd";
 import { useMutation } from "react-query";
 import { getMessage } from "utils/notifications";
 import Thumb from "assets/images/default-avatar.jpg";
 import TimeAgo from "react-timeago";
-import notify from "utils/notify";
+import notify, { notifyInfo, notifySuccess } from "utils/notify";
 import { TNotificationTransform } from ".";
 import { useHistory } from "react-router-dom";
 import { routesEnum } from "pages/Routes";
@@ -57,7 +56,7 @@ const HireUserCreated: FC<HireUserCreatedProps> = ({ notif, fnClose }) => {
     {
       onSuccess: () => {
         setVisible(false);
-        message.success("You have accepted a hire");
+        notifySuccess("You have accepted a hire");
         if (data.convId) {
           history.push(routesEnum.chat, {
             [chatDefaultState]: data.convId,
@@ -72,7 +71,7 @@ const HireUserCreated: FC<HireUserCreatedProps> = ({ notif, fnClose }) => {
     {
       onSuccess: () => {
         setVisible(false);
-        message.info("You have canceled a hire");
+        notifyInfo("You have canceled a hire");
       },
     }
   );

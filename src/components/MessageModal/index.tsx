@@ -1,4 +1,3 @@
-import { message } from "antd";
 import {
   checkExistRequest,
   createConversationRequest,
@@ -10,6 +9,7 @@ import { useAppSelector } from "hooks/useRedux";
 import { FC, SyntheticEvent, useRef } from "react";
 import { useMutation } from "react-query";
 import { TUser } from "types";
+import { notifySuccess } from "utils/notify";
 
 interface MessageModalProps {
   player: TUser;
@@ -32,7 +32,7 @@ const MessageModal: FC<MessageModalProps> = ({ player, visible, onClose }) => {
     createMessageRequest,
     {
       onSuccess: () => {
-        message.success("Message sent");
+        notifySuccess("Message has been sent successfully");
         fnClose();
       },
     }

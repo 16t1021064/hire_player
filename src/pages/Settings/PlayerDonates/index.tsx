@@ -7,12 +7,13 @@ import {
 import { TDonate, TPagination, TUser } from "types";
 import moment from "moment";
 import { DATE_FORMAT, formatMoney } from "utils/format";
-import { Col, Form, Input, message, Pagination, Row } from "antd";
+import { Col, Form, Input, Pagination, Row } from "antd";
 import { faReply } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Modal from "components/Modal";
 import SettingsLayout from "components/Layout/SettingsLayout";
 import Button from "components/Button";
+import { notifySuccess } from "utils/notify";
 
 const PlayerDonates: FC = () => {
   const [donates, setDonates] = useState<TDonate[]>([]);
@@ -71,7 +72,7 @@ const PlayerDonates: FC = () => {
     {
       onSuccess: () => {
         setVisible(false);
-        message.success("message sent");
+        notifySuccess("Message sent");
         getReceivedDonates({
           page: pagination.page,
           limit: pagination.limit,

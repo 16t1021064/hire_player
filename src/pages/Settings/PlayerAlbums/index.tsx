@@ -2,11 +2,12 @@ import { FC, useMemo, useState } from "react";
 import { useAppDispatch, useAppSelector } from "hooks/useRedux";
 import { useMutation } from "react-query";
 import { removeImagesRequest, uploadImagesRequest } from "api/players/request";
-import { Col, message, Row, Upload } from "antd";
+import { Col, Row, Upload } from "antd";
 import Gallery, { TPhoto, TPhotoData } from "components/Gallery";
 import { setUserInfo } from "store/ducks/auth/slice";
 import SettingsLayout from "components/Layout/SettingsLayout";
 import Button from "components/Button";
+import { notifyDanger, notifySuccess } from "utils/notify";
 
 const PlayerAlbums: FC = () => {
   const { userInfo } = useAppSelector((state) => state.auth);
@@ -62,14 +63,14 @@ const PlayerAlbums: FC = () => {
       onSuccess: (data) => {
         setSelectMode(false);
         dispatch(setUserInfo(data.data));
-        message.success("Remove images success");
+        notifySuccess("Remove images success");
       },
     });
 
   const removeImages = () => {
     const filters = dataItems.filter((d) => d.selected === true);
     if (filters.length <= 0) {
-      message.error("No images selected");
+      notifyDanger("No images selected");
       return;
     }
     if (

@@ -1,13 +1,14 @@
 import { FC, SyntheticEvent, useEffect, useRef } from "react";
 import SettingsLayout from "components/Layout/SettingsLayout";
 import Button from "components/Button";
-import { message, Upload } from "antd";
+import { Upload } from "antd";
 import { useMutation } from "react-query";
 import { updateInfoRequest, uploadAvatarRequest } from "api/users/requests";
 import { useAppDispatch, useAppSelector } from "hooks/useRedux";
 import { setUserInfo } from "store/ducks/auth/slice";
 import DefaultAvatar from "assets/images/default-avatar.jpg";
 import { TGenders } from "types";
+import { notifySuccess } from "utils/notify";
 
 const User: FC = () => {
   const dispatch = useAppDispatch();
@@ -21,7 +22,7 @@ const User: FC = () => {
     {
       onSuccess: (data) => {
         dispatch(setUserInfo(data.data));
-        message.success("Update avatar success");
+        notifySuccess("Avatar has been updated successfully");
       },
     }
   );
@@ -39,7 +40,7 @@ const User: FC = () => {
     {
       onSuccess: (data) => {
         dispatch(setUserInfo(data.data));
-        message.success("Update success");
+        notifySuccess("Information has been updated successfully");
       },
     }
   );

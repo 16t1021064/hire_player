@@ -1,9 +1,10 @@
-import { Button, message } from "antd";
+import { Button } from "antd";
 import { userCancelRequest } from "api/hires/request";
 import { useAppSelector } from "hooks/useRedux";
 import { FC, useMemo } from "react";
 import { useMutation } from "react-query";
 import { HireStepsEnum, THire, TUser } from "types";
+import { notifySuccess } from "utils/notify";
 import styles from "./styles.module.sass";
 
 interface ActionUserOnRequestProps {
@@ -21,7 +22,7 @@ const ActionUserOnRequest: FC<ActionUserOnRequestProps> = ({
     userCancelRequest,
     {
       onSuccess: (data) => {
-        message.success("You have canceled hire");
+        notifySuccess("You have canceled hire");
         if (onChangeHire) {
           onChangeHire(data.data);
         }

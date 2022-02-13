@@ -1,10 +1,10 @@
-import { message } from "antd";
 import { createDonateRequest } from "api/donates/requests";
 import Button from "components/Button";
 import Modal from "components/Modal";
 import { FC, SyntheticEvent, useRef } from "react";
 import { useMutation } from "react-query";
 import { TUser } from "types";
+import { notifySuccess } from "utils/notify";
 
 interface DonateModalProps {
   player: TUser;
@@ -30,7 +30,7 @@ const DonateModal: FC<DonateModalProps> = ({ player, visible, onClose }) => {
     createDonateRequest,
     {
       onSuccess: () => {
-        message.success("Your donate sent");
+        notifySuccess(`Your donate sent successfully`);
         fnClose();
       },
     }

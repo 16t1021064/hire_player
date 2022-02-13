@@ -11,8 +11,8 @@ import { useAppDispatch, useAppSelector } from "hooks/useRedux";
 import { settingHireRequest } from "api/players/request";
 import { useMutation } from "react-query";
 import { setUserInfo } from "store/ducks/auth/slice";
-import { message } from "antd";
 import Button from "components/Button";
+import { notifySuccess } from "utils/notify";
 
 const PlayerHire: FC = () => {
   const dispatch = useAppDispatch();
@@ -41,7 +41,7 @@ const PlayerHire: FC = () => {
     {
       onSuccess: (data) => {
         dispatch(setUserInfo(data.data));
-        message.success("Update success");
+        notifySuccess("Update success");
       },
     }
   );

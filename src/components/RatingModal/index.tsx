@@ -1,4 +1,4 @@
-import { Col, Form, Input, message, Modal, Rate, Row } from "antd";
+import { Col, Form, Input, Modal, Rate, Row } from "antd";
 import { createReviewRequest } from "api/reviews/request";
 import { TCreateReviewRequest } from "api/reviews/types";
 import { useAppSelector } from "hooks/useRedux";
@@ -8,6 +8,7 @@ import { SocketListeners } from "socket";
 import { Socket } from "socket.io-client";
 import { TListenerData_OnHires } from "socket/types";
 import { HireStepsEnum, THire, TUser } from "types";
+import { notifySuccess } from "utils/notify";
 import styles from "./index.module.sass";
 
 interface RatingModalProps {
@@ -77,7 +78,7 @@ const RatingModal: FC<RatingModalProps> = ({
     createReviewRequest,
     {
       onSuccess: () => {
-        message.success("Thanks for your feedback");
+        notifySuccess("Thanks for your feedback");
         setVisible(false);
       },
     }

@@ -1,4 +1,4 @@
-import { Button, message } from "antd";
+import { Button } from "antd";
 import {
   playerAcceptHireRequest,
   playerCancelHireRequest,
@@ -7,6 +7,7 @@ import { useAppSelector } from "hooks/useRedux";
 import { FC, useMemo } from "react";
 import { useMutation } from "react-query";
 import { HireStepsEnum, THire, TUser } from "types";
+import { notifyInfo, notifySuccess } from "utils/notify";
 import styles from "./styles.module.sass";
 
 interface ActionPlayerOnRequestProps {
@@ -24,7 +25,7 @@ const ActionPlayerOnRequest: FC<ActionPlayerOnRequestProps> = ({
     playerAcceptHireRequest,
     {
       onSuccess: (data) => {
-        message.success("You have accepted a hire");
+        notifySuccess("You have accepted a hire");
         if (onChangeHire) {
           onChangeHire(data.data);
         }
@@ -36,7 +37,7 @@ const ActionPlayerOnRequest: FC<ActionPlayerOnRequestProps> = ({
     playerCancelHireRequest,
     {
       onSuccess: (data) => {
-        message.info("You have canceled a hire");
+        notifyInfo("You have canceled a hire");
         if (onChangeHire) {
           onChangeHire(data.data);
         }
