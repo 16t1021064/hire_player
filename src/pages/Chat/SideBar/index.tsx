@@ -40,12 +40,11 @@ const SideBar: FC<SideBarProps> = ({
     ((data: TListenerData_OnMessages) => void) | null
   >(null);
 
-  const { mutate: fetchConversations, status: fetchConversationsStatus } =
-    useMutation(getConversationsRequest, {
-      onSuccess: (data) => {
-        setConversations([...data.data.results]);
-      },
-    });
+  const { mutate: fetchConversations } = useMutation(getConversationsRequest, {
+    onSuccess: (data) => {
+      setConversations([...data.data.results]);
+    },
+  });
 
   useEffect(() => {
     if (userInfo) {

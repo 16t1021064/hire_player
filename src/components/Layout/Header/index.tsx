@@ -1,6 +1,5 @@
-import { FC, MouseEvent, useEffect, useRef } from "react";
+import { FC, MouseEvent, useEffect, useRef, useState } from "react";
 import IonIcon from "@reacticons/ionicons";
-import { openPopup } from "utils/magnific";
 import Notifications from "./Notifications";
 import Profile from "./Profile";
 import { useAppSelector } from "hooks/useRedux";
@@ -8,6 +7,7 @@ import { Socket } from "socket.io-client";
 import clsx from "clsx";
 import { formatMoney } from "utils/format";
 import styles from "./index.module.less";
+import RechargeModal from "components/RechargeModal";
 
 interface HeaderProps {
   socketInstance: Socket | undefined;
@@ -22,10 +22,10 @@ const Header: FC<HeaderProps> = ({
   visibleSidebar,
   onChangeVisibleSidebar,
 }) => {
-  const modalRechargeRef = useRef<HTMLDivElement | null>(null);
   const { userInfo, isLogin } = useAppSelector((state) => state.auth);
   const searchFormRef = useRef<HTMLFormElement | null>(null);
   const searchToggleRef = useRef<HTMLAnchorElement | null>(null);
+  const [visibleRecharge, setVisibleRecharge] = useState<boolean>(false);
 
   const openSearch = () => {
     // eslint-disable-next-line no-undef
@@ -34,7 +34,11 @@ const Header: FC<HeaderProps> = ({
 
   const onRecharge = (event: MouseEvent) => {
     event.preventDefault();
-    openPopup(modalRechargeRef.current);
+    setVisibleRecharge(true);
+  };
+
+  const onCloseRecharge = () => {
+    setVisibleRecharge(false);
   };
 
   useEffect(() => {
@@ -115,41 +119,7 @@ const Header: FC<HeaderProps> = ({
           <></>
         )}
       </div>
-      <div className="popup popup_normal mfp-hide" ref={modalRechargeRef}>
-        <form className="popup__form">
-          <div className="popup__title h5">Recharge</div>
-          <div className="popup__fieldset">
-            <div className="popup__field field">
-              <div className="field__label">Withdraw Method</div>
-              <div className="field__wrap">
-                <select className="field__select">
-                  <option>PayPal</option>
-                  <option>Bank</option>
-                </select>
-              </div>
-            </div>
-          </div>
-          <div className="popup__fieldset">
-            <div className="popup__row">
-              <div className="popup__field field">
-                <div className="field__label">Amount</div>
-                <div className="field__wrap">
-                  <input className="field__input" type="number" />
-                </div>
-              </div>
-              <div className="popup__field field">
-                <div className="field__label">PayPal Email</div>
-                <div className="field__wrap">
-                  <input className="field__input" type="email" />
-                </div>
-              </div>
-            </div>
-          </div>
-          <button className="popup__btn btn btn_primary" type="submit">
-            Recharge now
-          </button>
-        </form>
-      </div>
+      <RechargeModal visible={visibleRecharge} onClose={onCloseRecharge} />
     </>
   );
 };
