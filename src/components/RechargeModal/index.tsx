@@ -12,15 +12,6 @@ enum methodsEnum {
   RAZORPAY = "3",
 }
 
-const fnMutateCardNumner = (card: any) => {
-  card = "" + card;
-  let c: string = card as string;
-  if (c.length > 6) {
-    c = c.slice(0, 2) + "****" + c.slice(-4);
-  }
-  return c;
-};
-
 interface RechargeModalProps {
   visible: boolean;
   onClose: () => void;
@@ -121,7 +112,7 @@ const RechargeModal: FC<RechargeModalProps> = ({ visible, onClose }) => {
                 >
                   {cards.map((c, i: number) => (
                     <option key={i} value={c.paymentMethodId}>
-                      {fnMutateCardNumner(c.card.number)}
+                      {`**** **** **** ${c.card.last4}`}
                     </option>
                   ))}
                 </select>

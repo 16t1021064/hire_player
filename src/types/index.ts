@@ -183,10 +183,13 @@ export interface TPaymentCard {
   paymentMethodId: string;
   type: string;
   card: {
-    number: number;
+    brand: string;
+    country: string;
     expMonth: number;
     expYear: number;
-    cvc: number;
+    fingerprint: string;
+    funding: string;
+    last4: string;
   };
 }
 export interface TPaymentSetting {
