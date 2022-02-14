@@ -119,7 +119,9 @@ const Header: FC<HeaderProps> = ({
           <></>
         )}
       </div>
-      <RechargeModal visible={visibleRecharge} onClose={onCloseRecharge} />
+      {isLogin && (
+        <RechargeModal visible={visibleRecharge} onClose={onCloseRecharge} />
+      )}
     </>
   );
 };

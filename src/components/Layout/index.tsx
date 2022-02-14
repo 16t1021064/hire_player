@@ -27,7 +27,7 @@ const Layout: FC = ({ children }) => {
   const [visibleSidebar, setVisibleSidebar] = useState<boolean>(false);
 
   const noLayout = useMemo(() => {
-    const blackList: string[] = [];
+    const blackList: string[] = [routesEnum.logout];
     return blackList.includes(location.pathname);
   }, [location]);
 

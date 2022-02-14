@@ -17,6 +17,7 @@ const handleSuccess = (res: AxiosResponse) => {
 const handleError = (err: AxiosError) => {
   if (err.response?.status === 401) {
     window.location.href = routesEnum.logout;
+    return;
   }
   const data = err?.response?.data;
   if (data?.errors) {
