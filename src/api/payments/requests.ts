@@ -1,6 +1,9 @@
 import axiosInstance from "api/axios";
+import axios from "axios";
 import {
   TGetPaymentSettingResponse,
+  TRechargeByCreditCardRequest,
+  TRechargeByCreditCardResponse,
   TUpdatePaymentMethodRequest,
   TUpdatePaymentMethodResponse,
 } from "./types";
@@ -18,5 +21,12 @@ export const updatePaymentMethodRequest = async (
     `/users/payment-settings/credit-card`,
     request
   );
+  return data;
+};
+
+export const rechargeByCreditCardRequest = async (
+  request: TRechargeByCreditCardRequest
+): Promise<TRechargeByCreditCardResponse> => {
+  const { data } = await axiosInstance.post(`/recharges/credit-card`, request);
   return data;
 };

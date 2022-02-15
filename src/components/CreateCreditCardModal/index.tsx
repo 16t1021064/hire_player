@@ -14,7 +14,7 @@ const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY || "");
 
 interface CreateCreditCardModalProps {
   visible: boolean;
-  onClose: (isSuccess?: TPaymentSetting) => void;
+  onClose: (paymentSetting?: TPaymentSetting) => void;
 }
 
 const CreateCreditCardModal: FC<CreateCreditCardModalProps> = ({

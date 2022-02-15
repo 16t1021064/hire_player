@@ -16,7 +16,7 @@ const Payments: FC = () => {
   const { mutate: getPaymentSetting, status: getPaymentSettingStatus } =
     useMutation(getPaymentSettingRequest, {
       onSuccess: (data) => {
-        if (data.data.creditCardConfig?.paymentMethods) {
+        if (data.data && data.data.creditCardConfig?.paymentMethods) {
           setCards(data.data.creditCardConfig.paymentMethods);
         }
       },

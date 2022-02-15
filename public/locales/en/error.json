@@ -38,5 +38,13 @@
   "ERROR_KEY_UPLOAD_INVALID": "System error",
   "ERROR_LIMIT_FILE_SIZE": "Limit file size",
   "ERROR_LIMIT_UNEXPECTED_FILE": "System error",
-  "ERROR_FILE_NOT_FOUND": "File not found"
+  "ERROR_FILE_NOT_FOUND": "File not found",
+  "ERROR_THE_PAYMENT_METHOD_YOU_PROVIDED_HAS_ALREADY_BEEN_ATTACHED_TO_A_CUSTOMER": "The payment method you provided has been already attached to another",
+  "ERROR_PAYMENT_METHOD_ID_NOT_FOUND": "Payment method id not found",
+  "ERROR_CREATE_PAYMENT_METHOD_STRIPE_FAIL": "Create payment method fail",
+  "ERROR_CREATE_PAYMENT_CUSTOMER_STRIPE_FAIL": "Create payment customer fail",
+  "ERROR_RETRIEVE_PAYMENT_METHOD_STRIPE_FAIL": "Retrieve payment method fail",
+  "ERROR_CREDIT_CARD_CONFIG_NOT_CREATE": "Credit card config not create",
+  "ERROR_RECHARGE_STRIPE_FAIL": "Recharge fail",
+  "ERROR_CREATE_PAYMENT_STRIPE_FAIL": "Create payment fail"
 }
