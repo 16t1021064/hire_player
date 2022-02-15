@@ -1,9 +1,17 @@
 import { getPaymentSettingRequest } from "api/payments/requests";
 import Button from "components/Button";
 import Modal from "components/Modal";
-import { FC, SyntheticEvent, useEffect, useRef, useState } from "react";
+import { useAppSelector } from "hooks/useRedux";
+import {
+  FC,
+  SyntheticEvent,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { useMutation } from "react-query";
-import { TPaymentCard } from "types";
+import { TPaymentCard, TPaymentSetting } from "types";
 
 type TMethod = "1" | "2" | "3";
 enum methodsEnum {
@@ -20,19 +28,23 @@ interface RechargeModalProps {
 const RechargeModal: FC<RechargeModalProps> = ({ visible, onClose }) => {
   const [method, setMethod] = useState<TMethod>(methodsEnum.PAYPAL);
   const methodRef = useRef<HTMLSelectElement | null>(null);
-  const cardRef = useRef<HTMLSelectElement | null>(null);
   const amountRef = useRef<HTMLInputElement | null>(null);
-  const [cards, setCards] = useState<TPaymentCard[]>([]);
-  const [card, setCard] = useState<string>("");
+  const { isLogin } = useAppSelector((state) => state.auth);
+  const [paymentSetting, setPaymentSetting] = useState<
+    TPaymentSetting | undefined
+  >(undefined);
 
-  const { mutate: getPaymentSetting, status: getPaymentSettingStatus } =
-    useMutation(getPaymentSettingRequest, {
-      onSuccess: (data) => {
-        if (data.data.creditCardConfig?.paymentMethods) {
-          setCards(data.data.creditCardConfig.paymentMethods);
-        }
-      },
-    });
+  const {
+    mutate: getPaymentSetting,
+    mutateAsync: getPaymentSettingAsync,
+    status: getPaymentSettingStatus,
+  } = useMutation(getPaymentSettingRequest, {
+    onSuccess: (data) => {
+      if (data.data.creditCardConfig?.paymentMethods) {
+        setPaymentSetting(data.data);
+      }
+    },
+  });
 
   useEffect(() => {
     if (methodRef.current) {
@@ -52,14 +64,6 @@ const RechargeModal: FC<RechargeModalProps> = ({ visible, onClose }) => {
     setMethod(value as TMethod);
   };
 
-  const onChangeCard = () => {
-    if (!cardRef.current) {
-      return;
-    }
-    let value = cardRef.current.value;
-    setCard(value);
-  };
-
   const fnClose = () => {
     if (methodRef.current?.value) {
       methodRef.current.value = methodsEnum.PAYPAL;
@@ -71,17 +75,33 @@ const RechargeModal: FC<RechargeModalProps> = ({ visible, onClose }) => {
     onClose();
   };
 
+  const loading = useMemo(() => {
+    return getPaymentSettingStatus === "loading";
+  }, [getPaymentSettingStatus]);
+
   const onSubmit = (event: SyntheticEvent) => {
     event.preventDefault();
     const method = methodRef.current?.value;
     const amountValue = amountRef.current?.value;
     const amount = parseFloat(amountValue || "0");
-    if (method && amount > 0 && getPaymentSettingStatus !== "loading") {
-      console.log(method, amount);
+    if (!method || amount < 0 || loading) {
+      return;
+    }
+    console.log(method, amount);
+    if (method === methodsEnum.CREDIT_CARD) {
+      //
     }
   };
 
-  return (
+  const rechargeCreditCard = async (
+    amount: number,
+    paymentSetting: TPaymentSetting
+  ) => {
+    const data = await getPaymentSettingAsync();
+    console.log(data);
+  };
+
+  return isLogin ? (
     <Modal visible={visible} title={"Recharge"} onCancel={fnClose}>
       <form onSubmit={onSubmit}>
         <div className="popup__fieldset">
@@ -100,26 +120,6 @@ const RechargeModal: FC<RechargeModalProps> = ({ visible, onClose }) => {
             </div>
           </div>
         </div>
-        {method === methodsEnum.CREDIT_CARD && (
-          <div className="popup__fieldset">
-            <div className="popup__field field">
-              <div className="field__label">Choose card</div>
-              <div className="field__wrap">
-                <select
-                  className="field__select"
-                  ref={cardRef}
-                  onChange={onChangeCard}
-                >
-                  {cards.map((c, i: number) => (
-                    <option key={i} value={c.paymentMethodId}>
-                      {`**** **** **** ${c.card.last4}`}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
-          </div>
-        )}
         <div className="popup__fieldset">
           <div className="popup__field field">
             <div className="field__label">Amount</div>
@@ -134,11 +134,18 @@ const RechargeModal: FC<RechargeModalProps> = ({ visible, onClose }) => {
             </div>
           </div>
         </div>
-        <Button htmlType="submit" className="popup__btn" type="primary">
+        <Button
+          htmlType="submit"
+          className="popup__btn"
+          type="primary"
+          loading={loading}
+        >
           Recharge now
         </Button>
       </form>
     </Modal>
+  ) : (
+    <></>
   );
 };
 
