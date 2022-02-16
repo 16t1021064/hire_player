@@ -22,3 +22,15 @@ export interface TRechargeByCreditCardRequest {
 export interface TRechargeByCreditCardResponse {
   message: "RECHARGE_SUCCESS";
 }
+
+export interface TRechargeByPaypalRequest {
+  amount: number;
+}
+
+export interface TRechargeByPaypalResponse {
+  data: {
+    href: string;
+    method: string;
+    rel: string;
+  };
+}

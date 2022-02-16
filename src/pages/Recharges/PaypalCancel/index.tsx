@@ -6,7 +6,7 @@ import { FC } from "react";
 import { useHistory } from "react-router-dom";
 import styles from "./index.module.less";
 
-const Cancel: FC = () => {
+const PaypalCancel: FC = () => {
   const history = useHistory();
 
   const redirect = () => {
@@ -32,4 +32,4 @@ const Cancel: FC = () => {
   );
 };
 
-export default Cancel;
+export default PaypalCancel;

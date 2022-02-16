@@ -3,6 +3,8 @@ import {
   TGetPaymentSettingResponse,
   TRechargeByCreditCardRequest,
   TRechargeByCreditCardResponse,
+  TRechargeByPaypalRequest,
+  TRechargeByPaypalResponse,
   TUpdatePaymentMethodRequest,
   TUpdatePaymentMethodResponse,
 } from "./types";
@@ -27,5 +29,12 @@ export const rechargeByCreditCardRequest = async (
   request: TRechargeByCreditCardRequest
 ): Promise<TRechargeByCreditCardResponse> => {
   const { data } = await axiosInstance.post(`/recharges/credit-card`, request);
+  return data;
+};
+
+export const rechargeByPaypalRequest = async (
+  request: TRechargeByPaypalRequest
+): Promise<TRechargeByPaypalResponse> => {
+  const { data } = await axiosInstance.post(`/recharges/paypal`, request);
   return data;
 };

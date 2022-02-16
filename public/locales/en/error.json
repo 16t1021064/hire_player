@@ -46,5 +46,8 @@
   "ERROR_RETRIEVE_PAYMENT_METHOD_STRIPE_FAIL": "Retrieve payment method fail",
   "ERROR_CREDIT_CARD_CONFIG_NOT_CREATE": "Credit card config not create",
   "ERROR_RECHARGE_STRIPE_FAIL": "Recharge fail",
-  "ERROR_CREATE_PAYMENT_STRIPE_FAIL": "Create payment fail"
+  "ERROR_CREATE_PAYMENT_STRIPE_FAIL": "Create payment fail",
+  "ERROR_RECHARGE_PAYPAL_FAIL": "Recharge paypal fail",
+  "ERROR_AMOUNT_INVALID": "Amount invalid",
+  "ERROR_CREATE_PAYMENT_PAYPAL_FAIL": "Create payment paypal fail"
 }

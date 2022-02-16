@@ -6,7 +6,7 @@ import { FC } from "react";
 import { useHistory } from "react-router-dom";
 import styles from "./index.module.less";
 
-const Success: FC = () => {
+const PaypalSuccess: FC = () => {
   const history = useHistory();
 
   const redirect = () => {
@@ -33,4 +33,4 @@ const Success: FC = () => {
   );
 };
 
-export default Success;
+export default PaypalSuccess;

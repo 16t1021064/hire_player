@@ -36,8 +36,8 @@ export enum routesEnum {
   settings_userHires = "/settings/user-hires",
   settings_userPassword = "/settings/user-password",
 
-  recharges_success = "/recharges/success",
-  recharges_cancel = "/recharges/cancel",
+  recharges_paypalSuccess = "/recharges/paypal-success",
+  recharges_paypalCancel = "/recharges/paypal-cancel",
 }
 
 type CustomRouteProps = RouteProps & { private?: boolean; anonymous?: boolean };
@@ -173,14 +173,14 @@ const routes: CustomRouteProps[] = [
     private: true,
   },
   {
-    path: routesEnum.recharges_success,
+    path: routesEnum.recharges_paypalSuccess,
     exact: true,
-    component: lazy(() => import("./Recharges/Success")),
+    component: lazy(() => import("./Recharges/PaypalSuccess")),
   },
   {
-    path: routesEnum.recharges_cancel,
+    path: routesEnum.recharges_paypalCancel,
     exact: true,
-    component: lazy(() => import("./Recharges/Cancel")),
+    component: lazy(() => import("./Recharges/PaypalCancel")),
   },
 ];
 

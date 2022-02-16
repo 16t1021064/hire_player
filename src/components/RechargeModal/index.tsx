@@ -1,6 +1,7 @@
 import {
   getPaymentSettingRequest,
   rechargeByCreditCardRequest,
+  rechargeByPaypalRequest,
 } from "api/payments/requests";
 import Button from "components/Button";
 import CreateCreditCardModal from "components/CreateCreditCardModal";
@@ -83,13 +84,26 @@ const RechargeModal: FC<RechargeModalProps> = ({ visible, onClose }) => {
       },
     });
 
+  const { mutate: rechargeByPaypal, status: rechargeByPaypalStatus } =
+    useMutation(rechargeByPaypalRequest, {
+      onSuccess: (data) => {
+        window.location.href = data.data.href;
+      },
+    });
+
   const loading = useMemo(() => {
     return (
       getPaymentSettingStatus === "loading" ||
       recharging ||
-      rechargeByCreditCardStatus === "loading"
+      rechargeByCreditCardStatus === "loading" ||
+      rechargeByPaypalStatus === "loading"
     );
-  }, [getPaymentSettingStatus, recharging, rechargeByCreditCardStatus]);
+  }, [
+    getPaymentSettingStatus,
+    recharging,
+    rechargeByCreditCardStatus,
+    rechargeByPaypalStatus,
+  ]);
 
   const onSubmit = (event: SyntheticEvent) => {
     event.preventDefault();
@@ -98,9 +112,10 @@ const RechargeModal: FC<RechargeModalProps> = ({ visible, onClose }) => {
     const amount = parseFloat(amountValue || "0");
     if (!method || amount < 0 || loading) {
       return;
-    }
-    if (method === methodsEnum.CREDIT_CARD) {
+    } else if (method === methodsEnum.CREDIT_CARD) {
       beforeRechargeCreditCard(amount);
+    } else if (method === methodsEnum.PAYPAL) {
+      rechargePaypal(amount);
     }
   };
 
@@ -135,6 +150,12 @@ const RechargeModal: FC<RechargeModalProps> = ({ visible, onClose }) => {
         paymentSetting.creditCardConfig.paymentMethods[0]
       );
     }
+  };
+
+  const rechargePaypal = (amount: number) => {
+    rechargeByPaypal({
+      amount: amount,
+    });
   };
 
   return isLogin ? (
