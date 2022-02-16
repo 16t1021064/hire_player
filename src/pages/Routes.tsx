@@ -35,6 +35,9 @@ export enum routesEnum {
   settings_userDonates = "/settings/user-donates",
   settings_userHires = "/settings/user-hires",
   settings_userPassword = "/settings/user-password",
+
+  recharges_success = "/recharges/success",
+  recharges_cancel = "/recharges/cancel",
 }
 
 type CustomRouteProps = RouteProps & { private?: boolean; anonymous?: boolean };
@@ -168,6 +171,16 @@ const routes: CustomRouteProps[] = [
     exact: true,
     component: lazy(() => import("./Settings/UserPassword")),
     private: true,
+  },
+  {
+    path: routesEnum.recharges_success,
+    exact: true,
+    component: lazy(() => import("./Recharges/Success")),
+  },
+  {
+    path: routesEnum.recharges_cancel,
+    exact: true,
+    component: lazy(() => import("./Recharges/Cancel")),
   },
 ];
 

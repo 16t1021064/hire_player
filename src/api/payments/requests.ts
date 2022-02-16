@@ -1,5 +1,4 @@
 import axiosInstance from "api/axios";
-import axios from "axios";
 import {
   TGetPaymentSettingResponse,
   TRechargeByCreditCardRequest,
